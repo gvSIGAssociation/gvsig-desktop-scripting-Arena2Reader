@@ -1,0 +1,6 @@
+ID:Integer; DESCRIPCION:String:100
+ 1;	"Estatal"
+ 2;	"Autonomica"
+ 3;	"Provincial, Cabildo/Consell"
+ 4;	"Municipal"
+ 5; "Otra"

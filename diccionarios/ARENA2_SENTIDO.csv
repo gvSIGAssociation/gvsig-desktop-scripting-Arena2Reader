@@ -1,0 +1,4 @@
+ID:Integer; DESCRIPCION:String:100; TRADUCCION:String:1
+ 1;	"Ascendente"; "A"
+ 2;	"Descendente"; "D"
+ 3;	"Mixto"; "S"
