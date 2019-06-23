@@ -109,7 +109,16 @@ class VehiculosParser(object):
       "PASAJEROS:List:set:group=Pasajeros:set:profile=DAL.Features:set:expression=FEATURES('ARENA2_PASAJEROS',FORMAT('LID_VEHICULO = ''%s''',LID_VEHICULO)):tag:dynform.label.empty=true:tag:DAL.features.columns=ID_PASAJERO/FECHA_NACIMIENTO/SEXO/PAIS_RESIDENCIA/PROVINCIA_RESIDENCIA/MUNICIPIO_RESIDENCIA:tag:DAL.features.tableName=ARENA2_PASAJEROS:tag:DAL.features.codeName=LID_PASAJERO"
     ]
     return columns
-    
+
+  def getRowCount(self):
+    self.rewind()
+    rowCount = 0
+    while True:
+      row = self.next()
+      if row == None:
+        return rowCount;
+      rowCount+=1
+
   def read(self):
     vehiculo = self.next()
     if vehiculo == None:

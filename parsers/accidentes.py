@@ -50,28 +50,28 @@ class AccidentesParser(object):
   
   def getColumns(self):
     columns = [
-      "LID_ACCIDENTE:String:size:20:set:hidden=true",
-      "COD_INFORME:String:size:20:set:profile=DAL.ForeingKey:tag:DAL.foreingTable=ARENA2_INFORMES:tag:DAL.foreingCode=COD_INFORME:tag:DAL.foreingLabel=FORMAT('%s',COD_INFORME)",
+      "LID_ACCIDENTE:String:size:20:set:hidden=true:set:pk=true",
+      "COD_INFORME:String:size:20:set:label=Informe:set:profile=DAL.ForeingKey:tag:DAL.ForeingKey.Table=ARENA2_INFORMES:tag:DAL.ForeingKey.Code=COD_INFORME:tag:DAL.ForeingKey.Label=FORMAT('%s',COD_INFORME)",
       "ID_ACCIDENTE:String:size:20",
-      "FECHA_ACCIDENTE:Date",
-      "HORA_ACCIDENTE:Time",
-      "COD_PROVINCIA:String:size:45",
-      "COD_MUNICIPIO:String:size:100",
-      "COD_POBLACION:String:size:100",
-      "ZONA:Integer:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_ZONA:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "TIPO_VIA:Integer:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_TIPO_VIA:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "CARRETERA:String:size:20",
+      "FECHA_ACCIDENTE:Date:set:label=Accidente",
+      "HORA_ACCIDENTE:Time:set:label=Hora accidente",
+      "COD_PROVINCIA:String:size:45:set:Label=Provincia",
+      "COD_MUNICIPIO:String:size:100:set:Label=Municipio",
+      "COD_POBLACION:String:size:100:set:Label=Poblacion",
+      "ZONA:Integer:set:Label=Zona:set:profile=DAL.SelectableForeingKey:tag:DAL.ForeingKey.Table=ARENA2_ZONA:tag:DAL.foreingKey.Code=ID:tag:DAL.foreingKey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "TIPO_VIA:Integer:set:Label=Tipo de via:set:profile=DAL.SelectableForeingKey:tag:DAL.ForeingKey.Table=ARENA2_TIPO_VIA:tag:DAL.foreingKey.Code=ID:tag:DAL.foreingKey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "CARRETERA:String:size:20:set:Label=Carretera",
       "KM:Double",
-      "TITULARIDAD_VIA:Integer:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_TITULARIDAD_VIA:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "SENTIDO:Integer:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_SENTIDO:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s - %s',ID,TRADUCCION,DESCRIPCION)",
+      "TITULARIDAD_VIA:Integer:set:Label=Titularidad de la via:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingKey.Table=ARENA2_TITULARIDAD_VIA:tag:DAL.foreingKey.Code=ID:tag:DAL.foreingKey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "SENTIDO:Integer:set:Label=Sentido:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingKey.Table=ARENA2_SENTIDO:tag:DAL.foreingKey.Code=ID:tag:DAL.foreingKey.Label=FORMAT('%02d - %s - %s',ID,TRADUCCION,DESCRIPCION)",
       "CALLE_CODIGO:String:size:15",
       "CALLE_NOMBRE:String:size:150",
       "CALLE_NUMERO:String:size:10",
       "MAPAY:Double",
       "MAPAX:Double",
-      "MAPA/Geometry/set/geomtype=Point:2D/set/SRS=EPSG:4326/set:hidden=true/set/expression=TRY ST_SetSRID(ST_Point(MAPAX,MAPAY),4326) EXCEPT NULL",
-      "NUDO:Integer:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_NUDO:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "NUDO_INFO:Integer:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_NUDO_INFORMACION:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "MAPA/Geometry/set/geomtype=Point:2D/set/SRS=EPSG:4326/set/hidden=true/set/expression=TRY ST_SetSRID(ST_Point(MAPAX,MAPAY),4326) EXCEPT NULL",
+      "NUDO:Integer:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingKey.Table=ARENA2_NUDO:tag:DAL.foreingKey.Code=ID:tag:DAL.foreingKey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "NUDO_INFO:Integer:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingKey.Table=ARENA2_NUDO_INFORMACION:tag:DAL.foreingKey.Code=ID:tag:DAL.foreingKey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
       "CRUCE_CALLE:String:size:150",
       "CRUCE_INE_CALLE:String:size:10",
       "TOTAL_VEHICULOS:Integer",
@@ -226,11 +226,21 @@ class AccidentesParser(object):
       "FC_SENYALIZACION:Boolean:set:group=Factores concurrentes",
       "FC_OBSTACULO:Boolean:set:group=Factores concurrentes",
       "FC_OTRO_FACTOR:Boolean:set:group=Factores concurrentes",
-      "VEHICULOS:List:set:group=Vehiculos:set:profile=DAL.Features:set:expression=FEATURES('ARENA2_VEHICULOS',FORMAT('ID_ACCIDENTE = ''%s''',ID_ACCIDENTE)):tag:dynform.label.empty=true:tag:DAL.features.columns=ID_VEHICULO/NACIONALIDAD/TIPO_VEHICULO/MARCA_NOMBRE/MODELO:tag:DAL.features.tableName=ARENA2_VEHICULOS:tag:DAL.features.codeName=LID_VEHICULO",
-      "PEATONES:List:set:group=Peatones:set:profile=DAL.Features:set:expression=FEATURES('ARENA2_PEATONES',FORMAT('ID_ACCIDENTE = ''%s''',ID_ACCIDENTE)):tag:dynform.label.empty=true:tag:DAL.features.columns=ID_PEATON/FECHA_NACIMIENTO/SEXO/PAIS_RESIDENCIA/PROVINCIA_RESIDENCIA/MUNICIPIO_RESIDENCIA:tag:DAL.features.tableName=ARENA2_PEATONES:tag:DAL.features.codeName=LID_PEATON",
-      "CROQUIS:List:set:group=Croquis:set:profile=DAL.Features:set:expression=FEATURES('ARENA2_CROQUIS',FORMAT('ID_ACCIDENTE = ''%s''',ID_ACCIDENTE)):tag:dynform.label.empty=true:tag:DAL.features.columns=ID_CROQUIS/IMAGEN:tag:DAL.features.tableName=ARENA2_CROQUIS:tag:DAL.features.codeName=LID_CROQUIS"
+      "VEHICULOS:List:set:group=Vehiculos:set:profile=DAL.Features:set:expression=FEATURES('ARENA2_VEHICULOS',FORMAT('ID_ACCIDENTE = ''%s''',ID_ACCIDENTE)):tag:dynform.label.empty=true:tag:DAL.features.columns=ID_VEHICULO/NACIONALIDAD/TIPO_VEHICULO/MARCA_NOMBRE/MODELO:tag:DAL.RelatedFeatures.table=ARENA2_VEHICULOS:tag:DAL.RelatedFeatures.codeName=LID_VEHICULO",
+      "PEATONES:List:set:group=Peatones:set:profile=DAL.Features:set:expression=FEATURES('ARENA2_PEATONES',FORMAT('ID_ACCIDENTE = ''%s''',ID_ACCIDENTE)):tag:dynform.label.empty=true:tag:DAL.features.columns=ID_PEATON/FECHA_NACIMIENTO/SEXO/PAIS_RESIDENCIA/PROVINCIA_RESIDENCIA/MUNICIPIO_RESIDENCIA:tag:DAL.RelatedFeatures.table=ARENA2_PEATONES:tag:DAL.RelatedFeatures.codeName=LID_PEATON",
+      "CROQUIS:List:set:group=Croquis:set:profile=DAL.Features:set:expression=FEATURES('ARENA2_CROQUIS',FORMAT('ID_ACCIDENTE = ''%s''',ID_ACCIDENTE)):tag:dynform.label.empty=true:tag:DAL.features.columns=ID_CROQUIS/IMAGEN:tag:DAL.RelatedFeatures.table=ARENA2_CROQUIS:tag:DAL.RelatedFeatures.codeName=LID_CROQUIS"
     ] 
     return columns
+
+  def getRowCount(self):
+    self.rewind()
+    rowCount = 0
+    while True:
+      informe, accidente = self.next()
+      if accidente == None:
+        return rowCount;
+      rowCount+=1
+      
    
   def read(self):
     informe, accidente = self.next()

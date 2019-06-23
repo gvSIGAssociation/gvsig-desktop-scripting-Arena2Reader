@@ -140,6 +140,15 @@ class ConductoresParser(object):
       "PRESUNTOS_ERRORES:Integer"
     ]
     return columns
+
+  def getRowCount(self):
+    self.rewind()
+    rowCount = 0
+    while True:
+      row = self.next()
+      if row == None:
+        return rowCount;
+      rowCount+=1
     
   def read(self):
     conductor = self.next()

@@ -47,7 +47,11 @@ class InformesParser(object):
       "ACCIDENTES:List:set:group=Accidentes:set:profile=DAL.Features:set:expression=FEATURES('ARENA2_ACCIDENTES',FORMAT('COD_INFORME = ''%s''',COD_INFORME)):tag:dynform.label.empty=true:tag:DAL.features.columns=ID_ACCIDENTE/FECHA_ACCIDENTE/COD_PROVINCIA/COD_MUNICIPIO/COD_POBLACION:tag:DAL.features.tableName=ARENA2_ACCIDENTES:tag:DAL.features.codeName=ID_ACCIDENTE"
     ]
     return columns
-    
+
+  def getRowCount(self):
+    informes = self.getInformes()
+    return len(informes)
+   
   def read(self):
     informes = self.getInformes()
     if self.informeCorriente >= len(informes):

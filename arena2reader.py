@@ -31,7 +31,7 @@ class Table(object):
 
 tables = {
   "informes": Table(InformesParser, "informes", "Arena2 Informes", {"dynform.width":500}),
-  "accidentes": Table(AccidentesParser, "accidentes", "Arena2 Accidentes", {"dynform.width":600, "dynform.abeille.form.resource":"jfrm"} ),
+  "accidentes": Table(AccidentesParser, "accidentes", "Arena2 Accidentes", {"dynform.height":530, "dynform.width":800, "dynform.abeille.form.resource":"jfrm"} ),
   "vehiculos": Table(VehiculosParser, "vehiculos", "Arena2 Vehiculos", {"dynform.width":600} ),
   "conductores": Table(ConductoresParser, "conductores", "Arena2 Conductores", {"dynform.width":500} ),
   "peatones": Table(PeatonesParser, "peatones", "Arena2 Peatones", {"dynform.width":500} ),
@@ -61,7 +61,7 @@ class Arena2ReaderFactory(AbstractSimpleSequentialReaderFactory):
     # Este metodo es opcional, si el fichero de datos no aporta ningun valor
     # de entre los requeridos en los parametros (como es el SRS), no hace
     # falta sobreescribirlo.
-    srs = "EPSG:4326"
+    srs = "EPSG:4258"
     params.setDynValue("CRS",srs)
     
   def createReader(self, params):
@@ -72,18 +72,24 @@ class Arena2Reader(AbstractSimpleSequentialReader):
 
   def __init__(self, factory, parameters, tableName=None, xml=None):
     AbstractSimpleSequentialReader.__init__(self, factory, parameters)
-    fname = self.getParameters().getFile().getAbsolutePath()
+    self._fname = self.getParameters().getFile().getAbsolutePath()
+    self._xml = xml
     if tableName == None:
       self._name = os.path.splitext(self.getParameters().getFile().getName())[0]
       self._table = tables[self.getParameter("Tabla").lower()]
     else:
       self._name = "arena2_"+tableName
       self._table = tables[tableName]
-    self._parser = self._table.parser(fname, xml)
-    self._parser.open()
-
+    self._parser = None
+    
+  def getParser(self):
+    if self._parser == None:
+      self._parser = self._table.parser(self._fname, self._xml)
+      self._parser.open()
+    return self._parser
+      
   def getChildren(self):
-    xml = self._parser.getXML()
+    xml = self.getParser().getXML()
     children = list()
     for table in tables.values():
       children.append(Arena2Reader(self.getFactory(), self.getParameters(), table.name, xml))
@@ -99,16 +105,19 @@ class Arena2Reader(AbstractSimpleSequentialReader):
     return self._table.label + " - " + os.path.splitext(self.getParameters().getFile().getName())[0]
   
   def getFieldNames(self):
-    return self._parser.getColumns()
+    return self.getParser().getColumns()
     
   def getFile(self):
     return self.getParameters().getFile()
-    
+
+  def getRowCount(self):
+    return self.getParser().getRowCount()
+  
   def read(self):
-    return self._parser.read()
+    return self.getParser().read()
     
   def rewind(self):
-    self._parser.rewind()
+    self.getParser().rewind()
     
   def close(self):
     self._parser = None
