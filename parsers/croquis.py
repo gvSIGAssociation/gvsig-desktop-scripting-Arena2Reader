@@ -78,7 +78,7 @@ class CroquisParser(object):
   def getColumns(self):
     columns = [
       "LID_CROQUIS:String:size:20:set:hidden=true",
-      "ID_ACCIDENTE:String:set:size=20:set:label=Accidente:set:profile=DAL.ForeingKey:tag:DAL.foreingTable=ARENA2_ACCIDENTES:tag:DAL.foreingCode=ID_ACCIDENTE:tag:DAL.foreingLabel=FORMAT('%s',ID_ACCIDENTE)",
+      "ID_ACCIDENTE:String:set:size=20:set:label=Accidente:set:foreingkey=true:set:foreingkey.Table=ARENA2_ACCIDENTES:set:foreingkey.Code=ID_ACCIDENTE:set:foreingkey.Label=FORMAT('%s',ID_ACCIDENTE)",
       "ID_CROQUIS:Integer:set:label=Cod.croquis",
       "IMAGEN:URL:set:label=Imagen:set:profile=Image:tag:dynform.height=300"
     ] 

@@ -91,16 +91,16 @@
         <field name="file" label="Arena2 file" type="file" mandatory="true">
           <description>Arena2 file</description>
         </field>
-        <field name="Tabla" label="Tabla" type="string" mandatory="true" defaultValue="Accidentes">
+        <field name="Tabla" label="Tabla" type="string" mandatory="true" defaultValue="ARENA2_ACCIDENTES">
           <description></description>
           <availableValues>
-            <value label="Accidentes">Accidentes</value>
-            <value label="Conductores">Conductores</value>
-            <value label="Croquis">Croquis</value>
-            <value label="Informes">Informes</value>
-            <value label="Pasageros">Pasageros</value>
-            <value label="Peatones">Peatones</value>
-            <value label="Vehiculos">Vehiculos</value>
+            <value label="Accidentes">ARENA2_ACCIDENTES</value>
+            <value label="Conductores">ARENA2_CONDUCTORES</value>
+            <value label="Croquis">ARENA2_CROQUIS</value>
+            <value label="Informes">ARENA2_INFORMES</value>
+            <value label="Pasageros">ARENA2_PASAGEROS</value>
+            <value label="Peatones">ARENA2_PEATONES</value>
+            <value label="Vehiculos">ARENA2_VEHICULOS</value>
           </availableValues>          
         </field>
       </fields>

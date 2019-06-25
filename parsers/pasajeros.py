@@ -67,21 +67,21 @@ class PasajerosParser(object):
   def getColumns(self):
     columns = [
       "LID_PASAJERO:String:set:size=20:set:hidden=true",
-      "ID_ACCIDENTE:String:set:size=20:set:label=Accidente:set:profile=DAL.ForeingKey:tag:DAL.foreingTable=ARENA2_ACCIDENTES:tag:DAL.foreingCode=ID_ACCIDENTE:tag:DAL.foreingLabel=FORMAT('%s',ID_ACCIDENTE)",
-      "LID_VEHICULO:String:set:size=20:set:label=Vehiculo:set:profile=DAL.ForeingKey:tag:DAL.foreingTable=ARENA2_VEHICULOS:tag:DAL.foreingCode=LID_VEHICULO:tag:DAL.foreingLabel=FORMAT('%s',LID_VEHICULO)",
+      "ID_ACCIDENTE:String:set:size=20:set:label=Accidente:set:foreingKey=true:set:foreingkey.Table=ARENA2_ACCIDENTES:set:foreingkey.Code=ID_ACCIDENTE:set:foreingkey.Label=FORMAT('%s',ID_ACCIDENTE)",
+      "LID_VEHICULO:String:set:size=20:set:label=Vehiculo:set:foreingKey=true:set:foreingkey.Table=ARENA2_VEHICULOS:set:foreingkey.Code=LID_VEHICULO:set:foreingkey.Label=FORMAT('%s',LID_VEHICULO)",
       "ID_VEHICULO:Integer:set:hidden=true",
       "ID_PASAJERO:Integer:set:label=Cod. pasajero",
       
       "FECHA_NACIMIENTO:Date:set:label=Fecha nacimiento",
-      "SEXO:Integer:set:label=Sexo:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_SEXO:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "SEXO:Integer:set:label=Sexo:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_SEXO:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
       "PAIS_RESIDENCIA:String:set:size=100:set:label=Pais de residencia",
       "PROVINCIA_RESIDENCIA:String:set:size=100:set:label=Provincia de residencia",
       "MUNICIPIO_RESIDENCIA:String:set:size=100:set:label=Municipio de residencia",
-      "ASISTENCIA_SANITARIA:Integer:set:label=Asistencia sanitaria:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_ASISTENCIA_SANITARIA:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "ASISTENCIA_SANITARIA:Integer:set:label=Asistencia sanitaria:set:foreingKey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_ASISTENCIA_SANITARIA:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
 
       #ACCESORIOS_SEGURIDAD
       "ACC_SEG_CINTURON:Boolean:set:label=Cinturon",
-      "ACC_SEG_CASCO:Integer:set:label=Casco:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_ ACC_SEG_CASCO:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "ACC_SEG_CASCO:Integer:set:label=Casco:set:foreingKey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_ ACC_SEG_CASCO:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
 
       #ACCESORIOS_SEGURIDAD_OPCIONALES
       "ACC_SEG_BRAZOS:Boolean:set:label=Brazos",

@@ -2,11 +2,14 @@
 
 import gvsig
 
-from org.gvsig.fmap.dal.feature.spi.simpleprovider import AbstractSimpleSequentialReaderFactory
-from org.gvsig.fmap.dal.feature.spi.simpleprovider import AbstractSimpleSequentialReader
 from gvsig import getResource
 import re
 import os.path
+
+from org.gvsig.fmap.dal import DALLocator
+from org.gvsig.fmap.dal.feature.spi.simpleprovider import AbstractSimpleSequentialReaderFactory
+from org.gvsig.fmap.dal.feature.spi.simpleprovider import AbstractSimpleSequentialReader
+from org.gvsig.fmap.dal import BaseStoresRepository
 from java.net import URL
 from java.io import File
 
@@ -30,13 +33,13 @@ class Table(object):
     self.tags = tags
 
 tables = {
-  "informes": Table(InformesParser, "informes", "Arena2 Informes", {"dynform.width":500}),
-  "accidentes": Table(AccidentesParser, "accidentes", "Arena2 Accidentes", {"dynform.height":530, "dynform.width":800, "dynform.abeille.form.resource":"jfrm"} ),
-  "vehiculos": Table(VehiculosParser, "vehiculos", "Arena2 Vehiculos", {"dynform.width":600} ),
-  "conductores": Table(ConductoresParser, "conductores", "Arena2 Conductores", {"dynform.width":500} ),
-  "peatones": Table(PeatonesParser, "peatones", "Arena2 Peatones", {"dynform.width":500} ),
-  "pasajeros": Table(PasajerosParser, "pasajeros", "Arena2 Pasajeros", {"dynform.width":500} ),
-  "croquis": Table(CroquisParser, "croquis", "Arena2 Croquis", {"dynform.width":500} )
+  "ARENA2_INFORMES": Table(InformesParser, "ARENA2_INFORMES", "Arena2 Informes", {"dynform.width":500}),
+  "ARENA2_ACCIDENTES": Table(AccidentesParser, "ARENA2_ACCIDENTES", "Arena2 Accidentes", {"dynform.height":530, "dynform.width":800, "dynform.abeille.form.resource":"jfrm"} ),
+  "ARENA2_VEHICULOS": Table(VehiculosParser, "ARENA2_VEHICULOS", "Arena2 Vehiculos", {"dynform.width":600} ),
+  "ARENA2_CONDUCTORES": Table(ConductoresParser, "ARENA2_CONDUCTORES", "Arena2 Conductores", {"dynform.width":500} ),
+  "ARENA2_PEATONES": Table(PeatonesParser, "ARENA2_PEATONES", "Arena2 Peatones", {"dynform.width":500} ),
+  "ARENA2_PASAJEROS": Table(PasajerosParser, "ARENA2_PASAJEROS", "Arena2 Pasajeros", {"dynform.width":500} ),
+  "ARENA2_CROQUIS": Table(CroquisParser, "ARENA2_CROQUIS", "Arena2 Croquis", {"dynform.width":500} )
 }
 
 class Arena2ReaderFactory(AbstractSimpleSequentialReaderFactory):
@@ -65,21 +68,43 @@ class Arena2ReaderFactory(AbstractSimpleSequentialReaderFactory):
     params.setDynValue("CRS",srs)
     
   def createReader(self, params):
-    reader = Arena2Reader(self, params)
+    f = params.getFile()
+    dataManager = DALLocator.getDataManager()
+    repo = BaseStoresRepository("ARENA2_"+f.getName())
+    for name in (
+        "ARENA2_DANYOS", 
+        "ARENA2_ITV", 
+        "ARENA2_LUGAR_CIRCULA",
+        "ARENA2_NUDO",
+        "ARENA2_NUDO_APROX",
+        "ARENA2_NUDO_INFORMACION",
+        "ARENA2_POSICION_VIA",
+        "ARENA2_SENTIDO",
+        "ARENA2_SENTIDO_CIRCULA",
+        "ARENA2_TIPO_VEHICULO",
+        "ARENA2_TIPO_VIA",
+        "ARENA2_TITULARIDAD_VIA",
+        "ARENA2_ZONA"):
+      fname = getResource(__file__,"diccionarios",name+".csv")
+      parameters = dataManager.createStoreParameters("CSV")
+      parameters.setFile(File(fname))
+      repo.add(name,parameters)
+    reader = Arena2Reader(self, params, repo)
     return reader
 
 class Arena2Reader(AbstractSimpleSequentialReader):
 
-  def __init__(self, factory, parameters, tableName=None, xml=None):
+  def __init__(self, factory, parameters, repo, name=None, xml=None):
     AbstractSimpleSequentialReader.__init__(self, factory, parameters)
-    self._fname = self.getParameters().getFile().getAbsolutePath()
+    f = self.getParameters().getFile()
+    self._repo = repo
+    self._fname = f.getAbsolutePath()
     self._xml = xml
-    if tableName == None:
-      self._name = os.path.splitext(self.getParameters().getFile().getName())[0]
-      self._table = tables[self.getParameter("Tabla").lower()]
+    if name==None:
+      self._name = os.path.splitext(f.getName())[0]
     else:
-      self._name = "arena2_"+tableName
-      self._table = tables[tableName]
+      self._name = name
+    self._table = tables[self.getParameter("Tabla").upper()]
     self._parser = None
     
   def getParser(self):
@@ -87,12 +112,22 @@ class Arena2Reader(AbstractSimpleSequentialReader):
       self._parser = self._table.parser(self._fname, self._xml)
       self._parser.open()
     return self._parser
-      
+
+  def getStoresRepository(self):
+    return self._repo
+    
+  def getAlias(self):
+    return self._table.name
+    
   def getChildren(self):
     xml = self.getParser().getXML()
     children = list()
     for table in tables.values():
-      children.append(Arena2Reader(self.getFactory(), self.getParameters(), table.name, xml))
+      if table.name == self._table.name:
+        continue
+      params = self.getParameters().getCopy()
+      params.setDynValue("Tabla", table.name)
+      children.append(Arena2Reader(self.getFactory(), params, self._repo, table.name, xml))
     return children
     
   def getName(self):
@@ -163,16 +198,18 @@ def test(factory, fname, table):
   reader.close()
     
 
+
+
 def main(*args):
   selfRegister()
   fname = "/home/jjdelcerro/Descargas/ARENA/TV_03_2019_01_Q1/victimas.xml"
-  #test(Arena2ReaderFactory(), fname, "informes")
-  #test(Arena2ReaderFactory(), fname, "accidentes")
-  test(Arena2ReaderFactory(), fname, "vehiculos")
-  #test(Arena2ReaderFactory(), fname, "conductores")
-  #test(Arena2ReaderFactory(), fname, "peatones")
-  #test(Arena2ReaderFactory(), fname, "pasajeros")
-  #test(Arena2ReaderFactory(), fname, "croquis")
+  #test(Arena2ReaderFactory(), fname, "arena2_informes")
+  #test(Arena2ReaderFactory(), fname, "arena2_accidentes")
+  #test(Arena2ReaderFactory(), fname, "arena2_vehiculos")
+  #test(Arena2ReaderFactory(), fname, "arena2_conductores")
+  #test(Arena2ReaderFactory(), fname, "arena2_peatones")
+  #test(Arena2ReaderFactory(), fname, "arena2_pasajeros")
+  #test(Arena2ReaderFactory(), fname, "arena2_croquis")
   pass
 
   

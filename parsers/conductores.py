@@ -57,24 +57,24 @@ class ConductoresParser(object):
   def getColumns(self):
     columns = [
       "LID_CONDUCTOR:String:set:size=20:set:hidden=true",
-      "ID_ACCIDENTE:String:set:size=20:set:label=Accidente:set:profile=DAL.ForeingKey:tag:DAL.foreingTable=ARENA2_ACCIDENTES:tag:DAL.foreingCode=ID_ACCIDENTE:tag:DAL.foreingLabel=FORMAT('%s',ID_ACCIDENTE)",
-      "LID_VEHICULO:String:set:size=20:set:label=Vehiculo:set:profile=DAL.ForeingKey:tag:DAL.foreingTable=ARENA2_VEHICULOS:tag:DAL.foreingCode=LID_VEHICULO:tag:DAL.foreingLabel=FORMAT('%s/%s %s %s %s %s',ID_ACCIDENTE,ID_VEHICULO,TIPO_VEHICULO,NACIONALIDAD,MARCA_NOMBRE,MODELO)",
+      "ID_ACCIDENTE:String:set:size=20:set:label=Accidente:set:foreingKey=true:set:foreingkey.Table=ARENA2_ACCIDENTES:set:foreingkey.Code=ID_ACCIDENTE:set:foreingkey.Label=FORMAT('%s',ID_ACCIDENTE)",
+      "LID_VEHICULO:String:set:size=20:set:label=Vehiculo:set:foreingKey=true:set:foreingkey.Table=ARENA2_VEHICULOS:set:foreingkey.Code=LID_VEHICULO:set:foreingkey.Label=FORMAT('%s/%s %s %s %s %s',ID_ACCIDENTE,ID_VEHICULO,TIPO_VEHICULO,NACIONALIDAD,MARCA_NOMBRE,MODELO)",
       "ID_VEHICULO:String:set:size=5:set:hidden=true",
       
       "FECHA_NACIMIENTO:Date:set:label=Fecha nacimiento",
-      "SEXO:Integer:set:label=Sexo:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_SEXO:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "SEXO:Integer:set:label=Sexo:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_SEXO:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
       "NACIONALIDAD:String:set:size=100:set:label=Nacionalidad",
       "PAIS_RESIDENCIA:String:set:size=100:set:label=Pais de residencia",
       "PROVINCIA_RESIDENCIA:String:set:size=100:set:label=Provincia de residencia",
       "MUNICIPIO_RESIDENCIA:String:set:size=100:set:label=Municipio de residencia",
-      "ASISTENCIA_SANITARIA:Integer:set:label=Asistencia sanitaria:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_ASISTENCIA_SANITARIA:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "CARACT_PERMISO:Integer:set:label=Caracteristicas del permiso:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_CARACTERISTICAS_PERMISO:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "CLASE_PERMISO:Integer:set:label=Clase del permiso:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_CLASE_PERMISO:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "ASISTENCIA_SANITARIA:Integer:set:label=Asistencia sanitaria:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_ASISTENCIA_SANITARIA:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "CARACT_PERMISO:Integer:set:label=Caracteristicas del permiso:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_CARACTERISTICAS_PERMISO:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "CLASE_PERMISO:Integer:set:label=Clase del permiso:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_CLASE_PERMISO:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
       "FECHA_PERMISO:Date:set:label=Fecha permiso",
 
       #ACCESORIOS_SEGURIDAD
       "ACC_SEG_CINTURON:Boolean:set:label=Cinturon",
-      "ACC_SEG_CASCO:Integer:set:label=Casco:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_ ACC_SEG_CASCO:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "ACC_SEG_CASCO:Integer:set:label=Casco:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_ ACC_SEG_CASCO:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
 
       #ACCESORIOS_SEGURIDAD_OPCIONALES
       "ACC_SEG_BRAZOS:Boolean:set:label=Brazos",
@@ -95,7 +95,7 @@ class ConductoresParser(object):
 
       # DROGAS
       "INFLU_DROGAS:Boolean",
-      "PRUEBA_DROGAS:Integer:set:label=Prueba drogas:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_ PRUEBA_DROGAS:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "PRUEBA_DROGAS:Integer:set:label=Prueba drogas:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_ PRUEBA_DROGAS:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
       "AMP:Boolean",
       "CONFIRMADO_AMP:Boolean",
       "BDZ:Boolean",
@@ -112,8 +112,8 @@ class ConductoresParser(object):
       "CONFIRMADO_OTRAS:Boolean",
       "SIGNOS_INFLU_DROGAS:Boolean",
       
-      "MOTIVO_DESPLAZAMIENTO:Integer:set:label=Motivo desplazamiento:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_MOTIVO_DESPLAZA_COND:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "DESPLAZAMIENTO_PREVISTO:Integer:set:label=Desplazamiento previsto:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_DESPLAZAMIENTO_PREVISTO:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "MOTIVO_DESPLAZAMIENTO:Integer:set:label=Motivo desplazamiento:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_MOTIVO_DESPLAZA_COND:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "DESPLAZAMIENTO_PREVISTO:Integer:set:label=Desplazamiento previsto:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_DESPLAZAMIENTO_PREVISTO:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
 
       # INFRACIONES
       "INFLU_PRES_INFRAC_COND:Boolean",

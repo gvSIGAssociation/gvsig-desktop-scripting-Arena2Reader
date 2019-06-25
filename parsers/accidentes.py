@@ -51,27 +51,27 @@ class AccidentesParser(object):
   def getColumns(self):
     columns = [
       "LID_ACCIDENTE:String:size:20:set:hidden=true:set:pk=true",
-      "COD_INFORME:String:size:20:set:label=Informe:set:profile=DAL.ForeingKey:tag:DAL.ForeingKey.Table=ARENA2_INFORMES:tag:DAL.ForeingKey.Code=COD_INFORME:tag:DAL.ForeingKey.Label=FORMAT('%s',COD_INFORME)",
+      "COD_INFORME:String:size:20:set:label=Informe:set:foreingkey=true:set:foreingkey.table=ARENA2_INFORMES:set:foreingkey.code=COD_INFORME:set:foreingKey.Label=FORMAT('%s',COD_INFORME)",
       "ID_ACCIDENTE:String:size:20",
       "FECHA_ACCIDENTE:Date:set:label=Accidente",
       "HORA_ACCIDENTE:Time:set:label=Hora accidente",
       "COD_PROVINCIA:String:size:45:set:Label=Provincia",
       "COD_MUNICIPIO:String:size:100:set:Label=Municipio",
       "COD_POBLACION:String:size:100:set:Label=Poblacion",
-      "ZONA:Integer:set:Label=Zona:set:profile=DAL.SelectableForeingKey:tag:DAL.ForeingKey.Table=ARENA2_ZONA:tag:DAL.foreingKey.Code=ID:tag:DAL.foreingKey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "TIPO_VIA:Integer:set:Label=Tipo de via:set:profile=DAL.SelectableForeingKey:tag:DAL.ForeingKey.Table=ARENA2_TIPO_VIA:tag:DAL.foreingKey.Code=ID:tag:DAL.foreingKey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "ZONA:Integer:set:Label=Zona:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_ZONA:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "TIPO_VIA:Integer:set:Label=Tipo de via:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_TIPO_VIA:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
       "CARRETERA:String:size:20:set:Label=Carretera",
       "KM:Double",
-      "TITULARIDAD_VIA:Integer:set:Label=Titularidad de la via:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingKey.Table=ARENA2_TITULARIDAD_VIA:tag:DAL.foreingKey.Code=ID:tag:DAL.foreingKey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "SENTIDO:Integer:set:Label=Sentido:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingKey.Table=ARENA2_SENTIDO:tag:DAL.foreingKey.Code=ID:tag:DAL.foreingKey.Label=FORMAT('%02d - %s - %s',ID,TRADUCCION,DESCRIPCION)",
+      "TITULARIDAD_VIA:Integer:set:Label=Titularidad de la via:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_TITULARIDAD_VIA:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "SENTIDO:Integer:set:Label=Sentido:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_SENTIDO:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s - %s',ID,TRADUCCION,DESCRIPCION)",
       "CALLE_CODIGO:String:size:15",
       "CALLE_NOMBRE:String:size:150",
       "CALLE_NUMERO:String:size:10",
       "MAPAY:Double",
       "MAPAX:Double",
       "MAPA/Geometry/set/geomtype=Point:2D/set/SRS=EPSG:4326/set/hidden=true/set/expression=TRY ST_SetSRID(ST_Point(MAPAX,MAPAY),4326) EXCEPT NULL",
-      "NUDO:Integer:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingKey.Table=ARENA2_NUDO:tag:DAL.foreingKey.Code=ID:tag:DAL.foreingKey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "NUDO_INFO:Integer:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingKey.Table=ARENA2_NUDO_INFORMACION:tag:DAL.foreingKey.Code=ID:tag:DAL.foreingKey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "NUDO:Integer:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_NUDO:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "NUDO_INFO:Integer:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_NUDO_INFORMACION:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
       "CRUCE_CALLE:String:size:150",
       "CRUCE_INE_CALLE:String:size:10",
       "TOTAL_VEHICULOS:Integer",
@@ -226,9 +226,9 @@ class AccidentesParser(object):
       "FC_SENYALIZACION:Boolean:set:group=Factores concurrentes",
       "FC_OBSTACULO:Boolean:set:group=Factores concurrentes",
       "FC_OTRO_FACTOR:Boolean:set:group=Factores concurrentes",
-      "VEHICULOS:List:set:group=Vehiculos:set:profile=DAL.Features:set:expression=FEATURES('ARENA2_VEHICULOS',FORMAT('ID_ACCIDENTE = ''%s''',ID_ACCIDENTE)):tag:dynform.label.empty=true:tag:DAL.features.columns=ID_VEHICULO/NACIONALIDAD/TIPO_VEHICULO/MARCA_NOMBRE/MODELO:tag:DAL.RelatedFeatures.table=ARENA2_VEHICULOS:tag:DAL.RelatedFeatures.codeName=LID_VEHICULO",
-      "PEATONES:List:set:group=Peatones:set:profile=DAL.Features:set:expression=FEATURES('ARENA2_PEATONES',FORMAT('ID_ACCIDENTE = ''%s''',ID_ACCIDENTE)):tag:dynform.label.empty=true:tag:DAL.features.columns=ID_PEATON/FECHA_NACIMIENTO/SEXO/PAIS_RESIDENCIA/PROVINCIA_RESIDENCIA/MUNICIPIO_RESIDENCIA:tag:DAL.RelatedFeatures.table=ARENA2_PEATONES:tag:DAL.RelatedFeatures.codeName=LID_PEATON",
-      "CROQUIS:List:set:group=Croquis:set:profile=DAL.Features:set:expression=FEATURES('ARENA2_CROQUIS',FORMAT('ID_ACCIDENTE = ''%s''',ID_ACCIDENTE)):tag:dynform.label.empty=true:tag:DAL.features.columns=ID_CROQUIS/IMAGEN:tag:DAL.RelatedFeatures.table=ARENA2_CROQUIS:tag:DAL.RelatedFeatures.codeName=LID_CROQUIS"
+      "VEHICULOS:List:set:group=Vehiculos:set:expression=FEATURES('ARENA2_VEHICULOS',FORMAT('ID_ACCIDENTE = ''%s''',ID_ACCIDENTE)):tag:dynform.label.empty=true:tag:DAL.RelatedFeatures.Columns=ID_VEHICULO/NACIONALIDAD/TIPO_VEHICULO/MARCA_NOMBRE/MODELO:tag:DAL.RelatedFeatures.table=ARENA2_VEHICULOS:tag:DAL.RelatedFeatures.Unique.Field.Name=LID_VEHICULO",
+      "PEATONES:List:set:group=Peatones:set:expression=FEATURES('ARENA2_PEATONES',FORMAT('ID_ACCIDENTE = ''%s''',ID_ACCIDENTE)):tag:dynform.label.empty=true:tag:DAL.RelatedFeatures.Columns=ID_PEATON/FECHA_NACIMIENTO/SEXO/PAIS_RESIDENCIA/PROVINCIA_RESIDENCIA/MUNICIPIO_RESIDENCIA:tag:DAL.RelatedFeatures.table=ARENA2_PEATONES:tag:DAL.RelatedFeatures.Unique.Field.Name=LID_PEATON",
+      "CROQUIS:List:set:group=Croquis:set:expression=FEATURES('ARENA2_CROQUIS',FORMAT('ID_ACCIDENTE = ''%s''',ID_ACCIDENTE)):tag:dynform.label.empty=true:tag:DAL.RelatedFeatures.Columns=ID_CROQUIS/IMAGEN:tag:DAL.RelatedFeatures.table=ARENA2_CROQUIS:tag:DAL.RelatedFeatures.Unique.Field.Name=LID_CROQUIS"
     ] 
     return columns
 

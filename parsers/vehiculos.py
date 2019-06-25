@@ -57,16 +57,16 @@ class VehiculosParser(object):
   def getColumns(self):
     columns = [
       "LID_VEHICULO:String:set:size=20:set:hidden=true",
-      "ID_ACCIDENTE:String:set:size=20:set:label=Accidente:set:profile=DAL.ForeingKey:tag:DAL.foreingTable=ARENA2_ACCIDENTES:tag:DAL.foreingCode=ID_ACCIDENTE:tag:DAL.foreingLabel=FORMAT('%s',ID_ACCIDENTE)",
+      "ID_ACCIDENTE:String:set:size=20:set:label=Accidente:set:foreingKey=true:set:foreing.Table=ARENA2_ACCIDENTES:set:foreing.Code=ID_ACCIDENTE:set:foreing.Label=FORMAT('%s',ID_ACCIDENTE)",
       "ID_VEHICULO:Integer:set:label=Cod. vehiculo",
       "SIN_CONDUCTOR:Boolean:set:label=Sin conducor",
-      "LID_CONDUCTOR:String:set:size=20:set:label=Conductor:set:profile=DAL.ForeingKey:tag:DAL.foreingTable=ARENA2_CONDUCTORES:tag:DAL.foreingCode=LID_CONDUCTOR:tag:DAL.foreingLabel=FORMAT('%02d %s %s %s',TOINTEGER(ID_VEHICULO), TOSTR(FECHA_NACIMIENTO), NACIONALIDAD, MUNICIPIO_RESIDENCIA)",
+      "LID_CONDUCTOR:String:set:size=20:set:label=Conductor:set:foreingKey=true:set:foreing.Table=ARENA2_CONDUCTORES:set:foreing.Code=LID_CONDUCTOR:set:foreing.Label=FORMAT('%02d %s %s %s',TOINTEGER(ID_VEHICULO), TOSTR(FECHA_NACIMIENTO), NACIONALIDAD, MUNICIPIO_RESIDENCIA)",
       "FECHA_MATRICULACION:Date:set:label=Fecha matriculacion",
       "NACIONALIDAD:String:set:size=100:set:label=Nacionalidad",
-      "TIPO_VEHICULO:Integer:set:label=Tipo vehiculo:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_TIPO_VEHICULO:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "TIPO_VEHICULO:Integer:set:label=Tipo vehiculo:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_TIPO_VEHICULO:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
       "MARCA_NOMBRE:String:set:size=100:set:label=Marca",
       "MODELO:String:set:size=100:set:label=Modelo",
-      "ITV:Integer:set:label=ITV:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_ITV:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "ITV:Integer:set:label=ITV:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_ITV:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
       "SEGURO:Integer:set:label=Seguro",
       "REMOLQUE:Boolean:set:label=Remolque",
       "SEMIREMOLQUE:Boolean:set:label=Semiremolque",
@@ -100,13 +100,13 @@ class VehiculosParser(object):
       "AIRBAG_OTROS:Boolean:set:group=Airbag",
       "AIRBAG_DESCONOCIDO:Boolean:set:group=Airbag",
       "TRANSPORTE_ESPECIAL:Boolean:set:label=Transporte especial",
-      "DANYOS:Integer:set:label=Da\xf1os:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_DANYOS:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "POS_VIA:Integer:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_POSICION_VIA:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "APROXIMACION_NUDO:Integer:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_NUDO_APROX:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "SENTIDO_CIRCULACION:Integer:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_SENTIDO_CIRCULA:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "LUGAR_CIRCULABA:Integer:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_LUGAR_CIRCULA:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "DANYOS:Integer:set:label=Da\xf1os:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_DANYOS:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "POS_VIA:Integer:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_POSICION_VIA:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "APROXIMACION_NUDO:Integer:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_NUDO_APROX:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "SENTIDO_CIRCULACION:Integer:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_SENTIDO_CIRCULA:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "LUGAR_CIRCULABA:Integer:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_LUGAR_CIRCULA:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
       "FACT_LUGAR_CIRCULA:Boolean",
-      "PASAJEROS:List:set:group=Pasajeros:set:profile=DAL.Features:set:expression=FEATURES('ARENA2_PASAJEROS',FORMAT('LID_VEHICULO = ''%s''',LID_VEHICULO)):tag:dynform.label.empty=true:tag:DAL.features.columns=ID_PASAJERO/FECHA_NACIMIENTO/SEXO/PAIS_RESIDENCIA/PROVINCIA_RESIDENCIA/MUNICIPIO_RESIDENCIA:tag:DAL.features.tableName=ARENA2_PASAJEROS:tag:DAL.features.codeName=LID_PASAJERO"
+      "PASAJEROS:List:set:group=Pasajeros:set:expression=FEATURES('ARENA2_PASAJEROS',FORMAT('LID_VEHICULO = ''%s''',LID_VEHICULO)):tag:dynform.label.empty=true:tag:DAL.RelatedFeatures.Columns=ID_PASAJERO/FECHA_NACIMIENTO/SEXO/PAIS_RESIDENCIA/PROVINCIA_RESIDENCIA/MUNICIPIO_RESIDENCIA:tag:DAL.RelatedFeatures.Table=ARENA2_PASAJEROS:tag:DAL.RelatedFeatures.Unique.Field.Name=LID_PASAJERO"
     ]
     return columns
 

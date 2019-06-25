@@ -5,7 +5,7 @@ Lang = python
 
 [Unit]
 type = Script
-name = main
+name = autorun
 description = 
 createdBy = 
 version = 

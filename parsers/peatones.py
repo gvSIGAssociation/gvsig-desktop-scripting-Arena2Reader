@@ -60,15 +60,15 @@ class PeatonesParser(object):
   def getColumns(self):
     columns = [
       "LID_PEATON:String:set:size=20:set:hidden=true",
-      "ID_ACCIDENTE:String:set:size=20:set:label=Accidente:set:profile=DAL.ForeingKey:tag:DAL.foreingTable=ARENA2_ACCIDENTES:tag:DAL.foreingCode=ID_ACCIDENTE:tag:DAL.foreingLabel=FORMAT('%s',ID_ACCIDENTE)",
+      "ID_ACCIDENTE:String:set:size=20:set:label=Accidente:set:foreingKey=true:set:foreing.Table=ARENA2_ACCIDENTES:set:foreing.Code=ID_ACCIDENTE:set:foreing.Label=FORMAT('%s',ID_ACCIDENTE)",
       "ID_PEATON:Integer:set:label=Cod. peaton",
       
       "FECHA_NACIMIENTO:Date:set:label=Fecha nacimiento",
-      "SEXO:Integer:set:label=Sexo:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_SEXO:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "SEXO:Integer:set:label=Sexo:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_SEXO:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
       "PAIS_RESIDENCIA:String:set:size=100:set:label=Pais de residencia",
       "PROVINCIA_RESIDENCIA:String:set:size=100:set:label=Provincia de residencia",
       "MUNICIPIO_RESIDENCIA:String:set:size=100:set:label=Municipio de residencia",
-      "ASISTENCIA_SANITARIA:Integer:set:label=Asistencia sanitaria:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_ASISTENCIA_SANITARIA:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "ASISTENCIA_SANITARIA:Integer:set:label=Asistencia sanitaria:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_ASISTENCIA_SANITARIA:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
 
       # ALCOHOL
       "INFLU_ALCOHOL:Boolean",
@@ -80,7 +80,7 @@ class PeatonesParser(object):
 
       # DROGAS
       "INFLU_DROGAS:Boolean",
-      "PRUEBA_DROGAS:Integer:set:label=Prueba drogas:set:profile=DAL.SelectableForeingKey:tag:DAL.foreingTable=ARENA2_ PRUEBA_DROGAS:tag:DAL.foreingCode=ID:tag:DAL.foreingLabel=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      "PRUEBA_DROGAS:Integer:set:label=Prueba drogas:set:profile=DAL.SelectableForeingKey:set:foreing.Table=ARENA2_ PRUEBA_DROGAS:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
       "AMP:Boolean",
       "CONFIRMADO_AMP:Boolean",
       "BDZ:Boolean",

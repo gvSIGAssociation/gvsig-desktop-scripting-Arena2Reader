@@ -44,7 +44,7 @@ class InformesParser(object):
       "COD_INFORME:String:size:20:set:label=Codigo",
       "FECHA_INI_EXPORT:Date:set:label=Fecha inicio",
       "FECHA_FIN_EXPORT:Date:set:label=Fecha fin",
-      "ACCIDENTES:List:set:group=Accidentes:set:profile=DAL.Features:set:expression=FEATURES('ARENA2_ACCIDENTES',FORMAT('COD_INFORME = ''%s''',COD_INFORME)):tag:dynform.label.empty=true:tag:DAL.features.columns=ID_ACCIDENTE/FECHA_ACCIDENTE/COD_PROVINCIA/COD_MUNICIPIO/COD_POBLACION:tag:DAL.features.tableName=ARENA2_ACCIDENTES:tag:DAL.features.codeName=ID_ACCIDENTE"
+      "ACCIDENTES:List:set:group=Accidentes:set:expression=FEATURES('ARENA2_ACCIDENTES',FORMAT('COD_INFORME = ''%s''',COD_INFORME)):tag:dynform.label.empty=true:tag:DAL.RelatedFeatures.Columns=ID_ACCIDENTE/FECHA_ACCIDENTE/COD_PROVINCIA/COD_MUNICIPIO/COD_POBLACION:tag:DAL.RelatedFeatures.Table=ARENA2_ACCIDENTES:tag:DAL.RelatedFeatures.Unique.Field.Name=ID_ACCIDENTE"
     ]
     return columns
 
