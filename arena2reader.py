@@ -13,14 +13,15 @@ from org.gvsig.fmap.dal import BaseStoresRepository
 from java.net import URL
 from java.io import File
 
-from parsers.informes import InformesParser
-from parsers.accidentes import AccidentesParser
-from parsers.vehiculos import VehiculosParser
-from parsers.conductores import ConductoresParser
-from parsers.peatones import PeatonesParser
-from parsers.pasajeros import PasajerosParser
-from parsers.croquis import CroquisParser
+from addons.Arena2Reader.parsers.informes import InformesParser
+from addons.Arena2Reader.parsers.accidentes import AccidentesParser
+from addons.Arena2Reader.parsers.vehiculos import VehiculosParser
+from addons.Arena2Reader.parsers.conductores import ConductoresParser
+from addons.Arena2Reader.parsers.peatones import PeatonesParser
+from addons.Arena2Reader.parsers.pasajeros import PasajerosParser
+from addons.Arena2Reader.parsers.croquis import CroquisParser
 
+from addons.Arena2Reader import diccionarios
 
 class Table(object):
   def __init__(self, parser, name, label=None, tags=None):
@@ -71,23 +72,8 @@ class Arena2ReaderFactory(AbstractSimpleSequentialReaderFactory):
     f = params.getFile()
     dataManager = DALLocator.getDataManager()
     repo = BaseStoresRepository("ARENA2_"+f.getName())
-    for name in (
-        "ARENA2_DANYOS", 
-        "ARENA2_ITV", 
-        "ARENA2_LUGAR_CIRCULA",
-        "ARENA2_NUDO",
-        "ARENA2_NUDO_APROX",
-        "ARENA2_NUDO_INFORMACION",
-        "ARENA2_POSICION_VIA",
-        "ARENA2_SENTIDO",
-        "ARENA2_SENTIDO_CIRCULA",
-        "ARENA2_TIPO_VEHICULO",
-        "ARENA2_TIPO_VIA",
-        "ARENA2_TITULARIDAD_VIA",
-        "ARENA2_ZONA"):
-      fname = getResource(__file__,"diccionarios",name+".csv")
-      parameters = dataManager.createStoreParameters("CSV")
-      parameters.setFile(File(fname))
+    for name in diccionarios.getNames():
+      parameters = diccionarios.getParameters(name)
       repo.add(name,parameters)
     reader = Arena2Reader(self, params, repo)
     return reader
