@@ -1,0 +1,5 @@
+ID:Integer; DESCRIPCION:String:100
+5;"Sin reflectantes"
+6;"Con chaleco"
+7;"Con otro reflectante"
+77;"Se desconoce"

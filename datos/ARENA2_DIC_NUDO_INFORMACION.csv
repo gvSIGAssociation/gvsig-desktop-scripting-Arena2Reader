@@ -1,0 +1,13 @@
+ID:Integer; DESCRIPCION:String:100
+1;"En X o +"
+2;"En T o Y"
+3;"En estrella"
+4;"Glorieta"
+5;"Glorieta partida"
+6;"Miniglorieta"
+7;"Glorieta doble"
+8;"Paso a nivel con barrera"
+9;"Paso a nivel sin barrera"
+10;"Enlace con carriles de cambio de velocidad paralelos al tronco"
+11;"Enlace sin carriles de cambio de velocidad paralelos al tronco"
+12;"Bifurcacion o convergencia"

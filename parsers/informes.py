@@ -7,7 +7,7 @@ from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2
+from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor
 
 class InformesParser(object):
   
@@ -40,11 +40,19 @@ class InformesParser(object):
 
   def getColumns(self):
     columns = [
-      "LID_INFORME:String:size:20:set:hidden=true",
-      "COD_INFORME:String:size:20:set:label=Codigo",
-      "FECHA_INI_EXPORT:Date:set:label=Fecha inicio",
-      "FECHA_FIN_EXPORT:Date:set:label=Fecha fin",
-      "ACCIDENTES:List:set:group=Accidentes:set:expression=FEATURES('ARENA2_ACCIDENTES',FORMAT('COD_INFORME = ''%s''',COD_INFORME)):tag:dynform.label.empty=true:tag:DAL.RelatedFeatures.Columns=ID_ACCIDENTE/FECHA_ACCIDENTE/COD_PROVINCIA/COD_MUNICIPIO/COD_POBLACION:tag:DAL.RelatedFeatures.Table=ARENA2_ACCIDENTES:tag:DAL.RelatedFeatures.Unique.Field.Name=ID_ACCIDENTE"
+      Descriptor("LID_INFORME","String",20,hidden=True, pk=True),
+      Descriptor("COD_INFORME","String",20, hidden=False),
+      
+      Descriptor("FECHA_INI_EXPORT","Date",label="Fecha inicio"),
+      Descriptor("FECHA_FIN_EXPORT","Date",label="Fecha fin"),
+      Descriptor("ACCIDENTES","List", group="Accidentes")\
+        .relatedFeatures(
+          "ARENA2_ACCIDENTES",
+          "ID_ACCIDENTE",
+          ("ID_ACCIDENTE","FECHA_ACCIDENTE","COD_PROVINCIA","COD_MUNICIPIO","COD_POBLACION"),
+          "FEATURES('ARENA2_ACCIDENTES',FORMAT('COD_INFORME = ''%s''',COD_INFORME))"
+        )\
+        .set("dynform.label.empty",True)
     ]
     return columns
 

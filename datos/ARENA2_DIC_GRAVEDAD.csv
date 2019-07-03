@@ -1,0 +1,6 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Accidente con sólo daños materiales"
+2;"Accidente de baja gravedad"
+3;"Accidente de gravedad"
+4;"Urgente"
+5;"Daños materiales ampliado"

@@ -1,0 +1,3 @@
+ID:Integer; DESCRIPCION:String:100
+1;"En interseccion o nudo"
+2;"Fuera de interseccion o nudo"

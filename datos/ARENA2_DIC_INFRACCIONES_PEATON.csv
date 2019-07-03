@@ -1,0 +1,8 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Ninguna infracción"
+2;"No respeta semáforo de peatones"
+3;"No cruza por paso para peatones"
+4;"Está o camina por la vía antirreglamentariamente"
+5;"No obedece las indicaciones del agente"
+6;"Otras infracciones"
+7;"Se desconoce"

@@ -7,7 +7,7 @@ from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2
+from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor
 
 class ConductoresParser(object):
   
@@ -56,88 +56,111 @@ class ConductoresParser(object):
 
   def getColumns(self):
     columns = [
-      "LID_CONDUCTOR:String:set:size=20:set:hidden=true",
-      "ID_ACCIDENTE:String:set:size=20:set:label=Accidente:set:foreingKey=true:set:foreingkey.Table=ARENA2_ACCIDENTES:set:foreingkey.Code=ID_ACCIDENTE:set:foreingkey.Label=FORMAT('%s',ID_ACCIDENTE)",
-      "LID_VEHICULO:String:set:size=20:set:label=Vehiculo:set:foreingKey=true:set:foreingkey.Table=ARENA2_VEHICULOS:set:foreingkey.Code=LID_VEHICULO:set:foreingkey.Label=FORMAT('%s/%s %s %s %s %s',ID_ACCIDENTE,ID_VEHICULO,TIPO_VEHICULO,NACIONALIDAD,MARCA_NOMBRE,MODELO)",
-      "ID_VEHICULO:String:set:size=5:set:hidden=true",
+      Descriptor("LID_CONDUCTOR","String",20,hidden=True, pk=True).build(),
+      Descriptor("ID_ACCIDENTE","String",20,label="Accidente")\
+        .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)")\
+        .build(),
+      Descriptor("LID_VEHICULO","String",20,label="Vehiculo")\
+        .foreingkey("ARENA2_VEHICULOS","LID_VEHICULO","FORMAT('%s/%s %s %s %s %s',ID_ACCIDENTE,ID_VEHICULO,TIPO_VEHICULO,NACIONALIDAD,MARCA_NOMBRE,MODELO)")\
+        .build(),
+      Descriptor("ID_VEHICULO","String",5, hidden=True).build(),
       
-      "FECHA_NACIMIENTO:Date:set:label=Fecha nacimiento",
-      "SEXO:Integer:set:label=Sexo:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_SEXO:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "NACIONALIDAD:String:set:size=100:set:label=Nacionalidad",
-      "PAIS_RESIDENCIA:String:set:size=100:set:label=Pais de residencia",
-      "PROVINCIA_RESIDENCIA:String:set:size=100:set:label=Provincia de residencia",
-      "MUNICIPIO_RESIDENCIA:String:set:size=100:set:label=Municipio de residencia",
-      "ASISTENCIA_SANITARIA:Integer:set:label=Asistencia sanitaria:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_ASISTENCIA_SANITARIA:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "CARACT_PERMISO:Integer:set:label=Caracteristicas del permiso:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_CARACTERISTICAS_PERMISO:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "CLASE_PERMISO:Integer:set:label=Clase del permiso:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_CLASE_PERMISO:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "FECHA_PERMISO:Date:set:label=Fecha permiso",
+      Descriptor("FECHA_NACIMIENTO","Date",label="Fecha nacimiento").build(),
+      Descriptor("SEXO","Integer",label="Sexo")\
+        .selectablefk("ARENA2_DIC_SEXO")\
+        .build(),
+      Descriptor("NACIONALIDAD","String", size=100,label="Nacionalidad").build(),
+      Descriptor("PAIS_RESIDENCIA","String", size=100,label="Pais de residencia").build(),
+      Descriptor("PROVINCIA_RESIDENCIA","String", size=100,label="Provincia de residencia").build(),
+      Descriptor("MUNICIPIO_RESIDENCIA","String", size=100,label="Municipio de residencia").build(),
+      Descriptor("ASISTENCIA_SANITARIA","Integer",label="Asistencia sanitaria")\
+        .selectablefk("ARENA2_DIC_ASISTENCIA_SANITARIA")\
+        .build(),
+      Descriptor("CARACT_PERMISO","Integer",label="Caracteristicas del permiso")\
+        .selectablefk("ARENA2_DIC_CARACTERISTICAS_PERMISO")\
+        .build(),
+      Descriptor("CLASE_PERMISO","Integer",label="Clase del permiso")\
+        .selectablefk("ARENA2_DIC_CLASE_PERMISO")\
+        .build(),
+      Descriptor("FECHA_PERMISO","Date",label="Fecha permiso").build(),
 
       #ACCESORIOS_SEGURIDAD
-      "ACC_SEG_CINTURON:Boolean:set:label=Cinturon",
-      "ACC_SEG_CASCO:Integer:set:label=Casco:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_ ACC_SEG_CASCO:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      Descriptor("ACC_SEG_CINTURON","Boolean",label="Cinturon").build(),
+      Descriptor("ACC_SEG_CASCO","Integer",label="Casco")\
+        .selectablefk("ARENA2_DIC_ACC_SEG_CASCO")\
+        .build(),
 
       #ACCESORIOS_SEGURIDAD_OPCIONALES
-      "ACC_SEG_BRAZOS:Boolean:set:label=Brazos",
-      "ACC_SEG_ESPALDA:Boolean:set:label=Espalda",
-      "ACC_SEG_TORSO:Boolean:set:label=Torso",
-      "ACC_SEG_MANOS:Boolean:set:label=Manos",
-      "ACC_SEG_PIERNAS:Boolean:set:label=Piernas",
-      "ACC_SEG_PIES:Boolean:set:label=Pies",
-      "ACC_SEG_PRENDA_REF:Boolean",
+      Descriptor("ACC_SEG_BRAZOS","Boolean",label="Brazos").build(),
+      Descriptor("ACC_SEG_ESPALDA","Boolean",label="Espalda").build(),
+      Descriptor("ACC_SEG_TORSO","Boolean",label="Torso").build(),
+      Descriptor("ACC_SEG_MANOS","Boolean",label="Manos").build(),
+      Descriptor("ACC_SEG_PIERNAS","Boolean",label="Piernas").build(),
+      Descriptor("ACC_SEG_PIES","Boolean",label="Pies").build(),
+      Descriptor("ACC_SEG_PRENDA_REF","Boolean").build(),
 
       # ALCOHOL
-      "INFLU_ALCOHOL:Boolean",
-      "PRUEBA_ALCOHOLEMIA:Integer",
-      "TASA_ALCOHOLEMIA1:Integer",
-      "TASA_ALCOHOLEMIA2:Integer",
-      "PRUEBA_ALC_SANGRE:Boolean",
-      "SIGNOS_INFLU_ALCOHOL:Boolean",
+      Descriptor("INFLU_ALCOHOL","Boolean").build(),
+      Descriptor("PRUEBA_ALCOHOLEMIA","Integer")
+        .selectablefk("ARENA2_DIC_PRUEBA_ALCOHOLEMIA"),
+      Descriptor("TASA_ALCOHOLEMIA1","Integer").build(),
+      Descriptor("TASA_ALCOHOLEMIA2","Integer").build(),
+      Descriptor("PRUEBA_ALC_SANGRE","Boolean").build(),
+      Descriptor("SIGNOS_INFLU_ALCOHOL","Boolean").build(),
 
       # DROGAS
-      "INFLU_DROGAS:Boolean",
-      "PRUEBA_DROGAS:Integer:set:label=Prueba drogas:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_ PRUEBA_DROGAS:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "AMP:Boolean",
-      "CONFIRMADO_AMP:Boolean",
-      "BDZ:Boolean",
-      "CONFIRMADO_BDZ:Boolean",
-      "COC:Boolean",
-      "CONFIRMADO_COC:Boolean",
-      "THC:Boolean",
-      "CONFIRMADO_THC:Boolean",
-      "METH:Boolean",
-      "CONFIRMADO_METH:Boolean",
-      "OPI:Boolean",
-      "CONFIRMADO_OPI:Boolean",
-      "OTRAS:Boolean",
-      "CONFIRMADO_OTRAS:Boolean",
-      "SIGNOS_INFLU_DROGAS:Boolean",
+      Descriptor("INFLU_DROGAS","Boolean").build(),
+      Descriptor("PRUEBA_DROGAS","Integer",label="Prueba drogas")\
+        .selectablefk("ARENA2_DIC_PRUEBA_DROGAS")\
+        .build(),
+      Descriptor("AMP","Boolean").build(),
+      Descriptor("CONFIRMADO_AMP","Boolean").build(),
+      Descriptor("BDZ","Boolean").build(),
+      Descriptor("CONFIRMADO_BDZ","Boolean").build(),
+      Descriptor("COC","Boolean").build(),
+      Descriptor("CONFIRMADO_COC","Boolean").build(),
+      Descriptor("THC","Boolean").build(),
+      Descriptor("CONFIRMADO_THC","Boolean").build(),
+      Descriptor("METH","Boolean").build(),
+      Descriptor("CONFIRMADO_METH","Boolean").build(),
+      Descriptor("OPI","Boolean").build(),
+      Descriptor("CONFIRMADO_OPI","Boolean").build(),
+      Descriptor("OTRAS","Boolean").build(),
+      Descriptor("CONFIRMADO_OTRAS","Boolean").build(),
+      Descriptor("SIGNOS_INFLU_DROGAS","Boolean").build(),
       
-      "MOTIVO_DESPLAZAMIENTO:Integer:set:label=Motivo desplazamiento:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_MOTIVO_DESPLAZA_COND:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "DESPLAZAMIENTO_PREVISTO:Integer:set:label=Desplazamiento previsto:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_DESPLAZAMIENTO_PREVISTO:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      Descriptor("MOTIVO_DESPLAZAMIENTO","Integer",label="Motivo desplazamiento")\
+        .selectablefk("ARENA2_DIC_MOTIVO_DESPLAZA_COND")\
+        .build(),
+      Descriptor("DESPLAZAMIENTO_PREVISTO","Integer",label="Desplazamiento previsto")\
+        .selectablefk("ARENA2_DIC_DESPLAZAMIENTO_PREVISTO")\
+        .build(),
 
       # INFRACIONES
-      "INFLU_PRES_INFRAC_COND:Boolean",
-      "PRES_INFRAC_COND:Integer",
-      "PRES_INFRAC_SIN_LUCES:Boolean",
-      "PRES_INFRAC_SIN_TRIANGULO:Boolean",
+      Descriptor("INFLU_PRES_INFRAC_COND","Boolean").build(),
+      Descriptor("PRES_INFRAC_COND","Integer")\
+        .selectablefk("ARENA2_DIC_INFRACCIONES_CODUCTOR"),
+      Descriptor("PRES_INFRAC_SIN_LUCES","Boolean").build(),
+      Descriptor("PRES_INFRAC_SIN_TRIANGULO","Boolean").build(),
 
       # PRES_INFRAC_VEL_COND
-      "INFLU_PRES_INFRAC_VEL:Boolean",
-      "PRES_INFRAC_VEL_COND:Integer",
+      Descriptor("INFLU_PRES_INFRAC_VEL","Boolean").build(),
+      Descriptor("PRES_INFRAC_VEL_COND","Integer").build(),
 
       # OTRA_INFRAC_COND
-      "INFLU_OTRA_INFRAC:Boolean",
-      "OTRA_INFRAC_COND_TIPO:Integer",
+      Descriptor("INFLU_OTRA_INFRAC","Boolean").build(),
+      Descriptor("OTRA_INFRAC_COND_TIPO","Integer").build(),
       
-      "POSIBLE_RESPONSABLE:Boolean",
+      Descriptor("POSIBLE_RESPONSABLE","Boolean").build(),
 
       # FACTORES_ATENCION
-      "INFLU_FACT_ATENCION:Boolean",
-      "FACTORES_ATENCION:Integer",
+      Descriptor("INFLU_FACT_ATENCION","Boolean").build(),
+      Descriptor("FACTORES_ATENCION","Integer")\
+        .selectablefk("ARENA2_DIC_FACTORES_ATENCION_COND"),
       
       # PRESUNTOS_ERRORES
-      "INFLU_PRES_ERROR:Boolean",
-      "PRESUNTOS_ERRORES:Integer"
+      Descriptor("INFLU_PRES_ERROR","Boolean").build(),
+      Descriptor("PRESUNTOS_ERRORES","Integer").build()
     ]
     return columns
 
@@ -147,7 +170,7 @@ class ConductoresParser(object):
     while True:
       row = self.next()
       if row == None:
-        return rowCount;
+        return rowCount
       rowCount+=1
     
   def read(self):

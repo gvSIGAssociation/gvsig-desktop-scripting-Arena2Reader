@@ -1,0 +1,10 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Seco y limpio"
+2;"Con barro o gravilla suelta"
+3;"Mojado"
+4;"Muy encharcado o inundado"
+5;"Con hielo"
+6;"Con nieve"
+7;"Con aceite"
+8;"Otra"
+9;"Se desconoce"

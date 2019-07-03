@@ -7,7 +7,7 @@ from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2
+from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor
 
 class VehiculosParser(object):
   
@@ -56,57 +56,78 @@ class VehiculosParser(object):
 
   def getColumns(self):
     columns = [
-      "LID_VEHICULO:String:set:size=20:set:hidden=true",
-      "ID_ACCIDENTE:String:set:size=20:set:label=Accidente:set:foreingKey=true:set:foreing.Table=ARENA2_ACCIDENTES:set:foreing.Code=ID_ACCIDENTE:set:foreing.Label=FORMAT('%s',ID_ACCIDENTE)",
-      "ID_VEHICULO:Integer:set:label=Cod. vehiculo",
-      "SIN_CONDUCTOR:Boolean:set:label=Sin conducor",
-      "LID_CONDUCTOR:String:set:size=20:set:label=Conductor:set:foreingKey=true:set:foreing.Table=ARENA2_CONDUCTORES:set:foreing.Code=LID_CONDUCTOR:set:foreing.Label=FORMAT('%02d %s %s %s',TOINTEGER(ID_VEHICULO), TOSTR(FECHA_NACIMIENTO), NACIONALIDAD, MUNICIPIO_RESIDENCIA)",
-      "FECHA_MATRICULACION:Date:set:label=Fecha matriculacion",
-      "NACIONALIDAD:String:set:size=100:set:label=Nacionalidad",
-      "TIPO_VEHICULO:Integer:set:label=Tipo vehiculo:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_TIPO_VEHICULO:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "MARCA_NOMBRE:String:set:size=100:set:label=Marca",
-      "MODELO:String:set:size=100:set:label=Modelo",
-      "ITV:Integer:set:label=ITV:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_ITV:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "SEGURO:Integer:set:label=Seguro",
-      "REMOLQUE:Boolean:set:label=Remolque",
-      "SEMIREMOLQUE:Boolean:set:label=Semiremolque",
-      "CARAVANA:Boolean:set:label=Carabana",
-      "REMOLQUE_OTROS:Boolean:set:label=Otros remolques",
-      "FACT_ANOMALIAS_PREVIAS:Boolean:set:group=Anomalias previas",
-      "ANOMALIAS_NINGUNA:Boolean:set:group=Anomalias previas",
-      "ANOMALIAS_NEUMATICOS:Boolean:set:group=Anomalias previas",
-      "ANOMALIAS_REVENTON:Boolean:set:group=Anomalias previas",
-      "ANOMALIAS_DIRECCION:Boolean:set:group=Anomalias previas",
-      "ANOMALIAS_FRENOS:Boolean:set:group=Anomalias previas",
-      "ANOMALIAS_OTRAS:Boolean:set:group=Anomalias previas",
-      "MP:Boolean:set:label=Mercancias peligrosas",
-      "VEHICULO_ADAPTADO:Boolean:set:label=Vehiculo adaptado",
-      "NUM_OCUPANTES:Integer:set:label=Numero de ocupantes",
-      "FUGADO:Boolean:set:label=Fugado",
-      "INCENDIADO:Boolean:set:label=Incendiado",
-      "TACOGRAFO_DISCO:Boolean",
-      "AIRBAG_COND:Boolean:set:group=Airbag",
-      "AIRBAG_PAS_DEL:Boolean:set:group=Airbag",
-      "AIRBAG_ROD_IZDA:Boolean:set:group=Airbag",
-      "AIRBAG_ROD_DCHA:Boolean:set:group=Airbag",
-      "AIRBAG_LAT_DEL_IZDA:Boolean:set:group=Airbag",
-      "AIRBAG_LAT_DEL_DCHA:Boolean:set:group=Airbag",
-      "AIRBAG_CORT_DEL_IZDA:Boolean:set:group=Airbag",
-      "AIRBAG_CORT_DEL_DCHA:Boolean:set:group=Airbag",
-      "AIRBAG_LAT_TRAS_IZDA:Boolean:set:group=Airbag",
-      "AIRBAG_LAT_TRAS_DCHA:Boolean:set:group=Airbag",
-      "AIRBAG_CORT_TRAS_IZDA:Boolean:set:group=Airbag",
-      "AIRBAG_CORT_TRAS_DCHA:Boolean:set:group=Airbag",
-      "AIRBAG_OTROS:Boolean:set:group=Airbag",
-      "AIRBAG_DESCONOCIDO:Boolean:set:group=Airbag",
-      "TRANSPORTE_ESPECIAL:Boolean:set:label=Transporte especial",
-      "DANYOS:Integer:set:label=Da\xf1os:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_DANYOS:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "POS_VIA:Integer:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_POSICION_VIA:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "APROXIMACION_NUDO:Integer:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_NUDO_APROX:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "SENTIDO_CIRCULACION:Integer:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_SENTIDO_CIRCULA:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "LUGAR_CIRCULABA:Integer:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_LUGAR_CIRCULA:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "FACT_LUGAR_CIRCULA:Boolean",
-      "PASAJEROS:List:set:group=Pasajeros:set:expression=FEATURES('ARENA2_PASAJEROS',FORMAT('LID_VEHICULO = ''%s''',LID_VEHICULO)):tag:dynform.label.empty=true:tag:DAL.RelatedFeatures.Columns=ID_PASAJERO/FECHA_NACIMIENTO/SEXO/PAIS_RESIDENCIA/PROVINCIA_RESIDENCIA/MUNICIPIO_RESIDENCIA:tag:DAL.RelatedFeatures.Table=ARENA2_PASAJEROS:tag:DAL.RelatedFeatures.Unique.Field.Name=LID_PASAJERO"
+      Descriptor("LID_VEHICULO","String",20,hidden=True, pk=True),
+      Descriptor("ID_ACCIDENTE","String",20,label="Accidente")\
+        .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)"),
+      Descriptor("ID_VEHICULO","Integer", label="Cod.vehiculo"),
+
+      
+      Descriptor("SIN_CONDUCTOR","Boolean", label="Sin conducor"),
+      Descriptor("LID_CONDUCTOR","String",20,label="Conductor")\
+        .foreingkey("ARENA2_CONDUCTORES","LID_CONDUCTOR",
+          "FORMAT('%02d %s %s %s',TOINTEGER(ID_VEHICULO), TOSTR(FECHA_NACIMIENTO), NACIONALIDAD, MUNICIPIO_RESIDENCIA)"),
+        
+      Descriptor("FECHA_MATRICULACION","Date",label="Fecha matriculacion"),
+      Descriptor("NACIONALIDAD","String",100,label="Nacionalidad"),
+      Descriptor("TIPO_VEHICULO","Integer", label="Tipo vehiculo")\
+        .selectablefk("ARENA2_DIC_TIPO_VEHICULO"),
+      Descriptor("MARCA_NOMBRE","String",100,label="Marca"),
+      Descriptor("MODELO","String",100,label="Modelo"),
+      Descriptor("ITV","Integer", label="ITV")\
+        .selectablefk("ARENA2_DIC_ITV"),
+      Descriptor("SEGURO","Integer", label="Seguro"),
+      Descriptor("REMOLQUE","Boolean", label="Remolque"),
+      Descriptor("SEMIREMOLQUE","Boolean", label="Semiremolque"),
+      Descriptor("CARAVANA","Boolean", label="Carabana"),
+      Descriptor("REMOLQUE_OTROS","Boolean", label="Otros remolques"),
+      Descriptor("FACT_ANOMALIAS_PREVIAS","Boolean", group="Anomalias previas"),
+      Descriptor("ANOMALIAS_NINGUNA","Boolean", group="Anomalias previas"),
+      Descriptor("ANOMALIAS_NEUMATICOS","Boolean", group="Anomalias previas"),
+      Descriptor("ANOMALIAS_REVENTON","Boolean", group="Anomalias previas"),
+      Descriptor("ANOMALIAS_DIRECCION","Boolean", group="Anomalias previas"),
+      Descriptor("ANOMALIAS_FRENOS","Boolean", group="Anomalias previas"),
+      Descriptor("ANOMALIAS_OTRAS","Boolean", group="Anomalias previas"),
+      Descriptor("MP","Boolean", label="Mercancias peligrosas"),
+      Descriptor("VEHICULO_ADAPTADO","Boolean", label="Vehiculo adaptado"),
+      Descriptor("NUM_OCUPANTES","Integer", label="Numero de ocupantes"),
+      Descriptor("FUGADO","Boolean", label="Fugado"),
+      Descriptor("INCENDIADO","Boolean", label="Incendiado"),
+      Descriptor("TACOGRAFO_DISCO","Boolean"),
+      Descriptor("AIRBAG_COND","Boolean", group="Airbag"),
+      Descriptor("AIRBAG_PAS_DEL","Boolean", group="Airbag"),
+      Descriptor("AIRBAG_ROD_IZDA","Boolean", group="Airbag"),
+      Descriptor("AIRBAG_ROD_DCHA","Boolean", group="Airbag"),
+      Descriptor("AIRBAG_LAT_DEL_IZDA","Boolean", group="Airbag"),
+      Descriptor("AIRBAG_LAT_DEL_DCHA","Boolean", group="Airbag"),
+      Descriptor("AIRBAG_CORT_DEL_IZDA","Boolean", group="Airbag"),
+      Descriptor("AIRBAG_CORT_DEL_DCHA","Boolean", group="Airbag"),
+      Descriptor("AIRBAG_LAT_TRAS_IZDA","Boolean", group="Airbag"),
+      Descriptor("AIRBAG_LAT_TRAS_DCHA","Boolean", group="Airbag"),
+      Descriptor("AIRBAG_CORT_TRAS_IZDA","Boolean", group="Airbag"),
+      Descriptor("AIRBAG_CORT_TRAS_DCHA","Boolean", group="Airbag"),
+      Descriptor("AIRBAG_OTROS","Boolean", group="Airbag"),
+      Descriptor("AIRBAG_DESCONOCIDO","Boolean", group="Airbag"),
+      Descriptor("TRANSPORTE_ESPECIAL","Boolean", label="Transporte especial"),
+      Descriptor("DANYOS","Integer", label="Da\xf1os")\
+        .selectablefk("ARENA2_DIC_DANYOS"),
+      Descriptor("POS_VIA","Integer")\
+        .selectablefk("ARENA2_DIC_POSICION_VIA"),
+      Descriptor("APROXIMACION_NUDO","Integer")\
+        .selectablefk("ARENA2_DIC_NUDO_APROX"),
+      Descriptor("SENTIDO_CIRCULACION","Integer")\
+        .selectablefk("ARENA2_DIC_SENTIDO_CIRCULA"),
+      Descriptor("LUGAR_CIRCULABA","Integer")\
+        .selectablefk("ARENA2_DIC_LUGAR_CIRCULA"),
+      Descriptor("FACT_LUGAR_CIRCULA","Boolean"),
+
+      Descriptor("PASAJEROS","List",group="Pasajeros")\
+        .relatedFeatures(
+          "ARENA2_PASAJEROS",
+          "LID_PASAJERO",
+          ("ID_PASAJERO","FECHA_NACIMIENTO","SEXO","PAIS_RESIDENCIA","PROVINCIA_RESIDENCIA","MUNICIPIO_RESIDENCIA"),
+          "FEATURES('ARENA2_PASAJEROS',FORMAT('LID_VEHICULO = ''%s''',LID_VEHICULO))"
+        )\
+        .set("dynform.label.empty",True)
     ]
     return columns
 
@@ -116,7 +137,7 @@ class VehiculosParser(object):
     while True:
       row = self.next()
       if row == None:
-        return rowCount;
+        return rowCount
       rowCount+=1
 
   def read(self):

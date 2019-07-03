@@ -1,0 +1,5 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Menos de 3,25 m"
+2;"De 3,25 a 3,75m"
+3;"Más de 3,75m"
+4;"Se desconoce"

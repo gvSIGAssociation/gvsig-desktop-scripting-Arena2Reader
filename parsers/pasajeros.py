@@ -7,7 +7,7 @@ from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2
+from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor
 
 class PasajerosParser(object):
   
@@ -66,34 +66,41 @@ class PasajerosParser(object):
 
   def getColumns(self):
     columns = [
-      "LID_PASAJERO:String:set:size=20:set:hidden=true",
-      "ID_ACCIDENTE:String:set:size=20:set:label=Accidente:set:foreingKey=true:set:foreingkey.Table=ARENA2_ACCIDENTES:set:foreingkey.Code=ID_ACCIDENTE:set:foreingkey.Label=FORMAT('%s',ID_ACCIDENTE)",
-      "LID_VEHICULO:String:set:size=20:set:label=Vehiculo:set:foreingKey=true:set:foreingkey.Table=ARENA2_VEHICULOS:set:foreingkey.Code=LID_VEHICULO:set:foreingkey.Label=FORMAT('%s',LID_VEHICULO)",
-      "ID_VEHICULO:Integer:set:hidden=true",
-      "ID_PASAJERO:Integer:set:label=Cod. pasajero",
+      Descriptor("LID_PASAJERO","String",20,hidden=True, pk=True),
+      Descriptor("ID_ACCIDENTE","String",20,label="Accidente")\
+        .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)"),
+      Descriptor("LID_VEHICULO","String",20,label="Vehiculo")\
+        .foreingkey("ARENA2_VEHICULOS","LID_VEHICULO","FORMAT('%s/%s %s %s %s %s',ID_ACCIDENTE,ID_VEHICULO,TIPO_VEHICULO,NACIONALIDAD,MARCA_NOMBRE,MODELO)"),
+      Descriptor("ID_VEHICULO","String",5, hidden=True),
+      Descriptor("ID_PASAJERO","Integer", label="Cod.pasajero"),
       
-      "FECHA_NACIMIENTO:Date:set:label=Fecha nacimiento",
-      "SEXO:Integer:set:label=Sexo:set:foreingkey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_SEXO:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "PAIS_RESIDENCIA:String:set:size=100:set:label=Pais de residencia",
-      "PROVINCIA_RESIDENCIA:String:set:size=100:set:label=Provincia de residencia",
-      "MUNICIPIO_RESIDENCIA:String:set:size=100:set:label=Municipio de residencia",
-      "ASISTENCIA_SANITARIA:Integer:set:label=Asistencia sanitaria:set:foreingKey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_ASISTENCIA_SANITARIA:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      Descriptor("FECHA_NACIMIENTO","Date",label="Fecha nacimiento"),
+      Descriptor("SEXO","Integer",label="Sexo")\
+        .selectablefk("ARENA2_DIC_SEXO"),
+      Descriptor("PAIS_RESIDENCIA","String", size=100,label="Pais de residencia"),
+      Descriptor("PROVINCIA_RESIDENCIA","String", size=100,label="Provincia de residencia"),
+      Descriptor("MUNICIPIO_RESIDENCIA","String", size=100,label="Municipio de residencia"),
+      Descriptor("ASISTENCIA_SANITARIA","Integer",label="Asistencia sanitaria")\
+        .selectablefk("ARENA2_DIC_ASISTENCIA_SANITARIA"),
+
 
       #ACCESORIOS_SEGURIDAD
-      "ACC_SEG_CINTURON:Boolean:set:label=Cinturon",
-      "ACC_SEG_CASCO:Integer:set:label=Casco:set:foreingKey=true:set:foreingkey.selectable=true:set:foreingkey.Table=ARENA2_ ACC_SEG_CASCO:set:foreingkey.Code=ID:set:foreingkey.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      Descriptor("ACC_SEG_CINTURON","Boolean",label="Cinturon"),
+      Descriptor("ACC_SEG_CASCO","Integer",label="Casco")\
+        .selectablefk("ARENA2_DIC_ACC_SEG_CASCO"),
 
       #ACCESORIOS_SEGURIDAD_OPCIONALES
-      "ACC_SEG_BRAZOS:Boolean:set:label=Brazos",
-      "ACC_SEG_ESPALDA:Boolean:set:label=Espalda",
-      "ACC_SEG_TORSO:Boolean:set:label=Torso",
-      "ACC_SEG_MANOS:Boolean:set:label=Manos",
-      "ACC_SEG_PIERNAS:Boolean:set:label=Piernas",
-      "ACC_SEG_PIES:Boolean:set:label=Pies",
-      "ACC_SEG_PRENDA_REF:Boolean",
+      Descriptor("ACC_SEG_BRAZOS","Boolean",label="Brazos"),
+      Descriptor("ACC_SEG_ESPALDA","Boolean",label="Espalda"),
+      Descriptor("ACC_SEG_TORSO","Boolean",label="Torso"),
+      Descriptor("ACC_SEG_MANOS","Boolean",label="Manos"),
+      Descriptor("ACC_SEG_PIERNAS","Boolean",label="Piernas"),
+      Descriptor("ACC_SEG_PIES","Boolean",label="Pies"),
+      Descriptor("ACC_SEG_PRENDA_REF","Boolean"),
 
-      "POSICION_VEHI:Integer:set:label=Posicion",
-      "NINYO_EN_BRAZO:Boolean:set:label=Ni\xf1o en brazo"
+      Descriptor("POSICION_VEHI","Integer",label="Posicion en el vehiculo")\
+        .selectablefk("ARENA2_DIC_POSICION_VEHICULO"),
+      Descriptor("NINYO_EN_BRAZO","Boolean", label="Ni\xf1o en brazo"),
 
     ]
     return columns
@@ -104,7 +111,7 @@ class PasajerosParser(object):
     while True:
       row = self.next()
       if row == None:
-        return rowCount;
+        return rowCount
       rowCount+=1
     
   def read(self):

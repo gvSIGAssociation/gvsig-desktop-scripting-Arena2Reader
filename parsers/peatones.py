@@ -7,7 +7,7 @@ from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2
+from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor
 
 class PeatonesParser(object):
   
@@ -59,61 +59,70 @@ class PeatonesParser(object):
 
   def getColumns(self):
     columns = [
-      "LID_PEATON:String:set:size=20:set:hidden=true",
-      "ID_ACCIDENTE:String:set:size=20:set:label=Accidente:set:foreingKey=true:set:foreing.Table=ARENA2_ACCIDENTES:set:foreing.Code=ID_ACCIDENTE:set:foreing.Label=FORMAT('%s',ID_ACCIDENTE)",
-      "ID_PEATON:Integer:set:label=Cod. peaton",
+      Descriptor("LID_PEATON","String",20,hidden=True, pk=True),
+      Descriptor("ID_ACCIDENTE","String",20,label="Accidente")\
+        .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)"),
+      Descriptor("ID_PEATON","Integer", label="Cod.pasajero"),
       
-      "FECHA_NACIMIENTO:Date:set:label=Fecha nacimiento",
-      "SEXO:Integer:set:label=Sexo:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_SEXO:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "PAIS_RESIDENCIA:String:set:size=100:set:label=Pais de residencia",
-      "PROVINCIA_RESIDENCIA:String:set:size=100:set:label=Provincia de residencia",
-      "MUNICIPIO_RESIDENCIA:String:set:size=100:set:label=Municipio de residencia",
-      "ASISTENCIA_SANITARIA:Integer:set:label=Asistencia sanitaria:set:foreingKey=true:set:foreingkey.selectable=true:set:foreing.Table=ARENA2_ASISTENCIA_SANITARIA:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
+      Descriptor("FECHA_NACIMIENTO","Date",label="Fecha nacimiento"),
+      Descriptor("SEXO","Integer",label="Sexo")\
+        .selectablefk("ARENA2_DIC_SEXO"),
+      Descriptor("PAIS_RESIDENCIA","String", size=100,label="Pais de residencia"),
+      Descriptor("PROVINCIA_RESIDENCIA","String", size=100,label="Provincia de residencia"),
+      Descriptor("MUNICIPIO_RESIDENCIA","String", size=100,label="Municipio de residencia"),
+      Descriptor("ASISTENCIA_SANITARIA","Integer",label="Asistencia sanitaria")\
+        .selectablefk("ARENA2_DIC_ASISTENCIA_SANITARIA"),
 
+      
       # ALCOHOL
-      "INFLU_ALCOHOL:Boolean",
-      "PRUEBA_ALCOHOLEMIA:Integer",
-      "TASA_ALCOHOLEMIA1:Integer",
-      "TASA_ALCOHOLEMIA2:Integer",
-      "PRUEBA_ALC_SANGRE:Boolean",
-      "SIGNOS_INFLU_ALCOHOL:Boolean",
+      Descriptor("INFLU_ALCOHOL","Boolean"),
+      Descriptor("PRUEBA_ALCOHOLEMIA","Integer")
+        .selectablefk("ARENA2_DIC_PRUEBA_ALCOHOLEMIA"),
+      Descriptor("TASA_ALCOHOLEMIA1","Integer"),
+      Descriptor("TASA_ALCOHOLEMIA2","Integer"),
+      Descriptor("PRUEBA_ALC_SANGRE","Boolean"),
+      Descriptor("SIGNOS_INFLU_ALCOHOL","Boolean"),
 
       # DROGAS
-      "INFLU_DROGAS:Boolean",
-      "PRUEBA_DROGAS:Integer:set:label=Prueba drogas:set:profile=DAL.SelectableForeingKey:set:foreing.Table=ARENA2_ PRUEBA_DROGAS:set:foreing.Code=ID:set:foreing.Label=FORMAT('%02d - %s',ID,DESCRIPCION)",
-      "AMP:Boolean",
-      "CONFIRMADO_AMP:Boolean",
-      "BDZ:Boolean",
-      "CONFIRMADO_BDZ:Boolean",
-      "COC:Boolean",
-      "CONFIRMADO_COC:Boolean",
-      "THC:Boolean",
-      "CONFIRMADO_THC:Boolean",
-      "METH:Boolean",
-      "CONFIRMADO_METH:Boolean",
-      "OPI:Boolean",
-      "CONFIRMADO_OPI:Boolean",
-      "OTRAS:Boolean",
-      "CONFIRMADO_OTRAS:Boolean",
-      "SIGNOS_INFLU_DROGAS:Boolean",
+      Descriptor("INFLU_DROGAS","Boolean"),
+      Descriptor("PRUEBA_DROGAS","Integer",label="Prueba drogas")\
+        .selectablefk("ARENA2_DIC_PRUEBA_DROGAS"),
+      Descriptor("AMP","Boolean").build(),
+      Descriptor("CONFIRMADO_AMP","Boolean"),
+      Descriptor("BDZ","Boolean"),
+      Descriptor("CONFIRMADO_BDZ","Boolean"),
+      Descriptor("COC","Boolean"),
+      Descriptor("CONFIRMADO_COC","Boolean"),
+      Descriptor("THC","Boolean"),
+      Descriptor("CONFIRMADO_THC","Boolean"),
+      Descriptor("METH","Boolean"),
+      Descriptor("CONFIRMADO_METH","Boolean"),
+      Descriptor("OPI","Boolean"),
+      Descriptor("CONFIRMADO_OPI","Boolean"),
+      Descriptor("OTRAS","Boolean"),
+      Descriptor("CONFIRMADO_OTRAS","Boolean"),
+      Descriptor("SIGNOS_INFLU_DROGAS","Boolean"),
 
-      "MOTIVO_DESPLAZAMIENTO:Integer",
-      "ACCION_PEA:Integer",
+      Descriptor("MOTIVO_DESPLAZAMIENTO","Integer",label="Motivo desplazamiento")\
+        .selectablefk("ARENA2_DIC_MOTIVO_DESPLAZA_PEA"),
+      Descriptor("ACCION_PEA","Integer",label="Accion del peaton")\
+        .selectablefk("ARENA2_DIC_ACCION_PEA"),
 
       # PRES_INFRAC_PEA
-      "INFLU_PRES_INFRAC:Boolean",
-      "PRES_INFRAC_PEA:Integer",
+      Descriptor("INFLU_PRES_INFRAC","Boolean"),
+      Descriptor("PRES_INFRAC_PEA","Integer")\
+        .selectablefk("ARENA2_DIC_INFRACCIONES_PEATON"),
 
-      "POSIBLE_RESPONSABLE:Boolean",
-
+      Descriptor("POSIBLE_RESPONSABLE","Boolean"),
+      
       # FACTORES_ATENCION
-      "INFLU_FACT_ATENCION:Boolean",
-      "FACTORES_ATENCION:Integer",
+      Descriptor("INFLU_FACT_ATENCION","Boolean"),
+      Descriptor("FACTORES_ATENCION","Integer")\
+        .selectablefk("ARENA2_DIC_FACTORES_ATENCION_PEA"),
       
       # PRESUNTOS_ERRORES
-      "INFLU_PRES_ERROR:Boolean",
-      "PRESUNTOS_ERRORES:Integer",
-      
+      Descriptor("INFLU_PRES_ERROR","Boolean"),
+      Descriptor("PRESUNTOS_ERRORES","Integer")
     ]
     return columns
 
@@ -123,7 +132,7 @@ class PeatonesParser(object):
     while True:
       row = self.next()
       if row == None:
-        return rowCount;
+        return rowCount
       rowCount+=1
     
   def read(self):

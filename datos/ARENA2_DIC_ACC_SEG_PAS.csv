@@ -1,0 +1,9 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Cinturón SI"
+2;"Cinturón NO"
+3;"Casco SI"
+4;"Casco NO"
+5;"Casco supuestamente expulsado"
+8;"Sistema de retención infantil SI"
+9;"Ni SRI ni cinturón de seguridad"
+77;"Se desconoce"

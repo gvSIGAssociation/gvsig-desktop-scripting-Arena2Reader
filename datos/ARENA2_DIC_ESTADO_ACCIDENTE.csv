@@ -1,0 +1,7 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Alta"
+2;"Baja"
+3;"Modificación"
+4;"Cierre"
+5;"Apertura"
+6;"Cierre_tmp"

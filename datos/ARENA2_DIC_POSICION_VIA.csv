@@ -1,0 +1,4 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Circulaba por la vía principal (la que tiene prioridad)"
+2;"Circulaba por la vía secundaria"
+3;"Se desconoce"

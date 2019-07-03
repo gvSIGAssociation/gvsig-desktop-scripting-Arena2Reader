@@ -1,0 +1,10 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Fallecido 24 horas"
+2;"Ingreso superior a 24 horas"
+3;"Ingreso inferior o igual a 24 horas"
+4;"Atención en urgencias sin posterior ingreso"
+5;"Asistencia sanitaria ambulatoria con posterioridad"
+6;"Asistencia sanitaria inmediata en centro de salud o mutua"
+7;"Asistencia sanitaria solo en el lugar del accidente"
+8;"Sin asistencia sanitaria"
+77;"Se desconoce"

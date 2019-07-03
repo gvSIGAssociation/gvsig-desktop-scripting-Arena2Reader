@@ -1,0 +1,9 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Uso de teléfono móvil"
+4;"Uso de radio, DVD, video, auriculares..."
+8;"Presencia de accidente anterior"
+9;"Mirar el entorno (paisaje, publicidad, señales...)"
+10;"Estar pensativo o abstraido"
+12;"Enfermedad súbita/indisposición"
+13;"No se aprecia ningún factor"
+14;"Se desconoce"

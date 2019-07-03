@@ -1,0 +1,5 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Carretera"
+2;"Travesia"
+3;"Calle"
+4;"(URBANA) Autopista o autovia urbana"

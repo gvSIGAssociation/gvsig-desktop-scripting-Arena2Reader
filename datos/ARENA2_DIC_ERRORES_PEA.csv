@@ -1,0 +1,7 @@
+ID:Integer; DESCRIPCION:String:100
+1;"No se aprecian errores"
+2;"No ver una señal"
+3;"No ver un vehículo/peatón/obstáculo..."
+4;"No entender una señal de tráfico o confundirla"
+5;"Indecisión, demora o retraso en tomar una decisión"
+6;"Ejecución incorrecta de maniobra o maniobra inadecuada"

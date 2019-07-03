@@ -1,0 +1,8 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Zona periurbana"
+2;"Circunvalación"
+3;"Calle residencial"
+4;"Zona peatonal"
+5;"Zona a 30"
+6;"Otra zona de especial regulación"
+7;"Ninguna de las anteriores"

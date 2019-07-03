@@ -1,0 +1,10 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Canjeado"
+2;"Inapropiado"
+3;"Caducado"
+4;"B autorizado 125 cc, sin A1-A"
+5;"Anulado o suspendido"
+7;"No ha tenido nunca permiso"
+8;"Pérdida total de puntos declarada"
+6;"No lo presenta"
+9;"En vigor"

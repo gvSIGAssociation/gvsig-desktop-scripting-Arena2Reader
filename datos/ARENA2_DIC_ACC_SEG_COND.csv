@@ -1,0 +1,7 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Cinturón utilizado"
+2;"Cinturón no utilizado"
+3;"Casco utilizado"
+4;"Casco no utilizado"
+7;"Se desconoce"
+5;"Casco supuestamente expulsado"

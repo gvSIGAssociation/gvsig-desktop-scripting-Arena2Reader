@@ -1,0 +1,7 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Luz del día natural, solar"
+2;"Amanecer o atardecer, sin luz artificial"
+3;"Amanecer o atardecer, con luz artificial"
+4;"Sin luz natural y con iluminación artificial encendida de la vía"
+5;"Sin luz natural y con iluminación artificial no encendida de la vía"
+6;"Sin luz natural ni artificial"

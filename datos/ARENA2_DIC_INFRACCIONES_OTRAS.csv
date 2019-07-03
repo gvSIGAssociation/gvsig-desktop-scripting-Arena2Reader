@@ -1,0 +1,11 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Ninguna"
+2;"Circular sin luz"
+3;"Circular deslumbrando"
+4;"Carga mal acondicionada"
+5;"Exceso de carga"
+6;"Desprendimiento de carga"
+7;"Apertura de puertas sin precaución"
+8;"Exceso de ocupantes"
+9;"Otra infracción"
+77;"Se desconoce"

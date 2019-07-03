@@ -9,7 +9,7 @@ from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2
+from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor
 
 class CroquisParser(object):
   
@@ -77,10 +77,12 @@ class CroquisParser(object):
     
   def getColumns(self):
     columns = [
-      "LID_CROQUIS:String:size:20:set:hidden=true",
-      "ID_ACCIDENTE:String:set:size=20:set:label=Accidente:set:foreingkey=true:set:foreingkey.Table=ARENA2_ACCIDENTES:set:foreingkey.Code=ID_ACCIDENTE:set:foreingkey.Label=FORMAT('%s',ID_ACCIDENTE)",
-      "ID_CROQUIS:Integer:set:label=Cod.croquis",
-      "IMAGEN:URL:set:label=Imagen:set:profile=Image:tag:dynform.height=300"
+      Descriptor("LID_CROQUIS","String",20,hidden=True, pk=True).build(),
+      Descriptor("ID_ACCIDENTE","String",20,label="Accidente")\
+        .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)")\
+        .build(),
+      Descriptor("ID_CROQUIS","Integer", label="Cod.croquis").build(),
+      Descriptor("IMAGEN","URL", label="Imagen", profile="Image", ).set("dynform.height", 300).build()
     ] 
     return columns
 
