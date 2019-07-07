@@ -22,6 +22,7 @@ from addons.Arena2Reader.parsers.pasajeros import PasajerosParser
 from addons.Arena2Reader.parsers.croquis import CroquisParser
 
 from addons.Arena2Reader import diccionarios
+from addons.Arena2Reader import recursos
 
 class Table(object):
   def __init__(self, parser, name, label=None, tags=None):
@@ -34,8 +35,24 @@ class Table(object):
     self.tags = tags
 
 tables = {
-  "ARENA2_INFORMES": Table(InformesParser, "ARENA2_INFORMES", "Arena2 Informes", {"dynform.width":500}),
-  "ARENA2_ACCIDENTES": Table(AccidentesParser, "ARENA2_ACCIDENTES", "Arena2 Accidentes", {"dynform.height":530, "dynform.width":800, "dynform.abeille.form.resource":"jfrm"} ),
+  "ARENA2_INFORMES": Table(
+      InformesParser, 
+      "ARENA2_INFORMES", 
+      "Arena2 Informes", 
+      {
+        "dynform.width":500,
+      }
+    ),
+  "ARENA2_ACCIDENTES": Table(
+      AccidentesParser, 
+      "ARENA2_ACCIDENTES", 
+      "Arena2 Accidentes", 
+      {
+        "dynform.height":530, 
+        "dynform.width":800, 
+        "DAL.Search.Result.Columns":"COD_INFORME/ID_ACCIDENTE/TITULARIDAD_VIA/CALLE_NOMBRE/CALLE_NUMERO/CARRETERA/KM/COD_POBLACION/COD_MUNICIPIO/COD_PROVINCIA"
+      } 
+    ),
   "ARENA2_VEHICULOS": Table(VehiculosParser, "ARENA2_VEHICULOS", "Arena2 Vehiculos", {"dynform.width":600} ),
   "ARENA2_CONDUCTORES": Table(ConductoresParser, "ARENA2_CONDUCTORES", "Arena2 Conductores", {"dynform.width":500} ),
   "ARENA2_PEATONES": Table(PeatonesParser, "ARENA2_PEATONES", "Arena2 Peatones", {"dynform.width":500} ),
@@ -92,6 +109,7 @@ class Arena2Reader(AbstractSimpleSequentialReader):
       self._name = name
     self._table = tables[self.getParameter("Tabla").upper()]
     self._parser = None
+    self._resourcesStorage = None
     
   def getParser(self):
     if self._parser == None:
@@ -115,6 +133,11 @@ class Arena2Reader(AbstractSimpleSequentialReader):
       params.setDynValue("Tabla", table.name)
       children.append(Arena2Reader(self.getFactory(), params, self._repo, table.name, xml))
     return children
+
+  def getResourcesStorage(self):
+    if self._resourcesStorage == None:
+      self._resourcesStorage = recursos.getResourcesStorage(self._table.name)
+    return self._resourcesStorage
     
   def getName(self):
     return self._name
