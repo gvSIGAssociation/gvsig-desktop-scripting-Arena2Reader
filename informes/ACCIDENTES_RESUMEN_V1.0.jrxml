@@ -1,0 +1,1350 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="ACCIDENTES_RESUMEN_V1.0"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="535"
+		 columnSpacing="0"
+		 leftMargin="30"
+		 rightMargin="30"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="COMA_LISTA_ACCIDENTES" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["'2006460007687','2007120000121','2007120000172','2007120000179'"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA[".\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[select a.cod_accidente, a.fecha_accidente, a.hora_accidente, a.dia, a.tipo_dia, a.municipio,
+       a.pk, a.dvc_cod_carretera, a.con_interseccion, a.interseccion_con, a.tipo_interseccion, a.acondicionamiento,
+       a.fuera_interseccion, a.superficie, a.luminosidad, a.factores_atmosfericos, a.otras_circunstancias, a.tipo_accidente,
+       a.subtipo_accidente, a.fc_distraccion, a.fc_inexp_conductor, a.fc_alcohol_drogas, a.fc_cansancio_suenyo, 
+       a.fc_enfermedad, a.fc_velocidad_inadecuada, a.fc_infrac_norma_circulacion, a.fc_estado_condicion_via, 
+       a.fc_estado_condicion_senyalizacion, a.fc_tramo_obras, a.fc_mal_estado_vehiculo, a.fc_averia_mecanica,
+       a.fc_meteorologia_adversa, a.fc_irrupcion_animal, a.fc_otro_factor, a.fc_sin_opinion_definida, 
+       a.comentarios, vd.dia_desc, vs.sentido_desc, voc.otras_circunstancias_desc, vfi.fuera_interseccion_desc,
+       vic.interseccion_con_desc, vti.tipo_interseccion_desc, va.acondicionamiento_desc, vta.tipo_desc,
+       vsa.subtipo_desc, vsup.superficie_desc, vl.luminosidad_desc, fa.factores_atmosfericos_desc,
+       voc.otras_circunstancias_desc
+
+ from (((((((((((accidentes.accidentes a left join accidentes.valores_dia vd on a.dia = vd.id) 
+            left join accidentes.valores_sentido vs on a.sentido = vs.id)
+           left join accidentes.valores_otras_circunstancias voc on a.otras_circunstancias = voc.id)
+          left join accidentes.valores_fuera_interseccion vfi on a.fuera_interseccion = vfi.id)
+         left join accidentes.valores_interseccion_con vic on a.interseccion_con = vic.id)
+        left join accidentes.valores_tipo_interseccion vti on a.tipo_interseccion = vti.id)
+       left join accidentes.valores_acondicionamiento va on a.acondicionamiento = va.id)
+       left join accidentes.valores_tipo_accidente vta on a.tipo_accidente = vta.id)
+      left join accidentes.valores_subtipo_accidente vsa on a.tipo_accidente = vsa.idtipo and a.subtipo_accidente = vsa.idsubtipo)
+      left join accidentes.valores_superficie vsup on a.superficie = vsup.id)
+      left join accidentes.valores_luminosidad vl on a.luminosidad = vl.id)
+      left join accidentes.valores_factores_atmosfericos fa on a.factores_atmosfericos = fa.id
+where a.cod_accidente in ($P!{COMA_LISTA_ACCIDENTES});]]></queryString>
+
+	<field name="cod_accidente" class="java.lang.String"/>
+	<field name="fecha_accidente" class="java.sql.Date"/>
+	<field name="hora_accidente" class="java.sql.Time"/>
+	<field name="dia" class="java.lang.Integer"/>
+	<field name="tipo_dia" class="java.lang.String"/>
+	<field name="municipio" class="java.lang.String"/>
+	<field name="pk" class="java.lang.Float"/>
+	<field name="dvc_cod_carretera" class="java.lang.String"/>
+	<field name="con_interseccion" class="java.lang.Boolean"/>
+	<field name="interseccion_con" class="java.lang.String"/>
+	<field name="tipo_interseccion" class="java.lang.Integer"/>
+	<field name="acondicionamiento" class="java.lang.Integer"/>
+	<field name="fuera_interseccion" class="java.lang.Integer"/>
+	<field name="superficie" class="java.lang.Integer"/>
+	<field name="luminosidad" class="java.lang.Integer"/>
+	<field name="factores_atmosfericos" class="java.lang.Integer"/>
+	<field name="otras_circunstancias" class="java.lang.Integer"/>
+	<field name="tipo_accidente" class="java.lang.Integer"/>
+	<field name="subtipo_accidente" class="java.lang.Integer"/>
+	<field name="fc_distraccion" class="java.lang.Boolean"/>
+	<field name="fc_inexp_conductor" class="java.lang.Boolean"/>
+	<field name="fc_alcohol_drogas" class="java.lang.Boolean"/>
+	<field name="fc_cansancio_suenyo" class="java.lang.Boolean"/>
+	<field name="fc_enfermedad" class="java.lang.Boolean"/>
+	<field name="fc_velocidad_inadecuada" class="java.lang.Boolean"/>
+	<field name="fc_infrac_norma_circulacion" class="java.lang.Boolean"/>
+	<field name="fc_estado_condicion_via" class="java.lang.Boolean"/>
+	<field name="fc_estado_condicion_senyalizacion" class="java.lang.Boolean"/>
+	<field name="fc_tramo_obras" class="java.lang.Boolean"/>
+	<field name="fc_mal_estado_vehiculo" class="java.lang.Boolean"/>
+	<field name="fc_averia_mecanica" class="java.lang.Boolean"/>
+	<field name="fc_meteorologia_adversa" class="java.lang.Boolean"/>
+	<field name="fc_irrupcion_animal" class="java.lang.Boolean"/>
+	<field name="fc_otro_factor" class="java.lang.Boolean"/>
+	<field name="fc_sin_opinion_definida" class="java.lang.Boolean"/>
+	<field name="comentarios" class="java.lang.String"/>
+	<field name="dia_desc" class="java.lang.String"/>
+	<field name="sentido_desc" class="java.lang.String"/>
+	<field name="otras_circunstancias_desc" class="java.lang.String"/>
+	<field name="fuera_interseccion_desc" class="java.lang.String"/>
+	<field name="interseccion_con_desc" class="java.lang.String"/>
+	<field name="tipo_interseccion_desc" class="java.lang.String"/>
+	<field name="acondicionamiento_desc" class="java.lang.String"/>
+	<field name="tipo_desc" class="java.lang.String"/>
+	<field name="subtipo_desc" class="java.lang.String"/>
+	<field name="superficie_desc" class="java.lang.String"/>
+	<field name="luminosidad_desc" class="java.lang.String"/>
+	<field name="factores_atmosfericos_desc" class="java.lang.String"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="783"  isSplitAllowed="true" >
+				<subreport  isUsingCache="true">
+					<reportElement
+						mode="Opaque"
+						x="6"
+						y="453"
+						width="524"
+						height="320"
+						key="subreport-croquis"
+						positionType="Float"/>
+					<subreportParameter  name="COD_ACCIDENTE">
+						<subreportParameterExpression><![CDATA[$F{cod_accidente}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "ACCIDENTES_RESUMEN_CROQUIS_V1.0.jasper"]]></subreportExpression>
+				</subreport>
+				<elementGroup><!--  Start: 1 !-->
+				<subreport  isUsingCache="false">
+					<reportElement
+						mode="Opaque"
+						x="3"
+						y="156"
+						width="530"
+						height="58"
+						key="subreport-implicados"/>
+					<subreportParameter  name="COD_ACCIDENTE">
+						<subreportParameterExpression><![CDATA[$F{cod_accidente}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="MAX_NUM_VEHICULOS">
+						<subreportParameterExpression><![CDATA[new Integer(2)]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUBREPORT_DIR">
+						<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "ACCIDENTES_RESUMEN_IMPLICADOS_V1.0.jasper"]]></subreportExpression>
+				</subreport>
+				<rectangle radius="2" >
+					<reportElement
+						mode="Transparent"
+						x="1"
+						y="130"
+						width="533"
+						height="85"
+						forecolor="#C45A06"
+						key="rect-implicados"
+						stretchType="RelativeToTallestObject"
+						positionType="Float"/>
+					<graphicElement stretchType="RelativeToTallestObject" pen="1Point"/>
+				</rectangle>
+				<line direction="TopDown">
+					<reportElement
+						x="111"
+						y="130"
+						width="0"
+						height="85"
+						forecolor="#C45A06"
+						key="line-1-implicados"
+						stretchType="RelativeToTallestObject"
+						positionType="Float"/>
+					<graphicElement stretchType="RelativeToTallestObject"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="4"
+						y="115"
+						width="77"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Implicados]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="495"
+						y="130"
+						width="0"
+						height="85"
+						forecolor="#C45A06"
+						key="line-2-implicados"
+						stretchType="RelativeToTallestObject"
+						positionType="Float"/>
+					<graphicElement stretchType="RelativeToTallestObject"/>
+				</line>
+				</elementGroup><!-- End 1 !-->
+				<rectangle radius="2" >
+					<reportElement
+						mode="Transparent"
+						x="2"
+						y="448"
+						width="533"
+						height="330"
+						forecolor="#C45A06"
+						key="rect-13"
+						positionType="Float"/>
+					<graphicElement stretchType="NoStretch" pen="1Point"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="4"
+						y="26"
+						width="77"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Localización]]></text>
+				</staticText>
+				<rectangle radius="2" >
+					<reportElement
+						x="0"
+						y="41"
+						width="533"
+						height="69"
+						forecolor="#C45A06"
+						key="rect-2"/>
+					<graphicElement stretchType="NoStretch" pen="1Point"/>
+				</rectangle>
+				<rectangle radius="2" >
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="6"
+						width="533"
+						height="17"
+						forecolor="#C45A06"
+						backcolor="#FFDC9C"
+						key="rect-3"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						x="318"
+						y="8"
+						width="118"
+						height="14"
+						forecolor="#C45A06"
+						key="txt-3"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" size="12" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Resumen accidente:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="215"
+						y="45"
+						width="35"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-4"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Fecha:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="320"
+						y="45"
+						width="30"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-5"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Hora:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="148"
+						y="45"
+						width="18"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-6"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[PK:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="4"
+						y="45"
+						width="52"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-7"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Carretera:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="4"
+						y="64"
+						width="52"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-8"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Municipio:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="388"
+						y="45"
+						width="22"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-9"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Día:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="216"
+						y="64"
+						width="42"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-10"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Sentido:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="216"
+						y="90"
+						width="27"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-11"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[IMD:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="288"
+						y="90"
+						width="18"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-12"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[IP:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="349"
+						y="90"
+						width="18"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-13"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[IM:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="409"
+						y="90"
+						width="23"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-14"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[CRT:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="475"
+						y="90"
+						width="14"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-15"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[R:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="438"
+						y="10"
+						width="92"
+						height="14"
+						forecolor="#C45A06"
+						key="fld-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{cod_accidente}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="412"
+						y="44"
+						width="47"
+						height="15"
+						key="fld-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{dia_desc}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="258"
+						y="63"
+						width="67"
+						height="15"
+						key="fld-3"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{sentido_desc}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="511"
+						y="44"
+						width="15"
+						height="15"
+						key="fld-4"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{tipo_dia}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="58"
+						y="63"
+						width="152"
+						height="15"
+						key="fld-5"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{municipio}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="dd/MM/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="258"
+						y="44"
+						width="51"
+						height="15"
+						key="fld-6"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{fecha_accidente}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="HH:mm" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="352"
+						y="44"
+						width="31"
+						height="15"
+						key="fld-7"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.sql.Time"><![CDATA[$F{hora_accidente}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="##0.0" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="168"
+						y="44"
+						width="44"
+						height="15"
+						key="fld-8"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Float"><![CDATA[$F{pk}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="59"
+						y="44"
+						width="84"
+						height="15"
+						key="fld-9"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{dvc_cod_carretera}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="465"
+						y="45"
+						width="44"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-16"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Tipo día:]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement
+						mode="Transparent"
+						x="246"
+						y="89"
+						width="35"
+						height="15"
+						forecolor="#C45A06"
+						backcolor="#FFDC9C"
+						key="rect-4"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<rectangle>
+					<reportElement
+						mode="Transparent"
+						x="307"
+						y="89"
+						width="35"
+						height="15"
+						forecolor="#C45A06"
+						backcolor="#FFDC9C"
+						key="rect-5"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<rectangle>
+					<reportElement
+						mode="Transparent"
+						x="368"
+						y="89"
+						width="35"
+						height="15"
+						forecolor="#C45A06"
+						backcolor="#FFDC9C"
+						key="rect-6"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<line direction="TopDown">
+					<reportElement
+						x="0"
+						y="83"
+						width="533"
+						height="0"
+						forecolor="#C45A06"
+						key="line-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<rectangle>
+					<reportElement
+						mode="Transparent"
+						x="491"
+						y="89"
+						width="35"
+						height="15"
+						forecolor="#C45A06"
+						backcolor="#FFDC9C"
+						key="rect-7"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<rectangle>
+					<reportElement
+						mode="Transparent"
+						x="434"
+						y="89"
+						width="35"
+						height="15"
+						forecolor="#C45A06"
+						backcolor="#FFDC9C"
+						key="rect-8"/>
+					<graphicElement stretchType="NoStretch"/>
+				</rectangle>
+				<break>
+					<reportElement
+						x="0"
+						y="3"
+						width="535"
+						height="0"
+						key="break-1"
+						isRemoveLineWhenBlank="true">
+							<printWhenExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()>1)]]></printWhenExpression>
+						</reportElement>
+				</break>
+				<elementGroup><!--  Start: 2 !-->
+				<staticText>
+					<reportElement
+						x="3"
+						y="132"
+						width="106"
+						height="25"
+						forecolor="#C45A06"
+						key="element-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Tipo vehículo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="111"
+						y="132"
+						width="30"
+						height="25"
+						forecolor="#C45A06"
+						key="element-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Edad]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="142"
+						y="132"
+						width="27"
+						height="25"
+						forecolor="#C45A06"
+						key="element-3"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Sexo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="170"
+						y="132"
+						width="44"
+						height="25"
+						forecolor="#C45A06"
+						key="element-4"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Extranj. tránsito]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="215"
+						y="132"
+						width="48"
+						height="25"
+						forecolor="#C45A06"
+						key="element-5"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Carnet NO adec.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="264"
+						y="132"
+						width="113"
+						height="25"
+						forecolor="#C45A06"
+						key="element-6"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Motivo desplazamiento]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="377"
+						y="132"
+						width="50"
+						height="25"
+						forecolor="#C45A06"
+						key="element-7"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Sin acc. de segur.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="428"
+						y="132"
+						width="32"
+						height="25"
+						forecolor="#C45A06"
+						key="element-8"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Cond. Psico.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="461"
+						y="132"
+						width="31"
+						height="25"
+						forecolor="#C45A06"
+						key="element-9"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Resp.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="497"
+						y="132"
+						width="12"
+						height="25"
+						forecolor="#C45A06"
+						key="element-10"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[M]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="510"
+						y="132"
+						width="12"
+						height="25"
+						forecolor="#C45A06"
+						key="element-11"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[G]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="523"
+						y="132"
+						width="12"
+						height="25"
+						forecolor="#C45A06"
+						key="element-12"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" leftPadding="2" rightBorder="None" rightBorderColor="#000000" rightPadding="2" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[L]]></text>
+				</staticText>
+				</elementGroup><!-- End 2 !-->
+				<staticText>
+					<reportElement
+						x="4"
+						y="219"
+						width="95"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-17"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Caracterización]]></text>
+				</staticText>
+				<rectangle radius="2" >
+					<reportElement
+						x="1"
+						y="234"
+						width="533"
+						height="128"
+						forecolor="#C45A06"
+						key="rect-9"
+						positionType="Float"/>
+					<graphicElement stretchType="NoStretch" pen="1Point"/>
+				</rectangle>
+				<rectangle radius="2" >
+					<reportElement
+						mode="Transparent"
+						x="338"
+						y="238"
+						width="112"
+						height="17"
+						forecolor="#C45A06"
+						backcolor="#FFDC9C"
+						key="rect-10"
+						positionType="Float"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
+				</rectangle>
+				<rectangle radius="2" >
+					<reportElement
+						mode="Transparent"
+						x="6"
+						y="238"
+						width="57"
+						height="17"
+						forecolor="#C45A06"
+						backcolor="#FFDC9C"
+						key="rect-11"
+						positionType="Float"/>
+					<graphicElement stretchType="NoStretch" pen="Thin"/>
+				</rectangle>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="7"
+						y="239"
+						width="54"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-18"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Morfología]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="100"
+						y="260"
+						width="219"
+						height="15"
+						key="fld-10"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{fuera_interseccion_desc}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="100"
+						y="260"
+						width="136"
+						height="15"
+						key="fld-11"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{interseccion_con_desc}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="100"
+						y="278"
+						width="80"
+						height="15"
+						key="fld-12"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{tipo_interseccion_desc}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="100"
+						y="295"
+						width="230"
+						height="15"
+						key="fld-13"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{acondicionamiento_desc}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="5"
+						y="323"
+						width="79"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-19"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Tipo accidente:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="5"
+						y="261"
+						width="96"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-20"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($F{fuera_interseccion}!=null ? "Fuera intersección:" : "Intersección con:" )]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="5"
+						y="278"
+						width="96"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-21"
+						positionType="Float">
+							<printWhenExpression><![CDATA[new Boolean($F{fuera_interseccion}==null)]]></printWhenExpression>
+						</reportElement>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Tipo intersección:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="5"
+						y="296"
+						width="96"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-22"
+						positionType="Float">
+							<printWhenExpression><![CDATA[new Boolean($F{fuera_interseccion}==null)]]></printWhenExpression>
+						</reportElement>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Acondicionamiento:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="31"
+						y="345"
+						width="70"
+						height="15"
+						key="fld-14"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{superficie_desc}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="128"
+						y="345"
+						width="140"
+						height="15"
+						key="fld-15"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{luminosidad_desc}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="308"
+						y="345"
+						width="68"
+						height="15"
+						key="fld-16"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{factores_atmosfericos_desc}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="88"
+						y="322"
+						width="192"
+						height="15"
+						key="fld-17"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{tipo_desc}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="331"
+						y="322"
+						width="140"
+						height="15"
+						key="fld-18"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{subtipo_desc}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="406"
+						y="345"
+						width="124"
+						height="15"
+						key="fld-19"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{otras_circunstancias_desc}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="1"
+						y="316"
+						width="533"
+						height="0"
+						forecolor="#C45A06"
+						key="line-2"
+						positionType="Float"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="332"
+						y="234"
+						width="0"
+						height="83"
+						forecolor="#C45A06"
+						key="line-3"
+						positionType="Float"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="339"
+						y="239"
+						width="110"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-23"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Factores concurrentes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="283"
+						y="323"
+						width="44"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-24"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Detalles:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="5"
+						y="346"
+						width="27"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-25"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Sup.:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="100"
+						y="346"
+						width="29"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-26"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Lum.:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="268"
+						y="346"
+						width="40"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-27"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[F. atm.:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="376"
+						y="346"
+						width="30"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-28"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Otros:]]></text>
+				</staticText>
+				<line direction="TopDown">
+					<reportElement
+						x="1"
+						y="341"
+						width="533"
+						height="0"
+						forecolor="#C45A06"
+						key="line-4"
+						positionType="Float"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="4"
+						y="433"
+						width="95"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-30"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Croquis]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="4"
+						y="366"
+						width="95"
+						height="15"
+						forecolor="#C45A06"
+						key="txt-31"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" size="12" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Observaciones]]></text>
+				</staticText>
+				<rectangle radius="2" >
+					<reportElement
+						x="1"
+						y="381"
+						width="533"
+						height="48"
+						forecolor="#C45A06"
+						key="rect-12"
+						positionType="Float"/>
+					<graphicElement stretchType="NoStretch" pen="1Point"/>
+				</rectangle>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="4"
+						y="385"
+						width="525"
+						height="43"
+						key="textField-5"
+						positionType="Float"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[( $F{comentarios}.length() <= 200 ? $F{comentarios} : $F{comentarios}.substring(0, 200) + " (...)")]]></textFieldExpression>
+				</textField>
+				<subreport  isUsingCache="true">
+					<reportElement
+						mode="Transparent"
+						x="337"
+						y="259"
+						width="195"
+						height="52"
+						key="subreport-factores"/>
+					<subreportParameter  name="COD_ACCIDENTE">
+						<subreportParameterExpression><![CDATA[$F{cod_accidente}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="MAX_NUM_FACTORES">
+						<subreportParameterExpression><![CDATA[new Integer(2)]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "ACCIDENTES_RESUMEN_FACTORES_V1.0.jasper"]]></subreportExpression>
+				</subreport>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="19"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Auto" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="482"
+						y="3"
+						width="51"
+						height="15"
+						forecolor="#C45A06"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left">
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[" de " + $V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="false" evaluationTime="Page" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="4"
+						y="3"
+						width="207"
+						height="15"
+						forecolor="#C45A06"
+						key="textField-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left">
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Page" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="375"
+						y="3"
+						width="108"
+						height="15"
+						forecolor="#C45A06"
+						key="textField-4"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Trebuchet MS" pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

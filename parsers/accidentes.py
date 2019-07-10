@@ -36,7 +36,7 @@ class AccidentesParser(object):
 
   def rewind(self):
     self.informeCorriente = 0
-    self.accideneteCorriente = 0
+    self.accidenteCorriente = 0
   
   def getInformes(self):
     informes = self.xml["INFORME"]
@@ -54,259 +54,399 @@ class AccidentesParser(object):
     if self.columns!=None:
       return self.columns
     self.columns = [
-      Descriptor("LID_ACCIDENTE","String",20,hidden=True, pk=True),
-      Descriptor("COD_INFORME","String",20,
-        label="Id. informe")\
+      Descriptor("LID_ACCIDENTE","String",20,hidden=True, pk=True, readOnly=True),
+      Descriptor("COD_INFORME","String",20, readOnly=True,
+        label="_Codigo_informe",
+        shortLabel="_Cod_informe")\
         .foreingkey("ARENA2_INFORMES","COD_INFORME","FORMAT('%s',COD_INFORME)"),
-      Descriptor("ID_ACCIDENTE","String",20
-        label="Cod. accidente")\
+      Descriptor("ID_ACCIDENTE","String",20, readOnly=True,
+        label="_Codigo_accidente",
+        shortLabel="_Cod_accidente")\
         .set("DAL.Search.Attribute.Priority",1),
-      #Descriptor("TIPO_ACCIDENTE","Integer",
-      #  label="Tipo accidente"),
-      Descriptor("FECHA_ACCIDENTE","Date",
-        label= "Fecha accidente")\
+      Descriptor("FECHA_ACCIDENTE","Date", readOnly=True,
+        label= "_Fecha_accidente")\
         .set("DAL.Search.Attribute.Priority",6),
-      Descriptor("HORA_ACCIDENTE","Time", 
-        Label="Hora accidente")\
+      Descriptor("HORA_ACCIDENTE","Time", readOnly=True, 
+        label="_Hora_accidente")\
         .set("DAL.Search.Attribute.Priority",7),
-      Descriptor("COD_PROVINCIA","String",45, 
-        Label="Provincia")\
+
+      Descriptor("COD_PROVINCIA","String",45, readOnly=True, 
+        label="_Provincia")\
         .set("DAL.Search.Attribute.Priority",2),
-      Descriptor("COD_MUNICIPIO","String",100, 
-        Label="Municipio"),
-      Descriptor("COD_POBLACION","String",100, 
-        Label="Poblacion"),
-      Descriptor("ZONA","Integer", 
-        Label="Zona")\
+      Descriptor("COD_MUNICIPIO","String",100, readOnly=True, 
+        label="_Municipio"),
+      Descriptor("COD_POBLACION","String",100, readOnly=True, 
+        label="_Poblacion"),
+      Descriptor("ZONA","Integer", readOnly=True, 
+        label="_Zona")\
         .selectablefk("ARENA2_DIC_ZONA"),
-      Descriptor("TIPO_VIA","Integer", 
-        Label="Tipo de via")\
+      Descriptor("TIPO_VIA","Integer", readOnly=False, 
+        label="_Tipo_de_via",
+        shortLabel="_Tipo_via")\
         .selectablefk("ARENA2_DIC_TIPO_VIA"),
-      Descriptor("TIPO_VIA_DGT","Integer", 
-        Label="Tipo de via original")\
+      Descriptor("TIPO_VIA_DGT","Integer", readOnly=True, 
+        label="_Tipo_de_via_original",
+        shortLabel="_Tipo_via_orig")\
         .selectablefk("ARENA2_DIC_TIPO_VIA"),
-      Descriptor("CARRETERA","String", 
-        Label="Carretera")\
+
+      Descriptor("CARRETERA","String", readOnly=False, 
+        label="_Carretera")\
         .set("DAL.Search.Attribute.Priority",3),
-      Descriptor("CARRETERA_DGT","String", 
-        Label="Carretera original")\
+      Descriptor("CARRETERA_DGT","String", readOnly=True, 
+        label="_Carretera_original",
+        shortLabel="_Carretera_orig")\
         .set("DAL.Search.Attribute.Priority",3),
-      Descriptor("KM","Double",
-        label="Punto kilometrico")\
+      Descriptor("KM","Double", readOnly=True,
+        label="_Punto_kilometrico",
+        shortLabel="_Pk")\
         .set("DAL.Search.Attribute.Priority",4),
-      Descriptor("TITULARIDAD_VIA","Integer", 
-        Label="Titularidad de la via")\
-        .selectablefk("ARENA2_DIC_TITULARIDAD_VIA",
-      Descriptor("TITULARIDAD_VIA_DGT","Integer", 
-        Label="Titularidad de la via original")\
-        .selectablefk("ARENA2_DIC_TITULARIDAD_VIA",
-      Descriptor("SENTIDO","Integer", 
-        Label="Sentido")\
+      Descriptor("TITULARIDAD_VIA","Integer", readOnly=False, 
+        label="_Titularidad_de_la_via",
+        shortLabel="_Titularidad_via")\
+        .selectablefk("ARENA2_DIC_TITULARIDAD_VIA"),
+
+      Descriptor("TITULARIDAD_VIA_DGT","Integer", readOnly=True, 
+        label="_Titularidad_de_la_via_original",
+        shortlabel="_Titularidad_via_orig")\
+        .selectablefk("ARENA2_DIC_TITULARIDAD_VIA"),
+      Descriptor("SENTIDO","Integer", readOnly=True, 
+        label="_Sentido")\
         .selectablefk("ARENA2_DIC_SENTIDO")\
         .set("DAL.Search.Attribute.Priority",5),
-      Descriptor("CALLE_CODIGO","String",15
-        label="Cod. calle"),
-      Descriptor("CALLE_NOMBRE","String",150,
-        label="Calle"),
-      Descriptor("CALLE_NUMERO","String",10
-        label="Calle numero"),
-      Descriptor("MAPAY","Double"),
-      Descriptor("MAPAX","Double"),
+      Descriptor("CALLE_CODIGO","String",15, readOnly=True,
+        label="_Codigo_calle",
+        shortLabel="_Cod_calle"),
+      Descriptor("CALLE_NOMBRE","String",150, readOnly=True,
+        label="_Calle"),
+      Descriptor("CALLE_NUMERO","String",10, readOnly=True,
+        label="_Numero_de_calle",
+        shortLabel="_Num_calle"),
+      Descriptor("MAPAY","Double", readOnly=True),
+      Descriptor("MAPAX","Double", readOnly=True),
       Descriptor("MAPA", "Geometry", hidden=True, 
         geomtype="Point:2D", 
         SRS="EPSG:4326" #, 
         #expression="TRY ST_SetSRID(ST_Point(MAPAX,MAPAY),4326) EXCEPT NULL"
       ),
 
-      Descriptor("NUDO","Integer",
-        label="Nudo")\
+      Descriptor("NUDO","Integer", readOnly=True,
+        label="_Nudo")\
         .selectablefk("ARENA2_DIC_NUDO"),
-      Descriptor("NUDO_INFO","Integer",
-        label="Nudo, informacion")\
+      Descriptor("NUDO_INFO","Integer", readOnly=True,
+        label="_Informacion_nudo",
+        shortLabel="_Inf_nudo")\
         .selectablefk("ARENA2_DIC_NUDO_INFORMACION"),
-      Descriptor("CRUCE_CALLE","String",150,
-        label="Cruce"),
-      Descriptor("CRUCE_INE_CALLE","String",10,
-        label="Cruce INE"),
-      Descriptor("TOTAL_VEHICULOS","Integer"
-        label="Total vehiculos implicados")\
+      Descriptor("CRUCE_CALLE","String",150, readOnly=True,
+        label="_Cruce"),
+      Descriptor("CRUCE_INE_CALLE","String",10, readOnly=True,
+        label="_Cruce_INE"),
+      Descriptor("TOTAL_VEHICULOS","Integer", readOnly=True,
+        label="_Total_vehiculos_implicados",
+        shortlabel="_Tot_vehiculos")\
         .set("DAL.Search.Attribute.Priority",13),
-      Descriptor("TOTAL_CONDUCTORES","Integer"
-        label="Total conductores implicados"),
-      Descriptor("TOTAL_PASAJEROS","Integer"
-        label="Total pasajeros implicados"),
-      Descriptor("TOTAL_PEATONES","Integer"
-        label="Total peatones implicados"),
-      Descriptor("NUM_TURISMOS","Integer"
-        label="Num. turismos implicados"),
-      Descriptor("NUM_FURGONETAS","Integer"
-        label="Num. furgonetas implicados"),
-      Descriptor("NUM_CAMIONES","Integer"
-        label="Num. camiones implicados"),
-      Descriptor("NUM_AUTOBUSES","Integer"
-        label="Num. autobuses implicados"),
-      Descriptor("NUM_CICLOMOTORES","Integer"
-        label="Num. ciclomotores implicados"),
-      Descriptor("NUM_MOTOCICLETAS","Integer"
-        label="Num. motocicletas implicados"),
-      Descriptor("NUM_BICICLETAS","Integer"
-        label="Num. bicicletas implicados"),
-      Descriptor("NUM_OTROS_VEHI","Integer"
-        label="Num. otros vehiculos implicados"),
+      Descriptor("TOTAL_CONDUCTORES","Integer", readOnly=True,
+        label="_Total_conductores_implicados",
+        shortlabel="_Tot_conductores"),
+      Descriptor("TOTAL_PASAJEROS","Integer", readOnly=True,
+        label="_Total_pasajeros_implicados",
+        shortlabel="_Tot_pasajeros"),
+      Descriptor("TOTAL_PEATONES","Integer", readOnly=True,
+        label="_Total_peatones_implicados",
+        shortlabel="_Tot_peatones"),
+      Descriptor("NUM_TURISMOS","Integer", readOnly=True,
+        label="_Num_turismos_implicados",
+        shortlabel="_Num_turismos"),
+      Descriptor("NUM_FURGONETAS","Integer", readOnly=True,
+        label="_Num_furgonetas_implicadas",
+        shortlabel="_Num_furgonetas"),
+      Descriptor("NUM_CAMIONES","Integer", readOnly=True,
+        label="_Num_camiones_implicados",
+        shortlabel="_Num_camiones"),
+      Descriptor("NUM_AUTOBUSES","Integer", readOnly=True,
+        label="_Num_autobuses_implicados",
+        shortlabel="_Num_autobuses"),
+      Descriptor("NUM_CICLOMOTORES","Integer", readOnly=True,
+        label="_Num_ciclomotores_implicados",
+        shortlabel="_Num_ciclomotores"),
+      Descriptor("NUM_MOTOCICLETAS","Integer", readOnly=True,
+        label="_Num_motocicletas_implicadas",
+        shortlabel="_Num_motocicletas"),
+      Descriptor("NUM_BICICLETAS","Integer", readOnly=True,
+        label="_Num_bicicletas_implicadas",
+        shortlabel="_Num_bicicletas"),
+      Descriptor("NUM_OTROS_VEHI","Integer", readOnly=True,
+        label="_Num_otros_vehiculos_implicados",
+        shortlabel="_Num_otros_vehiculos"),
 
-      Descriptor("TIPO_ACC_SALIDA","Integer",
-        label="Tipo accidente (Salida)"),
+      Descriptor("TIPO_ACC_SALIDA","Integer", readOnly=True,
+        label="_Tipo_accidente_Salida")\
         .selectablefk("ARENA2_DIC_TIPO_ACCICENTE_SALIDA"),
-      Descriptor("TIPO_ACC_COLISION","Integer"
-        label="Tipo accidente (Colision)"),
+      Descriptor("TIPO_ACC_COLISION","Integer", readOnly=True,
+        label="_Tipo_accidente_Colision")\
         .selectablefk("ARENA2_DIC_TIPO_ACCIDENTE_COLISION"),
-      Descriptor("SENTIDO_CONTRARIO","Boolean"
-        label="Circular sentido contrario"),
-      Descriptor("CONDICION_NIVEL_CIRCULA","Integer"
-        label="Nivel circulacion")\
+      Descriptor("SENTIDO_CONTRARIO","Boolean", readOnly=True,
+        label="_Circular_sentido_contrario"),
+      Descriptor("CONDICION_NIVEL_CIRCULA","Integer", readOnly=True,
+        label="_Nivel_circulacion")\
         .selectablefk("ARENA2_DIC_NIVEL_CIRCULACION"),
-      Descriptor("INFLU_NIVEL_CIRC","Boolean"),
-      Descriptor("CONDICION_FIRME","Integer"),
-      Descriptor("INFLU_SUP_FIRME","Boolean"),
-      Descriptor("CONDICION_ILUMINACION","Integer"),
-      Descriptor("INFLU_ILUMINACION","Boolean"),
-      Descriptor("CONDICION_METEO","Integer"),
-      Descriptor("INFLU_METEO","Boolean"),
-      Descriptor("VISIB_RESTRINGIDA_POR","Integer"),
-      Descriptor("INFLU_VISIBILIDAD","Boolean"),
-      Descriptor("CARACT_FUNCIONAL_VIA","Integer"),
-      Descriptor("VEL_GENERICA_SENYALIZADA","Integer"),
 
-      Descriptor("VELOCIDAD","Double"),
-      Descriptor("SENTIDOS_VIA","Integer"),
-      Descriptor("NUMERO_CALZADAS","Integer"),
-      Descriptor("CARRILES_APTOS_CIRC_ASC","Integer"),
-      Descriptor("CARRILES_APTOS_CIRC_DESC","Integer"),
-      Descriptor("ANCHURA_CARRIL","Integer"),
-      Descriptor("ARCEN","Integer"),
-      Descriptor("ACERA","Integer"),
-      Descriptor("INFU_ACERA","Boolean"),
-      Descriptor("ANCHURA_ACERA","Integer"),
-      Descriptor("TRAZADO_PLANTA","Integer"),
-      Descriptor("TRAZADO_ALZADO","Integer"),
-      Descriptor("MARCAS_VIALES","Integer"),
-      Descriptor("DESCRIPCION","String",5120,profile="Text"),
+      ##-----------------
+        
+      Descriptor("INFLU_NIVEL_CIRC","Boolean", readOnly=True, 
+        label="_Influye_nivel_circulacion"),
+      Descriptor("CONDICION_FIRME","Integer", readOnly=True, 
+        label="_Condicion_del_firme")\
+        .selectablefk("ARENA2_DIC_CONDICION_FIRME"),
+      Descriptor("INFLU_SUP_FIRME","Boolean", readOnly=True, 
+        label="_Influye_firme"),
+      Descriptor("CONDICION_ILUMINACION","Integer", readOnly=True, 
+        label="_Iluminacion")\
+        .selectablefk("ARENA2_DIC_ILUMINACION"),
+      Descriptor("INFLU_ILUMINACION","Boolean", readOnly=True, 
+        label="_Influye_iluminacion"),
+      Descriptor("CONDICION_METEO","Integer", readOnly=True, 
+        label="_Meteorologia")\
+        .selectablefk("ARENA2_DIC_METEO"),
+      Descriptor("INFLU_METEO","Boolean", readOnly=True, 
+        label="_Influye_meteorologia"),
+      Descriptor("VISIB_RESTRINGIDA_POR","Integer", readOnly=True, 
+        label="_Visibilidad")\
+        .selectablefk("ARENA2_DIC_VISIBILIDAD_RESTRINGIDA_POR"),
+      Descriptor("INFLU_VISIBILIDAD","Boolean", readOnly=True, 
+        label="_Influye visibilidad"),
+      Descriptor("CARACT_FUNCIONAL_VIA","Integer", readOnly=True,
+        label="_Caracteristicas_funcionales_de_la_via",
+        shortLabel="_Caracteisticas_via")\
+        .selectablefk("ARENA2_DIC_CARACT_FUNCIONAL_VIA"),
+      Descriptor("VEL_GENERICA_SENYALIZADA","Integer", readOnly=True,
+        label="_Velocidad_generica")\
+        .selectablefk("ARENA2_DIC_VEL_GENERICA"),
 
-      Descriptor("INFLU_PRIORIDAD","Boolean",group="Regulacion prioridad"),
-      Descriptor("PRIORI_NORMA","Boolean",group="Regulacion prioridad"),
-      Descriptor("PRIORI_AGENTE","Boolean",group="Regulacion prioridad"),
-      Descriptor("PRIORI_SEMAFORO","Boolean",group="Regulacion prioridad"),
-      Descriptor("PRIORI_VERT_STOP","Boolean",group="Regulacion prioridad"),
-      Descriptor("PRIORI_VERT_CEDA","Boolean",group="Regulacion prioridad"),
-      Descriptor("PRIORI_HORIZ_STOP","Boolean",group="Regulacion prioridad"),
-      Descriptor("PRIORI_HORIZ_CEDA","Boolean",group="Regulacion prioridad"),
-      Descriptor("PRIORI_MARCAS","Boolean",group="Regulacion prioridad"),
-      Descriptor("PRIORI_PEA_NO_ELEV","Boolean",group="Regulacion prioridad"),
-      Descriptor("PRIORI_PEA_ELEV","Boolean",group="Regulacion prioridad"),
-      Descriptor("PRIORI_MARCA_CICLOS","Boolean",group="Regulacion prioridad"),
-      Descriptor("PRIORI_CIRCUNSTANCIAL","Boolean",group="Regulacion prioridad"),
-      Descriptor("PRIORI_OTRA","Boolean",group="Regulacion prioridad"),
+      Descriptor("VELOCIDAD","Double", readOnly=True,
+        label="_Velocidad"),
+      Descriptor("SENTIDOS_VIA","Integer", readOnly=True,
+        label="_Sentidos_via",
+        shortlabel="_Sentidos"),
+      Descriptor("NUMERO_CALZADAS","Integer", readOnly=True,
+        label="_Numero_de_calzadas",
+        shortlabel="_Num_calzadas")\
+        .selectablefk("ARENA2_DIC_NUMERO_CALZADAS"),
+      Descriptor("CARRILES_APTOS_CIRC_ASC","Integer", readOnly=True,
+        label="_Carriles_aptos_circular_ascendente",
+        shortlabel="_Carr_aptos_cir_asc"),
+      Descriptor("CARRILES_APTOS_CIRC_DESC","Integer", readOnly=True,
+        label="_Carriles_aptos_circular_descenente",
+        shortlabel="_Carr_aptos_cir_desc"),
+      Descriptor("ANCHURA_CARRIL","Integer", readOnly=True,
+        label="_Anchura_de_carril",
+        shortlabel="_Anchura_carril"),
+      Descriptor("ARCEN","Integer", readOnly=True,
+        label="_Arcen")\
+        .selectablefk("ARENA2_DIC_ANCHURA_ARCEN"),
+      Descriptor("ACERA","Integer", readOnly=True,
+        label="_Acera")\
+        .selectablefk("ARENA2_DIC_ACERA"),
+      Descriptor("INFU_ACERA","Boolean", readOnly=True,
+        label="_Influye_la_acera",
+        shortLabel="_Influye_acera"),
+      Descriptor("ANCHURA_ACERA","Integer", readOnly=True,
+        label="_Anchua_acera"),
+      Descriptor("TRAZADO_PLANTA","Integer", readOnly=True,
+        label="_Trazado_planta")\
+        .selectablefk("ARENA2_DIC_TRAZADO_PLANTA"),
+      Descriptor("TRAZADO_ALZADO","Integer", readOnly=True,
+        label="_Trazado_alzado")\
+        .selectablefk("ARENA2_DIC_TRAZADO_ALZADO"),
+      Descriptor("MARCAS_VIALES","Integer", readOnly=True,
+        label="_Marcas_viales")\
+        .selectablefk("ARENA2_DIC_MARCAS_VIALES"),
+      Descriptor("DESCRIPCION","String",5120,profile="Text", readOnly=True),
 
-      Descriptor("TOTAL_VICTIMAS","Integer"),
-      Descriptor("TOTAL_MUERTOS","Integer")\
+      Descriptor("INFLU_PRIORIDAD","Boolean", readOnly=True,
+        group="_Regulacion_prioridad",
+        label="_Influye_la_regulacion_de_prioridad ",
+        shortlabel="_Influye_RP"),
+      Descriptor("PRIORI_NORMA","Boolean", readOnly=True,
+        group="_Regulacion_prioridad",
+        label="_RP_Norma_generica",
+        shortlabel="_RP_Generica"),
+      Descriptor("PRIORI_AGENTE","Boolean", readOnly=True,
+        group="_Regulacion_prioridad",
+        label="_RP_Agente",
+        shortlabel="_RP_Agente"),
+      Descriptor("PRIORI_SEMAFORO","Boolean", readOnly=True,
+        group="_Regulacion_prioridad",
+        label="_RP_Semaforo",
+        shortlabel="_RP_Semaforo"),
+      Descriptor("PRIORI_VERT_STOP","Boolean", readOnly=True,
+        group="_Regulacion_prioridad",
+        label="_RP_Señal_de_stop_vertical",
+        shortlabel="_RP_Stop_vertical"),
+      Descriptor("PRIORI_VERT_CEDA","Boolean", readOnly=True,
+        group="_Regulacion_prioridad",
+        label="_RP_Señal_ceda_el_paso_vertical",
+        shortlabel="_RP_ceda_el_paso_vertical"),
+      Descriptor("PRIORI_HORIZ_STOP","Boolean", readOnly=True,
+        group="_Regulacion_prioridad",
+        label="_RP_Señal_de_stop_horizontal",
+        shortlabel="_RP_stop_horizontal"),
+      Descriptor("PRIORI_HORIZ_CEDA","Boolean", readOnly=True,
+        group="_Regulacion_prioridad",
+        label="_RP_Señal_ceda_el_paso_horizontal",
+        shortlabel="_RP_ceda_el_paso_horizontal"),
+      Descriptor("PRIORI_MARCAS","Boolean", readOnly=True,
+        group="_Regulacion_prioridad",
+        label="_RP_Solo_marcas_viales",
+        shortlabel="_RP_Marcas"),
+      Descriptor("PRIORI_PEA_NO_ELEV","Boolean", readOnly=True,
+        group="_Regulacion_prioridad",
+        label="_RP_Paso_peatones_no_elevado",
+        shortlabel="_RP_Paso_pea_no_elev"),
+      Descriptor("PRIORI_PEA_ELEV","Boolean", readOnly=True,
+        group="_Regulacion_prioridad",
+        label="_RP_Paso_peatones_elevado",
+        shortlabel="_RP_Paso_pea_elev"),
+      Descriptor("PRIORI_MARCA_CICLOS","Boolean", readOnly=True,
+        group="_Regulacion_prioridad",
+        label="_RP_Paso_ciclistas",
+        shortlabel="_RP_Paso_ciclistas"),
+      Descriptor("PRIORI_CIRCUNSTANCIAL","Boolean", readOnly=True,
+        group="_Regulacion_prioridad",
+        label="_RP_Señalizacion_circunstancial",
+        shortlabel="_RP_Circunstancial"),
+      Descriptor("PRIORI_OTRA","Boolean", readOnly=True,
+        group="_Regulacion_prioridad",
+        label="_RP_Otra_señal",
+        shortlabel="_RP_Otra"),
+
+      Descriptor("TOTAL_VICTIMAS","Integer",
+        label="_Total_victimas",
+        shortlabel="_Victimas"),
+      Descriptor("TOTAL_MUERTOS","Integer",
+        label="_Total_muertos",
+        shortlabel="_Muertos")\
         .set("DAL.Search.Attribute.Priority",10),
-      Descriptor("TOTAL_GRAVES","Integer")\
+      Descriptor("TOTAL_GRAVES","Integer",
+        label="_Total_graves",
+        shortlabel="_Graves")\
         .set("DAL.Search.Attribute.Priority",11),
-      Descriptor("TOTAL_LEVES","Integer")\
+      Descriptor("TOTAL_LEVES","Integer",
+        label="_Total_leves",
+        shortlabel="_leves")\
         .set("DAL.Search.Attribute.Priority",12),
-      Descriptor("TOTAL_ILESOS","Integer"),
+      Descriptor("TOTAL_ILESOS","Integer",
+        label="_Total_ilesos",
+        shortlabel="_Ilesos"),
 
-      Descriptor("PANELES_DIRECCIONALES","Boolean"),
-      Descriptor("HITOS_ARISTA","Boolean"),
-      Descriptor("CAPTAFAROS","Boolean"),
+      # Elementos de Balizamiento
+      Descriptor("EB_PANELES_DIRECCIONALES","Boolean",
+        label="_EB_Panels_direccionales",
+        shortlabel="EB_Paneles"),
+      Descriptor("EB_HITOS_ARISTA","Boolean",
+        label="_EB_Hitos_arista",
+        shortlabel="_EB_Hitos_arista"),
+      Descriptor("EB_CAPTAFAROS","Boolean",
+        label="_EB_Captafaros",
+        shortlabel="_EB_Captafaros"),
 
-      Descriptor("SEPARA_LINEA_LONG_SEPARACION","Boolean"),
-      Descriptor("SEPARA_CEBREADO","Boolean"),
-      Descriptor("SEPARA_MEDIANA","Boolean"),
-      Descriptor("SEPARA_BARRERA_SEGURIDAD","Boolean"),
-      Descriptor("SEPARA_ZONA_PEATONAL","Boolean"),
-      Descriptor("SEPARA_OTRA_SEPARACION","Boolean"),
-      Descriptor("SEPARA_NINGUNA_SEPARACION","Boolean"),
+      # Elementos de Separacion
+      Descriptor("SEPARA_LINEA_LONG_SEPARACION","Boolean",
+        label="_ES_Solo_linea_longitudinal",
+        shortlabel="_ES_Linea_long"),
+      Descriptor("SEPARA_CEBREADO","Boolean",
+        label="_ES_Cebreado"),
+      Descriptor("SEPARA_MEDIANA","Boolean",
+        label="_ES_Mediana"),
+      Descriptor("SEPARA_BARRERA_SEGURIDAD","Boolean",
+        label="_ES_Barrera_de_seguridad",
+        shortlabel="_ES_Barrera_seguridad"),
+      Descriptor("SEPARA_ZONA_PEATONAL","Boolean",
+        label="_ES_Zona_peatonal",
+        shortlabel="_ES_Zona_peatonal"),
+      Descriptor("SEPARA_OTRA_SEPARACION","Boolean",
+        label="_ES_Otras"),
+      Descriptor("SEPARA_NINGUNA_SEPARACION","Boolean",
+        label="_ES_Ninguno"),
 
-      Descriptor("BARRERA_SEG_LAT_ASC","Integer",group="Barrera seguridad"),
-      Descriptor("BARRERA_SEG_LAT_ASC_MOTO","Boolean",group="Barrera seguridad"),
-      Descriptor("BARRERA_SEG_LAT_DESC","Integer",group="Barrera seguridad"),
-      Descriptor("BARRERA_SEG_LAT_DESC_MOTO","Boolean",group="Barrera seguridad"),
-      Descriptor("BARRERA_SEG_MEDIANA_ASC","Integer",group="Barrera seguridad"),
-      Descriptor("BARRERA_SEG_MEDIANA_ASC_MOTO","Boolean",group="Barrera seguridad"),
-      Descriptor("BARRERA_SEG_MEDIANA_DESC","Integer",group="Barrera seguridad"),
-      Descriptor("BARRERA_SEG_MEDIANA_DESC_MOTO","Boolean",group="Barrera seguridad"),
+      Descriptor("BARRERA_SEG_LAT_ASC","Integer",group="_Barrera_seguridad"),
+      Descriptor("BARRERA_SEG_LAT_ASC_MOTO","Boolean",group="_Barrera_seguridad"),
+      Descriptor("BARRERA_SEG_LAT_DESC","Integer",group="_Barrera_seguridad"),
+      Descriptor("BARRERA_SEG_LAT_DESC_MOTO","Boolean",group="_Barrera_seguridad"),
+      Descriptor("BARRERA_SEG_MEDIANA_ASC","Integer",group="_Barrera_seguridad"),
+      Descriptor("BARRERA_SEG_MEDIANA_ASC_MOTO","Boolean",group="_Barrera_seguridad"),
+      Descriptor("BARRERA_SEG_MEDIANA_DESC","Integer",group="_Barrera_seguridad"),
+      Descriptor("BARRERA_SEG_MEDIANA_DESC_MOTO","Boolean",group="_Barrera_seguridad"),
 
-      Descriptor("TRAMO_PUENTE","Boolean",group="Elementos tramo"),
-      Descriptor("TRAMO_TUNEL","Boolean",group="Elementos tramo"),
-      Descriptor("TRAMO_PASO","Boolean",group="Elementos tramo"),
-      Descriptor("TRAMO_ESTRECHA","Boolean",group="Elementos tramo"),
-      Descriptor("TRAMO_RESALTOS","Boolean",group="Elementos tramo"),
-      Descriptor("TRAMO_BADEN","Boolean",group="Elementos tramo"),
-      Descriptor("TRAMO_APARTADERO","Boolean",group="Elementos tramo"),
-      Descriptor("TRAMO_NINGUNA","Boolean",group="Elementos tramo"),
+      Descriptor("TRAMO_PUENTE","Boolean",group="_Elementos_tramo"),
+      Descriptor("TRAMO_TUNEL","Boolean",group="_Elementos_tramo"),
+      Descriptor("TRAMO_PASO","Boolean",group="_Elementos_tramo"),
+      Descriptor("TRAMO_ESTRECHA","Boolean",group="_Elementos_tramo"),
+      Descriptor("TRAMO_RESALTOS","Boolean",group="_Elementos_tramo"),
+      Descriptor("TRAMO_BADEN","Boolean",group="_Elementos_tramo"),
+      Descriptor("TRAMO_APARTADERO","Boolean",group="_Elementos_tramo"),
+      Descriptor("TRAMO_NINGUNA","Boolean",group="_Elementos_tramo"),
 
-      Descriptor("INFLU_MARGEN","Boolean",group="Caracteristicas margen"),
-      Descriptor("MARGEN_DESPEJADO","Boolean",group="Caracteristicas margen"),
-      Descriptor("MARGEN_ARBOLES","Boolean",group="Caracteristicas margen"),
-      Descriptor("MARGEN_OTROS_NATURALES","Boolean",group="Caracteristicas margen"),
-      Descriptor("MARGEN_EDIFICIOS","Boolean",group="Caracteristicas margen"),
-      Descriptor("MARGEN_POSTES","Boolean",group="Caracteristicas margen"),
-      Descriptor("MARGEN_PUBLICIDAD","Boolean",group="Caracteristicas margen"),
-      Descriptor("MARGEN_OTROS_ARTIFICIALES","Boolean",group="Caracteristicas margen"),
-      Descriptor("MARGEN_OTROS_OBSTACULOS","Boolean",group="Caracteristicas margen"),
-      Descriptor("MARGEN_DESC","Boolean",group="Caracteristicas margen"),
+      Descriptor("INFLU_MARGEN","Boolean",group="_Caracteristicas_margen"),
+      Descriptor("MARGEN_DESPEJADO","Boolean",group="_Caracteristicas_margen"),
+      Descriptor("MARGEN_ARBOLES","Boolean",group="_Caracteristicas_margen"),
+      Descriptor("MARGEN_OTROS_NATURALES","Boolean",group="_Caracteristicas_margen"),
+      Descriptor("MARGEN_EDIFICIOS","Boolean",group="_Caracteristicas_margen"),
+      Descriptor("MARGEN_POSTES","Boolean",group="_Caracteristicas_margen"),
+      Descriptor("MARGEN_PUBLICIDAD","Boolean",group="_Caracteristicas_margen"),
+      Descriptor("MARGEN_OTROS_ARTIFICIALES","Boolean",group="_Caracteristicas_margen"),
+      Descriptor("MARGEN_OTROS_OBSTACULOS","Boolean",group="_Caracteristicas_margen"),
+      Descriptor("MARGEN_DESC","Boolean",group="_Caracteristicas_margen"),
 
-      Descriptor("INFLU_CIRCUNS_ESP","Boolean",group="Circunstancias especiales"),
-      Descriptor("CIRCUNS_ESP_NINGUNA","Boolean",group="Circunstancias especiales"),
-      Descriptor("CIRCUNS_ESP_CONOS","Boolean",group="Circunstancias especiales"),
-      Descriptor("CIRCUNS_ESP_ZANJA","Boolean",group="Circunstancias especiales"),
-      Descriptor("CIRCUNS_ESP_TAPA","Boolean",group="Circunstancias especiales"),
-      Descriptor("CIRCUNS_ESP_OBRAS","Boolean",group="Circunstancias especiales"),
-      Descriptor("CIRCUNS_ESP_OBSTACULO","Boolean",group="Circunstancias especiales"),
-      Descriptor("CIRCUNS_ESP_DESPREND","Boolean",group="Circunstancias especiales"),
-      Descriptor("CIRCUNS_ESP_ESCALON","Boolean",group="Circunstancias especiales"),
-      Descriptor("CIRCUNS_ESP_FBACHES","Boolean",group="Circunstancias especiales"),
-      Descriptor("CIRCUNS_ESP_FDETERIORADO","Boolean",group="Circunstancias especiales"),
-      Descriptor("CIRCUNS_ESP_OTRAS","Boolean",group="Circunstancias especiales"),
-      Descriptor("CIRCUNS_ESP_DESC","Boolean",group="Circunstancias especiales"),
+      Descriptor("INFLU_CIRCUNS_ESP","Boolean",group="_Circunstancias_especiales"),
+      Descriptor("CIRCUNS_ESP_NINGUNA","Boolean",group="_Circunstancias_especiales"),
+      Descriptor("CIRCUNS_ESP_CONOS","Boolean",group="_Circunstancias_especiales"),
+      Descriptor("CIRCUNS_ESP_ZANJA","Boolean",group="_Circunstancias_especiales"),
+      Descriptor("CIRCUNS_ESP_TAPA","Boolean",group="_Circunstancias_especiales"),
+      Descriptor("CIRCUNS_ESP_OBRAS","Boolean",group="_Circunstancias_especiales"),
+      Descriptor("CIRCUNS_ESP_OBSTACULO","Boolean",group="_Circunstancias_especiales"),
+      Descriptor("CIRCUNS_ESP_DESPREND","Boolean",group="_Circunstancias_especiales"),
+      Descriptor("CIRCUNS_ESP_ESCALON","Boolean",group="_Circunstancias_especiales"),
+      Descriptor("CIRCUNS_ESP_FBACHES","Boolean",group="_Circunstancias_especiales"),
+      Descriptor("CIRCUNS_ESP_FDETERIORADO","Boolean",group="_Circunstancias_especiales"),
+      Descriptor("CIRCUNS_ESP_OTRAS","Boolean",group="_Circunstancias_especiales"),
+      Descriptor("CIRCUNS_ESP_DESC","Boolean",group="_Circunstancias_especiales"),
 
-      Descriptor("INFLU_DELIM_CALZADA","Boolean",group="Delimitacion calzada"),
-      Descriptor("DELIM_CALZADA_BORDILLO","Boolean",group="Delimitacion calzada"),
-      Descriptor("DELIM_CALZADA_VALLAS","Boolean",group="Delimitacion calzada"),
-      Descriptor("DELIM_CALZADA_SETOS","Boolean",group="Delimitacion calzada"),
-      Descriptor("DELIM_CALZADA_MARCAS","Boolean",group="Delimitacion calzada"),
-      Descriptor("DELIM_CALZADA_BARRERA","Boolean",group="Delimitacion calzada"),
-      Descriptor("DELIM_CALZADA_ISLETA","Boolean",group="Delimitacion calzada"),
-      Descriptor("DELIM_CALZADA_PEATONAL","Boolean",group="Delimitacion calzada"),
-      Descriptor("DELIM_CALZADA_OTRA","Boolean",group="Delimitacion calzada"),
-      Descriptor("DELIM_CALZADA_SIN_DELIM","Boolean",group="Delimitacion calzada"),
+      Descriptor("INFLU_DELIM_CALZADA","Boolean",group="_Delimitacion_calzada"),
+      Descriptor("DELIM_CALZADA_BORDILLO","Boolean",group="_Delimitacion_calzada"),
+      Descriptor("DELIM_CALZADA_VALLAS","Boolean",group="_Delimitacion_calzada"),
+      Descriptor("DELIM_CALZADA_SETOS","Boolean",group="_Delimitacion_calzada"),
+      Descriptor("DELIM_CALZADA_MARCAS","Boolean",group="_Delimitacion_calzada"),
+      Descriptor("DELIM_CALZADA_BARRERA","Boolean",group="_Delimitacion_calzada"),
+      Descriptor("DELIM_CALZADA_ISLETA","Boolean",group="_Delimitacion_calzada"),
+      Descriptor("DELIM_CALZADA_PEATONAL","Boolean",group="_Delimitacion_calzada"),
+      Descriptor("DELIM_CALZADA_OTRA","Boolean",group="_Delimitacion_calzada"),
+      Descriptor("DELIM_CALZADA_SIN_DELIM","Boolean",group="_Delimitacion_calzada"),
 
-      Descriptor("FC_CON_DISTRAIDA","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_VEL_INADECUADA","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_PRIORIDAD","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_SEGURIDAD","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_ADELANTAMIENTO","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_GIRO","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_CON_NEGLIGENTE","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_CON_TEMERARIA","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_IRRUPCION_ANIMAL","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_IRRUPCION_PEATON","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_ALCOHOL","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_DROGAS","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_ESTADO_VIA","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_METEORO","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_CANSANCIO","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_INEXPERIENCIA","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_AVERIA","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_OBRAS","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_MAL_ESTADO_VEHI","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_ENFERMEDAD","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_SENYALIZACION","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_OBSTACULO","Boolean",group="Factores concurrentes"),
-      Descriptor("FC_OTRO_FACTOR","Boolean",group="Factores concurrentes"),
+      Descriptor("FC_CON_DISTRAIDA","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_VEL_INADECUADA","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_PRIORIDAD","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_SEGURIDAD","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_ADELANTAMIENTO","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_GIRO","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_CON_NEGLIGENTE","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_CON_TEMERARIA","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_IRRUPCION_ANIMAL","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_IRRUPCION_PEATON","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_ALCOHOL","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_DROGAS","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_ESTADO_VIA","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_METEORO","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_CANSANCIO","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_INEXPERIENCIA","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_AVERIA","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_OBRAS","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_MAL_ESTADO_VEHI","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_ENFERMEDAD","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_SENYALIZACION","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_OBSTACULO","Boolean",group="_Factores_concurrentes"),
+      Descriptor("FC_OTRO_FACTOR","Boolean",group="_Factores_concurrentes"),
 
-      Descriptor("VEHICULOS","List",group="Vehiculos")\
+      Descriptor("VEHICULOS","List",group="_Vehiculos")\
         .relatedFeatures(
           "ARENA2_VEHICULOS",
           "LID_VEHICULO",
@@ -314,7 +454,7 @@ class AccidentesParser(object):
           "FEATURES('ARENA2_VEHICULOS',FORMAT('ID_ACCIDENTE = ''%s''',ID_ACCIDENTE))"
         )\
         .set("dynform.label.empty",True),
-      Descriptor("PEATONES","List",group="Peatones")\
+      Descriptor("PEATONES","List",group="_Peatones")\
         .relatedFeatures(
           "ARENA2_PEATONES",
           "LID_PEATON",
@@ -585,7 +725,7 @@ def main(*args):
   print Descriptor("COD_INFORME","String",20,label="Informe")\
           .foreingkey("ARENA2_INFORMES","COD_INFORME","FORMAT('%s',COD_INFORME)")\
           
-  print Descriptor("TIPO_VIA","Integer", Label="Tipo de via")\
+  print Descriptor("TIPO_VIA","Integer", label="Tipo de via")\
           .selectablefk("ARENA2_DIC_TIPO_VIA")\
           
   print Descriptor("MAPA", "Geometry", hidden=True, 

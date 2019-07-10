@@ -20,7 +20,7 @@ def getResourceNames(tablename):
 
 
 def getResourcesStorage(tablename):
-  resourcesPath = getResource(__file__,"resources", tablename)
+  resourcesPath = getResource(__file__,"datos", tablename)
   resourcesStorage = FilesResourcesStorage(resourcesPath)
   return resourcesStorage
     
