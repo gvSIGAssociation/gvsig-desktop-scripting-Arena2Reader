@@ -1,0 +1,6 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Llano"
+2;"Rampa > 5%"
+3;"Pendiente >5%"
+4;"Cambio brusco de rasante"
+5;"Se desconoce"

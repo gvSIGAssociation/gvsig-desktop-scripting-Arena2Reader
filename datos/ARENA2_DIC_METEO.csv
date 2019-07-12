@@ -1,0 +1,8 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Despejado"
+2;"Nublado"
+3;"Lluvia débil"
+4;"Lluvia fuerte"
+5;"Granizando"
+6;"Nevando"
+7;"Se desconoce"

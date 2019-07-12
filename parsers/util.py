@@ -11,6 +11,7 @@ class Descriptor(Object):
     self.size = size
     self.sep = sep
     self.args = args
+    self.tags = dict()
 
   def toString(self):
     return self.build()
@@ -26,45 +27,40 @@ class Descriptor(Object):
     if self.size!=None:
       desc = desc + "%sset%ssize=%s" % (self.sep, self.sep, self.size)
     for name, value in self.args.iteritems():
-      if self.isTag(name):
-        desc = desc + "%stag%s%s=%s" % (self.sep,self.sep,name, value)
-      else:
         desc = desc + "%sset%s%s=%s" % (self.sep,self.sep,name, value)
+    for name, value in self.tags.iteritems():
+      desc = desc + "%stag%s%s=%s" % (self.sep,self.sep,name, value)
     return desc
 
   def set(self,name, value):
     self.args[name] = value
     return self
     
-  def isTag(self, name):
-    name = name.lower()
-    if name.startswith("dynform."):
-      return True
-    if name.startswith("dal."):
-      return True
-    return False
-  
+  def tag(self,name, value):
+    self.tags[name] = value
+    return self
+    
   def foreingkey(self, table, code, label):
-    self.args["foreingkey"]=True
-    self.args["foreingkey.table"]=table
-    self.args["foreingkey.code"]=code
-    self.args["foreingKey.Label"]=label
+    self.set("foreingkey",True)
+    self.set("foreingkey.table",table)
+    self.set("foreingkey.code",code)
+    self.set("foreingKey.Label",label)
     return self
   
   def selectablefk(self, table, code="ID", label="FORMAT('%02d - %s',ID,DESCRIPCION)"):
-    self.args["foreingkey"]=True
-    self.args["foreingkey.selectable"]=True
-    self.args["foreingkey.table"]=table
-    self.args["foreingkey.code"]=code
-    self.args["foreingKey.Label"]=label
+    self.set("foreingkey",True)
+    self.set("foreingkey.selectable",True)
+    self.set("foreingkey.table",table)
+    self.set("foreingkey.code",code)
+    self.set("foreingKey.Label",label)
     return self
       
   def relatedFeatures(self, table, tablekey, tablecolumns, expression):
     self.args["expression"]=expression
-    self.args["dynform.label.empty"]=True
-    self.args["DAL.RelatedFeatures.Columns"]="/".join(tablecolumns)
-    self.args["RelatedFeatures.table"]=table
-    self.args["DAL.RelatedFeatures.Unique.Field"]=tablekey
+    self.tags["dynform.label.empty"]=True
+    self.tags["DAL.RelatedFeatures.Columns"]="/".join(tablecolumns)
+    self.tags["RelatedFeatures.table"]=table
+    self.tags["DAL.RelatedFeatures.Unique.Field"]=tablekey
     return self
 
   

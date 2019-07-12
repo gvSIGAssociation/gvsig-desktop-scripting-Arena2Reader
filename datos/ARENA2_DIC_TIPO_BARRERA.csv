@@ -1,0 +1,5 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Metálica"
+2;"Hormigón"
+3;"Otro tipo"
+4;"No existe"

@@ -48,8 +48,8 @@ tables = {
       "ARENA2_ACCIDENTES", 
       "Arena2 Accidentes", 
       {
-        "dynform.height":530, 
-        "dynform.width":800, 
+        "dynform.height":570, 
+        "dynform.width":830, 
         "DAL.Search.Result.Columns":"COD_INFORME/ID_ACCIDENTE/TITULARIDAD_VIA/CALLE_NOMBRE/CALLE_NUMERO/CARRETERA/KM/COD_POBLACION/COD_MUNICIPIO/COD_PROVINCIA"
       } 
     ),

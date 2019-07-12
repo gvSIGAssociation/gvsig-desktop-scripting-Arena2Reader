@@ -1,0 +1,5 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Inexistentes o borradas"
+2;"Sólo separación carriles"
+3;"Separación de carriles y borde de calzada"
+4;"Sólo borde de calzada"

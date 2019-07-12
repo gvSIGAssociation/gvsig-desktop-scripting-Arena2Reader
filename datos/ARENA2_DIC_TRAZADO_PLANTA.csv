@@ -1,0 +1,5 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Recta"
+2;"Curva señalizada"
+3;"Curva sin señalizar"
+4;"Se desconoce"
