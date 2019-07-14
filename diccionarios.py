@@ -43,16 +43,22 @@ NAMES = (
   "ARENA2_DIC_LUGAR_CIRCULA",
   "ARENA2_DIC_MARCAS_VIALES",
   "ARENA2_DIC_METEO",
+  "ARENA2_DIC_MMA",
+  "ARENA2_DIC_MOTIVO_DESPLAZA_COND",
   "ARENA2_DIC_NIEBLA",
   "ARENA2_DIC_NIVEL_CIRCULACION",
   "ARENA2_DIC_NUDO_APROX",
   "ARENA2_DIC_NUDO",
   "ARENA2_DIC_NUDO_INFORMACION",
   "ARENA2_DIC_NUMERO_CALZADAS",
+  "ARENA2_DIC_ONU",
   "ARENA2_DIC_POSICION_VIA",
+  "ARENA2_DIC_PRUEBA_ALCOHOLEMIA",
+  "ARENA2_DIC_PRUEBA_DROGAS",
   "ARENA2_DIC_SENTIDO_CIRCULA",
   "ARENA2_DIC_SENTIDO",
   "ARENA2_DIC_SENTIDOS_VIA",
+  "ARENA2_DIC_SEXO",
   "ARENA2_DIC_TIPO_ACCIDENTE_ANIMAL",
   "ARENA2_DIC_TIPO_ACCIDENTE_COLISION",
   "ARENA2_DIC_TIPO_ACCIDENTE_SALIDA",
@@ -66,6 +72,9 @@ NAMES = (
   "ARENA2_DIC_VIENTO",
   "ARENA2_DIC_VISIBILIDAD_RESTRINGIDA_POR",
   "ARENA2_DIC_ZONA",
+  "ARENA2_DIC_INFRACCIONES_VELOCIDAD",
+  "ARENA2_DIC_MOTIVO_DESPLAZA_PEA",
+  "ARENA2_DIC_POSICION_VEHICULO",
 )
 
 def getNames():
@@ -73,7 +82,7 @@ def getNames():
 
 def getParameters(name):
   dataManager = DALLocator.getDataManager()
-  fname = getResource(__file__,"datos",name+".csv")
+  fname = getResource(__file__,"datos", "tablas",name+".csv")
   parameters = dataManager.createStoreParameters("CSV")
   parameters.setDynValue("profile","STANDARD_PREFERENCE")
   parameters.setDynValue("quotePolicy","AlwaysQuoteMode")

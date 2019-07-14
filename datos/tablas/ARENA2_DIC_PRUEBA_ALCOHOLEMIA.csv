@@ -1,0 +1,7 @@
+ID:Integer; DESCRIPCION:String:100
+1;"No se realiza prueba"
+2;"No, porque se niega"
+3;"No, porque no puede"
+4;"Prueba en aire"
+5;"Se desconoce"
+

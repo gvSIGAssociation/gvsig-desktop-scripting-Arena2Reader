@@ -45,24 +45,44 @@ class Descriptor(Object):
     self.set("foreingkey.table",table)
     self.set("foreingkey.code",code)
     self.set("foreingKey.Label",label)
+    self.set("foreingkey.closedlist",False)
     return self
   
-  def selectablefk(self, table, code="ID", label="FORMAT('%02d - %s',ID,DESCRIPCION)"):
+  def closedlistfk(self, table, code="ID", label="FORMAT('%02d - %s',ID,DESCRIPCION)"):
     self.set("foreingkey",True)
-    self.set("foreingkey.selectable",True)
+    self.set("foreingkey.closedlist",True)
     self.set("foreingkey.table",table)
     self.set("foreingkey.code",code)
     self.set("foreingKey.Label",label)
     return self
-      
+  
+  selectablefk = closedlistfk
+  
   def relatedFeatures(self, table, tablekey, tablecolumns, expression):
-    self.args["expression"]=expression
-    self.tags["dynform.label.empty"]=True
-    self.tags["DAL.RelatedFeatures.Columns"]="/".join(tablecolumns)
-    self.tags["RelatedFeatures.table"]=table
-    self.tags["DAL.RelatedFeatures.Unique.Field"]=tablekey
+    self.set("expression",expression)
+    self.tag("dynform.label.empty",True)
+    self.tag("DAL.RelatedFeatures.Columns","/".join(tablecolumns))
+    self.tag("DAL.RelatedFeatures.Table",table)
+    self.tag("DAL.RelatedFeatures.Unique.Field.Name",tablekey)
     return self
 
+def generate_translations(columns):
+  translations = dict()
+  for columdef in columns:
+    for prop in ("label", "shortlabel", "group"):
+      s=columdef.args.get(prop,None)
+      if s != None:
+        translations[s]=s.strip()
+    for prop in ("dynform.separator",):
+      s=columdef.tags.get(prop,None)
+      if s != None:
+        translations[s]=s.strip()
+  l = list()
+  l.extend(translations.keys())
+  l.sort()
+  for s in l:
+    print "%s=%s" % (s,s.replace("_"," ").strip())
+  
   
 
 def get2(x, key1, key2):

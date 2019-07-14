@@ -7,10 +7,12 @@ from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor
+from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations
 
 COLUMNS_DEFINITION = [
-  Descriptor("LID_ACCIDENTE","String",20,hidden=True, pk=True)\
+  Descriptor("LID_ACCIDENTE","String",20,hidden=True, pk=True,
+    label="_Id_accidente",
+    shortLabel="_Id_accidente")\
     .tag("dynform.readonly",True),
   Descriptor("COD_INFORME","String",20,
     label="_Codigo_informe",
@@ -44,16 +46,16 @@ COLUMNS_DEFINITION = [
   Descriptor("ZONA","Integer",  
     label="_Zona")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_ZONA"),
+    .closedlistfk("ARENA2_DIC_ZONA"),
   Descriptor("TIPO_VIA","Integer",
     label="_Tipo_de_via",
     shortLabel="_Tipo_via")\
-    .selectablefk("ARENA2_DIC_TIPO_VIA"),
+    .closedlistfk("ARENA2_DIC_TIPO_VIA"),
   Descriptor("TIPO_VIA_DGT","Integer",  
     label="_Tipo_de_via_original",
     shortLabel="_Tipo_via_orig")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_TIPO_VIA"),
+    .closedlistfk("ARENA2_DIC_TIPO_VIA"),
 
   Descriptor("CARRETERA","String",
     label="_Carretera")\
@@ -71,17 +73,17 @@ COLUMNS_DEFINITION = [
   Descriptor("TITULARIDAD_VIA","Integer",
     label="_Titularidad_de_la_via",
     shortLabel="_Titularidad_via")\
-    .selectablefk("ARENA2_DIC_TITULARIDAD_VIA"),
+    .closedlistfk("ARENA2_DIC_TITULARIDAD_VIA"),
 
   Descriptor("TITULARIDAD_VIA_DGT","Integer",  
     label="_Titularidad_de_la_via_original",
     shortlabel="_Titularidad_via_orig")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_TITULARIDAD_VIA"),
+    .closedlistfk("ARENA2_DIC_TITULARIDAD_VIA"),
   Descriptor("SENTIDO","Integer",  
     label="_Sentido")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_SENTIDO")\
+    .closedlistfk("ARENA2_DIC_SENTIDO")\
     .tag("DAL.Search.Attribute.Priority",5),
   Descriptor("CALLE_CODIGO","String",15, 
     label="_Codigo_calle",
@@ -108,12 +110,12 @@ COLUMNS_DEFINITION = [
   Descriptor("NUDO","Integer", 
     label="_Nudo")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_NUDO"),
+    .closedlistfk("ARENA2_DIC_NUDO"),
   Descriptor("NUDO_INFO","Integer", 
     label="_Informacion_nudo",
     shortLabel="_Inf_nudo")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_NUDO_INFORMACION"),
+    .closedlistfk("ARENA2_DIC_NUDO_INFORMACION"),
   Descriptor("CRUCE_CALLE","String",150, 
     label="_Cruce"),
   Descriptor("CRUCE_INE_CALLE","String",10, 
@@ -195,17 +197,20 @@ COLUMNS_DEFINITION = [
     .tag("dynform.readonly",True),
 
   Descriptor("TIPO_ACC_SALIDA","Integer", 
-    label="_Tipo_accidente_Salida")\
+    label="_Tipo_accidente_Salida",
+    shortlabel="_Tipo_acc_Sal")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_TIPO_ACCIDENTE_SALIDA"),
+    .closedlistfk("ARENA2_DIC_TIPO_ACCIDENTE_SALIDA"),
   Descriptor("TIPO_ACC_COLISION","Integer", 
-    label="_Tipo_accidente_Colision")\
+    label="_Tipo_accidente_Colision",
+    shortlabel="_Tipo_acc_Col")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_TIPO_ACCIDENTE_COLISION"),
+    .closedlistfk("ARENA2_DIC_TIPO_ACCIDENTE_COLISION"),
   Descriptor("TIPO_ACC_ANIMAL","Integer", 
-    label="_Especie_del_animal")\
+    label="_Especie_del_animal",
+    shortlabel="_Especie_animal")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_TIPO_ACCIDENTE_ANIMAL"),
+    .closedlistfk("ARENA2_DIC_TIPO_ACCIDENTE_ANIMAL"),
   
   
   Descriptor("SENTIDO_CONTRARIO","Boolean", 
@@ -215,28 +220,28 @@ COLUMNS_DEFINITION = [
   Descriptor("CONDICION_NIVEL_CIRCULA","Integer", 
     label="_Nivel_circulacion")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_NIVEL_CIRCULACION"),
+    .closedlistfk("ARENA2_DIC_NIVEL_CIRCULACION"),
   Descriptor("INFLU_NIVEL_CIRC","Boolean",  
     label="_Influye_nivel_circulacion")\
     .tag("dynform.readonly",True),
   Descriptor("CONDICION_FIRME","Integer",  
     label="_Condicion_del_firme")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_CONDICION_FIRME"),
+    .closedlistfk("ARENA2_DIC_CONDICION_FIRME"),
   Descriptor("INFLU_SUP_FIRME","Boolean",  
     label="_Influye_firme")\
     .tag("dynform.readonly",True),
   Descriptor("CONDICION_ILUMINACION","Integer",  
     label="_Iluminacion")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_ILUMINACION"),
+    .closedlistfk("ARENA2_DIC_ILUMINACION"),
   Descriptor("INFLU_ILUMINACION","Boolean",  
     label="_Influye_iluminacion")\
     .tag("dynform.readonly",True),
   Descriptor("CONDICION_METEO","Integer",  
     label="_Meteorologia")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_METEO"),
+    .closedlistfk("ARENA2_DIC_METEO"),
   Descriptor("INFLU_METEO","Boolean",  
     label="_Influye_meteorologia")\
     .tag("dynform.readonly",True),
@@ -244,17 +249,17 @@ COLUMNS_DEFINITION = [
   Descriptor("CONDICION_NIEBLA","Integer",  
     label="_Niebla")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_NIEBLA"),
+    .closedlistfk("ARENA2_DIC_NIEBLA"),
   Descriptor("CONDICION_VIENTO","Integer",  
     label="_Viento_fuerte")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_VIENTO"),
+    .closedlistfk("ARENA2_DIC_VIENTO"),
 
   
   Descriptor("VISIB_RESTRINGIDA_POR","Integer",  
     label="_Visibilidad")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_VISIBILIDAD_RESTRINGIDA_POR"),
+    .closedlistfk("ARENA2_DIC_VISIBILIDAD_RESTRINGIDA_POR"),
   Descriptor("INFLU_VISIBILIDAD","Boolean",  
     label="_Influye visibilidad")\
     .tag("dynform.readonly",True),
@@ -263,11 +268,11 @@ COLUMNS_DEFINITION = [
     label="_Caracteristicas_funcionales_de_la_via",
     shortLabel="_Caracteisticas_via")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_CARACT_FUNCIONAL_VIA"),
+    .closedlistfk("ARENA2_DIC_CARACT_FUNCIONAL_VIA"),
   Descriptor("VEL_GENERICA_SENYALIZADA","Integer", 
     label="_Velocidad_generica")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_VEL_GENERICA"),
+    .closedlistfk("ARENA2_DIC_VEL_GENERICA"),
 
   Descriptor("VELOCIDAD","Double", 
     label="_Velocidad")\
@@ -275,13 +280,13 @@ COLUMNS_DEFINITION = [
   Descriptor("SENTIDOS_VIA","Integer", 
     label="_Sentidos_via",
     shortlabel="_Sentidos")\
-    .selectablefk("ARENA2_DIC_SENTIDOS_VIA")\
+    .closedlistfk("ARENA2_DIC_SENTIDOS_VIA")\
     .tag("dynform.readonly",True),
   Descriptor("NUMERO_CALZADAS","Integer", 
     label="_Numero_de_calzadas",
     shortlabel="_Num_calzadas")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_NUMERO_CALZADAS"),
+    .closedlistfk("ARENA2_DIC_NUMERO_CALZADAS"),
   Descriptor("CARRILES_APTOS_CIRC_ASC","Integer", 
     label="_Carriles_aptos_circular_ascendente",
     shortlabel="_Carr_aptos_cir_asc")\
@@ -295,15 +300,15 @@ COLUMNS_DEFINITION = [
     label="_Anchura_de_carril",
     shortlabel="_Anchura_carril")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_ANCHURA_CARRIL"),
+    .closedlistfk("ARENA2_DIC_ANCHURA_CARRIL"),
   Descriptor("ARCEN","Integer", 
     label="_Arcen")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_ANCHURA_ARCEN"),
+    .closedlistfk("ARENA2_DIC_ANCHURA_ARCEN"),
   Descriptor("ACERA","Integer", 
     label="_Acera")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_ACERA"),
+    .closedlistfk("ARENA2_DIC_ACERA"),
   Descriptor("INFU_ACERA","Boolean", 
     label="_Influye_la_acera",
     shortLabel="_Influye_acera")\
@@ -315,15 +320,15 @@ COLUMNS_DEFINITION = [
   Descriptor("TRAZADO_PLANTA","Integer", 
     label="_Trazado_planta")\
     .tag("dynform.readonly",True)
-    .selectablefk("ARENA2_DIC_TRAZADO_PLANTA"),
+    .closedlistfk("ARENA2_DIC_TRAZADO_PLANTA"),
   Descriptor("TRAZADO_ALZADO","Integer", 
     label="_Trazado_alzado")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_TRAZADO_ALZADO"),
+    .closedlistfk("ARENA2_DIC_TRAZADO_ALZADO"),
   Descriptor("MARCAS_VIALES","Integer", 
     label="_Marcas_viales")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_MARCAS_VIALES"),
+    .closedlistfk("ARENA2_DIC_MARCAS_VIALES"),
 
   Descriptor("DESCRIPCION","String",5120,profile="Text")\
     .tag("dynform.readonly",True),
@@ -449,7 +454,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_BS_Lateral_asc",
     group="_Barrera_seguridad")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_TIPO_BARRERA"),
+    .closedlistfk("ARENA2_DIC_TIPO_BARRERA"),
   Descriptor("BARRERA_SEG_LAT_ASC_MOTO","Boolean",
     label="_BS_Lateral_asc_proteccion_mototista",
     shortlabel="_BS_Lateral_asc_prot_moto",
@@ -460,7 +465,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_BS_Lateral_desc",
     group="_Barrera_seguridad")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_TIPO_BARRERA"),
+    .closedlistfk("ARENA2_DIC_TIPO_BARRERA"),
   Descriptor("BARRERA_SEG_LAT_DESC_MOTO","Boolean",
     label="_BS_Lateral_desc_proteccion_mototista",
     shortlabel="_BS_Lateral_desc_prot_moto",
@@ -471,7 +476,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_BS_en_mediana_asc",
     group="_Barrera_seguridad")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_TIPO_BARRERA"),
+    .closedlistfk("ARENA2_DIC_TIPO_BARRERA"),
   Descriptor("BARRERA_SEG_MEDIANA_ASC_MOTO","Boolean",
     label="_BS_en_mediana_asc_proteccion_motorista",
     shortlabel="_BS_en_mediana_asc_prot_moto",
@@ -482,7 +487,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_BS_en_mediana_desc",
     group="_Barrera_seguridad")\
     .tag("dynform.readonly",True)\
-    .selectablefk("ARENA2_DIC_TIPO_BARRERA"),
+    .closedlistfk("ARENA2_DIC_TIPO_BARRERA"),
   Descriptor("BARRERA_SEG_MEDIANA_DESC_MOTO","Boolean",
     label="_BS_en_mediana_desc_proteccion_motorista",
     shortlabel="_BS_en_mediana_desc_prot_moto",
@@ -829,7 +834,7 @@ COLUMNS_DEFINITION = [
       "FEATURES('ARENA2_VEHICULOS',FORMAT('ID_ACCIDENTE = ''%s''',ID_ACCIDENTE))"
     )\
     .tag("dynform.readonly",True)\
-    .set("dynform.label.empty",True),
+    .tag("dynform.label.empty",True),
   Descriptor("PEATONES","List",
     label="_Peatones",
     group="_Peatones")\
@@ -840,7 +845,7 @@ COLUMNS_DEFINITION = [
       "FEATURES('ARENA2_PEATONES',FORMAT('ID_ACCIDENTE = ''%s''',ID_ACCIDENTE))"
     )\
     .tag("dynform.readonly",True)\
-    .set("dynform.label.empty",True),
+    .tag("dynform.label.empty",True),
 
   Descriptor("CROQUIS","List",
     label="_Croquis",
@@ -852,7 +857,7 @@ COLUMNS_DEFINITION = [
       "FEATURES('ARENA2_CROQUIS',FORMAT('ID_ACCIDENTE = ''%s''',ID_ACCIDENTE))"
     )\
     .tag("dynform.readonly",True)\
-    .set("dynform.label.empty",True)
+    .tag("dynform.label.empty",True)
 
 ] 
 
@@ -864,7 +869,6 @@ class AccidentesParser(object):
     self.xml = xml
     self.informeCorriente = None
     self.accidenteCorriente = None
-    self.columns = None
 
   def getXML(self):
     return self.xml
@@ -898,10 +902,7 @@ class AccidentesParser(object):
     return accidentes
   
   def getColumns(self):
-    if self.columns!=None:
-      return self.columns
-    self.columns = COLUMNS_DEFINITION
-    return self.columns
+    return COLUMNS_DEFINITION
 
   def getRowCount(self):
     self.rewind()
@@ -1149,19 +1150,6 @@ class AccidentesParser(object):
 
     self.informeCorriente = None
     return None, None
-
-def generate_translations():
-  translations = dict()
-  for columdef in COLUMNS_DEFINITION:
-    for prop in ("label", "shortlabel", "group"):
-      s=columdef.args.get(prop,None)
-      if s != None:
-        translations[s]=s.strip()
-  l = list()
-  l.extend(translations.keys())
-  l.sort()
-  for s in l:
-    print "%s=%s" % (s,s.replace("_"," ").strip())
   
 def test1():
   print Descriptor("FECHA_ACCIDENTE","Date",label="Accidente")
@@ -1171,15 +1159,15 @@ def test1():
           .tag("dynform.readonly",True)
         
   print Descriptor("TIPO_VIA","Integer", label="Tipo de via")\
-          .selectablefk("ARENA2_DIC_TIPO_VIA")\
+          .closedlistfk("ARENA2_DIC_TIPO_VIA")
           
   print Descriptor("MAPA", "Geometry", hidden=True, 
         geomtype="Point:2D", 
         SRS="EPSG:4326", 
         expression="TRY ST_SetSRID(ST_Point(MAPAX,MAPAY),4326) EXCEPT NULL"
-      )
-  
+  )
+
 def main(*args):
-  test1()
-  #generate_translations()
+  #test1()
+  generate_translations(COLUMNS_DEFINITION)
   

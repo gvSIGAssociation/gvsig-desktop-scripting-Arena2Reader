@@ -1,0 +1,7 @@
+ID:Integer; DESCRIPCION:String:100
+1;"No se realiza prueba"
+2;"En saliva"
+3;"En sangre"
+4;"Otras"
+5;"Se desconoce"
+

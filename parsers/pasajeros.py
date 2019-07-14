@@ -7,7 +7,112 @@ from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor
+from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations
+
+COLUMNS_DEFINITION = [
+  Descriptor("LID_PASAJERO","String",size=20,hidden=True, pk=True,
+    label="_Id_pasajero")\
+    .tag("dynform.readonly",True),
+  Descriptor("ID_ACCIDENTE","String",size=20,
+    label="_Accidente")\
+    .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)")\
+    .tag("dynform.readonly",True),
+  Descriptor("LID_VEHICULO","String",size=20,
+    label="_Vehiculo")\
+    .foreingkey("ARENA2_VEHICULOS","LID_VEHICULO","FORMAT('%s/%s %s %s %s %s',ID_ACCIDENTE,ID_VEHICULO,TIPO_VEHICULO,NACIONALIDAD,MARCA_NOMBRE,MODELO)")\
+    .tag("dynform.readonly",True),
+  Descriptor("ID_VEHICULO","String",size=5, hidden=True,
+    label="Codigo_vehiculo",
+    shortlabel="_Cod_vehiculo")\
+    .tag("dynform.readonly",True),
+  Descriptor("ID_PASAJERO","Integer", 
+    label="_Codigo_pasajero",
+    shortlabel="_Cod_pasajero")\
+    .tag("dynform.readonly",True),
+  
+  Descriptor("FECHA_NACIMIENTO","Date",
+    label="_Fecha_nacimiento")\
+    .tag("dynform.readonly",True),
+  Descriptor("SEXO","Integer",
+    label="_Sexo",
+    shortlabel="_Sexo")\
+    .tag("dynform.readonly",True)\
+    .selectablefk("ARENA2_DIC_SEXO"),
+  Descriptor("PAIS_RESIDENCIA","String", size=100,
+    label="_Pais_de_residencia",
+    shortlabel="_Pais_resi")\
+    .tag("dynform.readonly",True),
+  Descriptor("PROVINCIA_RESIDENCIA","String", size=100,
+    label="_Provincia_de_residencia",
+    shortlabel="_Prov_resi")\
+    .tag("dynform.readonly",True),
+  Descriptor("MUNICIPIO_RESIDENCIA","String", size=100,
+    label="_Municipio_de_residencia",
+    shortlabel="_Muni_resi")\
+    .tag("dynform.readonly",True),
+  Descriptor("ASISTENCIA_SANITARIA","Integer",
+    label="_Asistencia_sanitaria",
+    shortlabel="_Asis_sanitaria")\
+    .closedlistfk("ARENA2_DIC_ASISTENCIA_SANITARIA")\
+    .tag("dynform.readonly",True),
+
+  Descriptor("POSICION_VEHI","Integer",
+    label="_Posicion_en_el_vehiculo",
+    shortlabel="_Posicion")\
+    .tag("dynform.readonly",True)\
+    .selectablefk("ARENA2_DIC_POSICION_VEHICULO"),
+  Descriptor("NINYO_EN_BRAZO","Boolean", 
+    label="_Ninyo_en_brazo",
+    shortlabel="_Ninyo_brazo")\
+    .tag("dynform.readonly",True),
+
+  # Grupo: Accesorios de seguridad
+  Descriptor("ACC_SEG_CINTURON","Boolean",
+    group="_Accesorios_de_seguridad",
+    label="_Cinturon")\
+    .tag("dynform.readonly",True),
+  Descriptor("ACC_SEG_CASCO","Integer",
+    group="_Accesorios_de_seguridad",
+    label="_Casco")\
+    .closedlistfk("ARENA2_DIC_ACC_SEG_CASCO")\
+    .tag("dynform.readonly",True),
+  Descriptor("ACC_SEG_SIS_RETEN_INFANTIL","Boolean",
+    group="_Accesorios_de_seguridad",
+    label="_Sistema_retencion_infantil",
+    shortlabel="_Sist_ret_inf")\
+    .tag("dynform.readonly",True),
+  # Seccion: Accesorios de seguridad opcionales
+  Descriptor("ACC_SEG_BRAZOS","Boolean",
+    group="_Accesorios_de_seguridad",
+    label="_Brazos")\
+    .tag("dynform.separator","_Accesorios_de_seguridad_opcionales")\
+    .tag("dynform.readonly",True),
+  Descriptor("ACC_SEG_ESPALDA","Boolean",
+    group="_Accesorios_de_seguridad",
+    label="_Espalda")\
+    .tag("dynform.readonly",True),
+  Descriptor("ACC_SEG_TORSO","Boolean",
+    group="_Accesorios_de_seguridad",
+    label="_Torso")\
+    .tag("dynform.readonly",True),
+  Descriptor("ACC_SEG_MANOS","Boolean",
+    group="_Accesorios_de_seguridad",
+    label="_Manos")\
+    .tag("dynform.readonly",True),
+  Descriptor("ACC_SEG_PIERNAS","Boolean",
+    group="_Accesorios_de_seguridad",
+    label="_Piernas")\
+    .tag("dynform.readonly",True),
+  Descriptor("ACC_SEG_PIES","Boolean",
+    group="_Accesorios_de_seguridad",
+    label="_Pies")\
+    .tag("dynform.readonly",True),
+  Descriptor("ACC_SEG_PRENDA_REF","Boolean",
+    group="_Accesorios_de_seguridad",
+    label="_Prenda_reflectante",
+    shortlabel="_Prenda_refl")\
+    .tag("dynform.readonly",True),
+]
 
 class PasajerosParser(object):
   
@@ -65,45 +170,7 @@ class PasajerosParser(object):
       return list()
 
   def getColumns(self):
-    columns = [
-      Descriptor("LID_PASAJERO","String",20,hidden=True, pk=True),
-      Descriptor("ID_ACCIDENTE","String",20,label="Accidente")\
-        .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)"),
-      Descriptor("LID_VEHICULO","String",20,label="Vehiculo")\
-        .foreingkey("ARENA2_VEHICULOS","LID_VEHICULO","FORMAT('%s/%s %s %s %s %s',ID_ACCIDENTE,ID_VEHICULO,TIPO_VEHICULO,NACIONALIDAD,MARCA_NOMBRE,MODELO)"),
-      Descriptor("ID_VEHICULO","String",5, hidden=True),
-      Descriptor("ID_PASAJERO","Integer", label="Cod.pasajero"),
-      
-      Descriptor("FECHA_NACIMIENTO","Date",label="Fecha nacimiento"),
-      Descriptor("SEXO","Integer",label="Sexo")\
-        .selectablefk("ARENA2_DIC_SEXO"),
-      Descriptor("PAIS_RESIDENCIA","String", size=100,label="Pais de residencia"),
-      Descriptor("PROVINCIA_RESIDENCIA","String", size=100,label="Provincia de residencia"),
-      Descriptor("MUNICIPIO_RESIDENCIA","String", size=100,label="Municipio de residencia"),
-      Descriptor("ASISTENCIA_SANITARIA","Integer",label="Asistencia sanitaria")\
-        .selectablefk("ARENA2_DIC_ASISTENCIA_SANITARIA"),
-
-
-      #ACCESORIOS_SEGURIDAD
-      Descriptor("ACC_SEG_CINTURON","Boolean",label="Cinturon"),
-      Descriptor("ACC_SEG_CASCO","Integer",label="Casco")\
-        .selectablefk("ARENA2_DIC_ACC_SEG_CASCO"),
-
-      #ACCESORIOS_SEGURIDAD_OPCIONALES
-      Descriptor("ACC_SEG_BRAZOS","Boolean",label="Brazos"),
-      Descriptor("ACC_SEG_ESPALDA","Boolean",label="Espalda"),
-      Descriptor("ACC_SEG_TORSO","Boolean",label="Torso"),
-      Descriptor("ACC_SEG_MANOS","Boolean",label="Manos"),
-      Descriptor("ACC_SEG_PIERNAS","Boolean",label="Piernas"),
-      Descriptor("ACC_SEG_PIES","Boolean",label="Pies"),
-      Descriptor("ACC_SEG_PRENDA_REF","Boolean"),
-
-      Descriptor("POSICION_VEHI","Integer",label="Posicion en el vehiculo")\
-        .selectablefk("ARENA2_DIC_POSICION_VEHICULO"),
-      Descriptor("NINYO_EN_BRAZO","Boolean", label="Ni\xf1o en brazo"),
-
-    ]
-    return columns
+    return COLUMNS_DEFINITION
 
   def getRowCount(self):
     self.rewind()
@@ -120,57 +187,35 @@ class PasajerosParser(object):
       return None
 
     values = [
-      # 0 LID_PASAJERO
       get1(pasajero,"@ID_ACCIDENTE") +"/"+ get1(pasajero,"@ID_VEHICULO") +"/"+ get1(pasajero,"@ID_PASAJERO"),
       
-      # 1 ID_ACCIDENTE
       get1(pasajero,"@ID_ACCIDENTE"),      
       
-      # 2 LID_VEHICULO
       get1(pasajero,"@ID_ACCIDENTE") +"/"+ get1(pasajero,"@ID_VEHICULO"),
       
-      # 3 ID_VEHICULO
       get1(pasajero,"@ID_VEHICULO"),
       
-      # 4 ID_PASAJERO
       get1(pasajero,"@ID_PASAJERO"),
 
-      # 5 FECHA_NACIMIENTO
       get1(pasajero,"FECHA_NACIMIENTO"),
-      # 6
       null2zero(get1(pasajero,"SEXO")),
-      # 7
       get1(pasajero,"PAIS_RESIDENCIA"),
-      # 8
       get1(pasajero,"PROVINCIA_RESIDENCIA"),
-      # 9
       get1(pasajero,"MUNICIPIO_RESIDENCIA"),
-      # 10
       null2zero(get1(pasajero,"ASISTENCIA_SANITARIA")),
 
-      # 11
       sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_CINTURON")),
-      # 12
       null2zero(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_CASCO")),
-
-      # 13
+      sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_SIS_RETEN_INFANTIL")),
       sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_BRAZOS")),
-      # 14
       sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_ESPALDA")),
-      # 15
       sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_TORSO")),
-      # 16
       sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_MANOS")),
-      # 17
       sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIERNAS")),
-      # 18
       sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIES")),
-      # 19
       sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PRENDA_REF")),
 
-      # 20
       null2zero(get1(pasajero,"POSICION_VEHI")),
-      # 21
       sino2bool(get1(pasajero,"NINYO_EN_BRAZO"))
 
     ]
@@ -212,3 +257,7 @@ class PasajerosParser(object):
 
     self.informeCorriente = None
     return None
+
+def main(*args):
+  generate_translations(COLUMNS_DEFINITION)
+  

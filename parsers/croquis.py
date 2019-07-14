@@ -9,7 +9,27 @@ from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor
+from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations
+
+COLUMNS_DEFINITION = [
+  Descriptor("LID_CROQUIS","String",20,hidden=True, pk=True,
+    label="_Id_croquis")\
+    .tag("dynform.readonly",True),
+  Descriptor("ID_ACCIDENTE","String",20,
+    label="_Accidente")\
+    .tag("dynform.readonly",True)\
+    .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)"),
+  Descriptor("ID_CROQUIS","Integer", 
+    label="_Codigo_croquis",
+    shortlabel="_Cod_croquis")\
+    .tag("dynform.readonly",True),
+  Descriptor("IMAGEN","URL", 
+    label="_Imagen", 
+    profile="Image")\
+    .tag("dynform.readonly",True)\
+    .tag("dynform.height", 300)
+] 
+
 
 class CroquisParser(object):
   
@@ -76,15 +96,7 @@ class CroquisParser(object):
     return self.croquis.get(accidente["@ID_ACCIDENTE"], list())
     
   def getColumns(self):
-    columns = [
-      Descriptor("LID_CROQUIS","String",20,hidden=True, pk=True).build(),
-      Descriptor("ID_ACCIDENTE","String",20,label="Accidente")\
-        .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)")\
-        .build(),
-      Descriptor("ID_CROQUIS","Integer", label="Cod.croquis").build(),
-      Descriptor("IMAGEN","URL", label="Imagen", profile="Image", ).set("dynform.height", 300).build()
-    ] 
-    return columns
+    return COLUMNS_DEFINITION
 
   def getRowCount(self):
     self.rewind()
@@ -92,7 +104,7 @@ class CroquisParser(object):
     while True:
       row = self.next()
       if row == None:
-        return rowCount;
+        return rowCount
       rowCount+=1
    
   def read(self):
@@ -135,4 +147,9 @@ class CroquisParser(object):
 
     self.informeCorriente = None
     return None
+
+
+def main(*args):
+  generate_translations(COLUMNS_DEFINITION)
+  
     

@@ -7,7 +7,326 @@ from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor
+from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations
+
+COLUMNS_DEFINITION = [
+  Descriptor("LID_CONDUCTOR","String",20,hidden=True, pk=True,
+    label="_Id_conduct")\
+    .tag("dynform.readonly",True),
+  Descriptor("ID_ACCIDENTE","String",20,
+    label="_Accidente")\
+    .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)")\
+    .tag("dynform.readonly",True),
+    
+  Descriptor("LID_VEHICULO","String",20,
+    label="_Vehiculo")\
+    .foreingkey(
+      "ARENA2_VEHICULOS",
+      "LID_VEHICULO",
+      "FORMAT('%s/%s %s %s %s %s',ID_ACCIDENTE,ID_VEHICULO,TIPO_VEHICULO,NACIONALIDAD,MARCA_NOMBRE,MODELO)"
+     )\
+    .tag("dynform.readonly",True),
+  Descriptor("ID_VEHICULO","String",5, hidden=True,
+    label="_Id_vehiculo")\
+    .tag("dynform.readonly",True),
+  
+  Descriptor("POSIBLE_RESPONSABLE","Boolean",
+    label="_Posible_responsable",
+    shortlabel="_Responsable",)\
+    .tag("dynform.readonly",True),
+
+  # Seccion: Datos personales
+  Descriptor("FECHA_NACIMIENTO","Date",
+    label="_Fecha_nacimiento")\
+    .tag("dynform.readonly",True)\
+    .tag("dynform.separator","_Datos_personales"),
+  Descriptor("SEXO","Integer",
+    label="_Sexo")\
+    .closedlistfk("ARENA2_DIC_SEXO")\
+    .tag("dynform.readonly",True),
+  Descriptor("NACIONALIDAD","String", size=100,
+    label="_Nacionalidad")\
+    .tag("dynform.readonly",True),
+  Descriptor("PAIS_RESIDENCIA","String", size=100,
+    label="_Pais_de_residencia",
+    shortlabel="_Pais_resi")\
+    .tag("dynform.readonly",True),
+  Descriptor("PROVINCIA_RESIDENCIA","String", size=100,
+    label="_Provincia_de_residencia",
+    shortlabel="_Prov_resi")\
+    .tag("dynform.readonly",True),
+  Descriptor("MUNICIPIO_RESIDENCIA","String", size=100,
+    label="_Municipio_de_residencia",
+    shortlabel="_Muni_resi")\
+    .tag("dynform.readonly",True),
+  Descriptor("ASISTENCIA_SANITARIA","Integer",
+    label="_Asistencia_sanitaria",
+    shortlabel="_Asis_sanitaria")\
+    .closedlistfk("ARENA2_DIC_ASISTENCIA_SANITARIA")\
+    .tag("dynform.readonly",True),
+
+  # Seccion: Posibles errores
+  Descriptor("INFLU_FACT_ATENCION","Boolean",
+    label="_Influyen_factores_atencion",
+    shortlabel="_Infl_fact_atencion")\
+    .tag("dynform.readonly",True)\
+    .tag("dynform.separator","_Posibles_errores"),
+  Descriptor("FACTORES_ATENCION","Integer",
+    label="_Factores_afectan_atencion",
+    shortlabel="_Fact_atencion")\
+    .closedlistfk("ARENA2_DIC_FACTORES_ATENCION_COND")\
+    .tag("dynform.readonly",True),
+  
+  Descriptor("INFLU_PRES_ERROR","Boolean",
+    label="_Influyen_presuntos_errores",
+    shortlabel="_Influ_errores")\
+    .tag("dynform.readonly",True),
+  Descriptor("PRESUNTOS_ERRORES","Integer",
+    label="_Presuntos_errores",
+    shortlabel="_Errores")\
+    .closedlistfk("ARENA2_DIC_ERRORES_COND")\
+    .tag("dynform.readonly",True),
+
+  # Seccion: Permiso
+  Descriptor("CARACT_PERMISO","Integer",
+    label="_Caracteristicas_del_permiso",
+    shortlabel="_Carac_permiso")\
+    .closedlistfk("ARENA2_DIC_CARACTERISTICAS_PERMISO")\
+    .tag("dynform.readonly",True)\
+    .tag("dynform.separator","_Permiso"),
+  Descriptor("CLASE_PERMISO","Integer",
+    label="_Clase_del_permiso",
+    shortlabel="_Clase_perm")\
+    .closedlistfk("ARENA2_DIC_CLASE_PERMISO")\
+    .tag("dynform.readonly",True),
+  Descriptor("FECHA_PERMISO","Date",
+    label="_Fecha_permiso",
+    shortlabel="_Fech_perm")\
+    .tag("dynform.readonly",True),
+
+  # Seccion: Desplazamiento
+  Descriptor("MOTIVO_DESPLAZAMIENTO","Integer",
+    label="_Motivo_desplazamiento",
+    shortlabel="_Motivo_despl")\
+    .closedlistfk("ARENA2_DIC_MOTIVO_DESPLAZA_COND")\
+    .tag("dynform.readonly",True)\
+    .tag("dynform.separator","_Desplazamiento"),
+  Descriptor("DESPLAZAMIENTO_PREVISTO","Integer",
+    label="_Desplazamiento_previsto",
+    shortlabel="_Despl_prev")\
+    .closedlistfk("ARENA2_DIC_DESPLAZAMIENTO_PREVISTO")\
+    .tag("dynform.readonly",True),
+
+  # Grupo: Accesorios de seguridad
+  Descriptor("ACC_SEG_CINTURON","Boolean",
+    group="_Accesorios_de_seguridad",
+    label="_Cinturon")\
+    .tag("dynform.readonly",True),
+  Descriptor("ACC_SEG_CASCO","Integer",
+    group="_Accesorios_de_seguridad",
+    label="_Casco")\
+    .closedlistfk("ARENA2_DIC_ACC_SEG_CASCO")\
+    .tag("dynform.readonly",True),
+  # Seccion: Accesorios de seguridad opcionales
+  Descriptor("ACC_SEG_BRAZOS","Boolean",
+    group="_Accesorios_de_seguridad",
+    label="_Brazos")\
+    .tag("dynform.separator","_Accesorios_de_seguridad_opcionales")\
+    .tag("dynform.readonly",True),
+  Descriptor("ACC_SEG_ESPALDA","Boolean",
+    group="_Accesorios_de_seguridad",
+    label="_Espalda")\
+    .tag("dynform.readonly",True),
+  Descriptor("ACC_SEG_TORSO","Boolean",
+    group="_Accesorios_de_seguridad",
+    label="_Torso")\
+    .tag("dynform.readonly",True),
+  Descriptor("ACC_SEG_MANOS","Boolean",
+    group="_Accesorios_de_seguridad",
+    label="_Manos")\
+    .tag("dynform.readonly",True),
+  Descriptor("ACC_SEG_PIERNAS","Boolean",
+    group="_Accesorios_de_seguridad",
+    label="_Piernas")\
+    .tag("dynform.readonly",True),
+  Descriptor("ACC_SEG_PIES","Boolean",
+    group="_Accesorios_de_seguridad",
+    label="_Pies")\
+    .tag("dynform.readonly",True),
+  Descriptor("ACC_SEG_PRENDA_REF","Boolean",
+    group="_Accesorios_de_seguridad",
+    label="_Prenda_reflectante",
+    shortlabel="_Prenda_refl")\
+    .tag("dynform.readonly",True),
+
+  # Grupo: Pruebas
+  # Seccion: Alcohol
+  Descriptor("INFLU_ALCOHOL","Boolean",
+    group="_Pruebas",
+    label="_Influye_el_alcohol",
+    shortlabel="_Influ_alcohol")\
+    .tag("dynform.separator","_Prueba_de_alcohol")\
+    .tag("dynform.readonly",True),
+  Descriptor("PRUEBA_ALCOHOLEMIA","Integer",
+    group="_Pruebas",
+    label="_Prueba_en_aire",
+    shortlabel="_Prueba_aire")\
+    .closedlistfk("ARENA2_DIC_PRUEBA_ALCOHOLEMIA")\
+    .tag("dynform.readonly",True),
+  Descriptor("TASA_ALCOHOLEMIA1","Integer",
+    group="_Pruebas",
+    label="_Tasa_1_en_aire_mg_l",
+    shortlabel="_Tasa_1")\
+    .tag("dynform.readonly",True),
+  Descriptor("TASA_ALCOHOLEMIA2","Integer",
+    group="_Pruebas",
+    label="_Tasa_2_en_aire_mg_l",
+    shortlabel="_Tasa_2")\
+    .tag("dynform.readonly",True),
+  Descriptor("PRUEBA_ALC_SANGRE","Boolean",
+    group="_Pruebas",
+    label="_Prueba_en_sangre",
+    shortlabel="_Prueba_sang")\
+    .tag("dynform.readonly",True),
+  Descriptor("SIGNOS_INFLU_ALCOHOL","Boolean",
+    group="_Pruebas",
+    label="_Signos_de_influencia_del_alcohol",
+    shortlabel="_Signos_infl_alcohol")\
+    .tag("dynform.readonly",True),
+  # Seccion: Drogas
+  Descriptor("INFLU_DROGAS","Boolean",
+    group="_Pruebas",
+    label="_Influyen_las_drogas",
+    shortlabel="_Influ_drogas")\
+    .tag("dynform.separator","_Prueba_de_drogas")\
+    .tag("dynform.readonly",True),
+  Descriptor("PRUEBA_DROGAS","Integer",
+    group="_Pruebas",
+    label="_Prueba_de_drogas",
+    shortlabel="_Prueba_drogas")\
+    .closedlistfk("ARENA2_DIC_PRUEBA_DROGAS")\
+    .tag("dynform.readonly",True),
+  Descriptor("AMP","Boolean",
+    group="_Pruebas",
+    label="_Positivo_anfetaminas",
+    shortlabel="_Anfetaminas")\
+    .tag("dynform.readonly",True),
+  Descriptor("CONFIRMADO_AMP","Boolean",
+    group="_Pruebas",
+    label="_Confirmado_anfetaminas",
+    shortlabel="_Conf_anfeta")\
+    .tag("dynform.readonly",True),
+  Descriptor("BDZ","Boolean",
+    group="_Pruebas",
+    label="_Positivo_benzodiacepinas",
+    shortlabel="_Benzodiacepinas")\
+    .tag("dynform.readonly",True),
+  Descriptor("CONFIRMADO_BDZ","Boolean",
+    group="_Pruebas",
+    label="_Confirmado_benzodiacepinas",
+    shortlabel="_Conf_benzo")\
+    .tag("dynform.readonly",True),
+  Descriptor("COC","Boolean",
+    group="_Pruebas",
+    label="_Positivo_cocaina",
+    shortlabel="_Cocaina")\
+    .tag("dynform.readonly",True),
+  Descriptor("CONFIRMADO_COC","Boolean",
+    group="_Pruebas",
+    label="_Confirmado_cocaina",
+    shortlabel="_Conf_cocaina")\
+    .tag("dynform.readonly",True),
+  Descriptor("THC","Boolean",
+    group="_Pruebas",
+    label="_Positivo_cannabis_y_derivados",
+    shortlabel="_Cannabis")\
+    .tag("dynform.readonly",True),
+  Descriptor("CONFIRMADO_THC","Boolean",
+    group="_Pruebas",
+    label="_Confirmado_cannabis_y_derivados",
+    shortlabel="_Conf_cannabis")\
+    .tag("dynform.readonly",True),
+  Descriptor("METH","Boolean",
+    group="_Pruebas",
+    label="_Positivo_metanfetaminas",
+    shortlabel="_Metanfetaminas")\
+    .tag("dynform.readonly",True),
+  Descriptor("CONFIRMADO_METH","Boolean",
+    group="_Pruebas",
+    label="_Confirmado_metanfetaminas",
+    shortlabel="_Conf_metanf")\
+    .tag("dynform.readonly",True),
+  Descriptor("OPI","Boolean",
+    group="_Pruebas",
+    label="_Positivo_opiaceos",
+    shortlabel="_Opiaceos")\
+    .tag("dynform.readonly",True),
+  Descriptor("CONFIRMADO_OPI","Boolean",
+    group="_Pruebas",
+    label="_Confirmado_opiaceos",
+    shortlabel="_Conf_opiaceos")\
+    .tag("dynform.readonly",True),
+  Descriptor("OTRAS","Boolean",
+    group="_Pruebas",
+    label="_Positivo_benzodiacepinas",
+    shortlabel="_Benzodiacepinas")\
+    .tag("dynform.readonly",True),
+  Descriptor("CONFIRMADO_OTRAS","Boolean",
+    group="_Pruebas",
+    label="_Confirmado_otra_sustancias",
+    shortlabel="_Conf_otra")\
+    .tag("dynform.readonly",True),
+  Descriptor("SIGNOS_INFLU_DROGAS","Boolean",
+    group="_Pruebas",
+    label="_Signos_de_influencia_de_drogas",
+    shortlabel="_Signos_infl_drogas")\
+    .tag("dynform.readonly",True),
+  
+  # Grupo: Presuntas infracciones
+  Descriptor("INFLU_PRES_INFRAC_COND","Boolean",
+    group="_Presuntas_infracciones",
+    label="_Influyen_las_infracciones_del_conductor",
+    shortlabel="_Influ_infrac_cond")\
+    .tag("dynform.readonly",True),
+  Descriptor("PRES_INFRAC_COND","Integer",
+    group="_Presuntas_infracciones",
+    label="_Presuntas_infracciones_del_conductor",
+    shortlabel="_Infrac_cond")\
+    .closedlistfk("ARENA2_DIC_INFRACCIONES_CODUCTOR")\
+    .tag("dynform.readonly",True),
+  Descriptor("PRES_INFRAC_SIN_LUCES","Boolean",
+    group="_Presuntas_infracciones",
+    label="_Sin_luces_de_emergencia",
+    shortlabel="_Sin_luces")\
+    .tag("dynform.readonly",True),
+  Descriptor("PRES_INFRAC_SIN_TRIANGULO","Boolean",
+    group="_Presuntas_infracciones",
+    label="_Sin_triangulo_de_presenalizacion",
+    shortlabel="_Sin_triangulo")\
+    .tag("dynform.readonly",True),
+  Descriptor("INFLU_PRES_INFRAC_VEL","Boolean",
+    group="_Presuntas_infracciones",
+    label="_Influye_infraccion_velocidad",
+    shortlabel="_Infl_velocidad")\
+    .tag("dynform.readonly",True),
+  Descriptor("PRES_INFRAC_VEL_COND","Integer",
+    group="_Presuntas_infracciones",
+    label="_Presuntas_infracciones_de_velocidad",
+    shortlabel="_Infrac_veloc")\
+    .tag("dynform.readonly",True)\
+    .closedlistfk("ARENA2_DIC_INFRACCIONES_VELOCIDAD"),
+  Descriptor("INFLU_OTRA_INFRAC","Boolean",
+    group="_Presuntas_infracciones",
+    label="_Influye_otra_infraccion",
+    shortlabel="_Infl_otra")\
+    .tag("dynform.readonly",True),
+  Descriptor("OTRA_INFRAC_COND","Integer",
+    group="_Presuntas_infracciones",
+    label="_Otra_infraccion",
+    shortlabel="_Infrac_otra")\
+    .tag("dynform.readonly",True)\
+    .closedlistfk("ARENA2_DIC_INFRACCIONES_OTRAS")
+]
 
 class ConductoresParser(object):
   
@@ -55,114 +374,7 @@ class ConductoresParser(object):
     return vehiculos
 
   def getColumns(self):
-    columns = [
-      Descriptor("LID_CONDUCTOR","String",20,hidden=True, pk=True).build(),
-      Descriptor("ID_ACCIDENTE","String",20,label="Accidente")\
-        .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)")\
-        .build(),
-      Descriptor("LID_VEHICULO","String",20,label="Vehiculo")\
-        .foreingkey("ARENA2_VEHICULOS","LID_VEHICULO","FORMAT('%s/%s %s %s %s %s',ID_ACCIDENTE,ID_VEHICULO,TIPO_VEHICULO,NACIONALIDAD,MARCA_NOMBRE,MODELO)")\
-        .build(),
-      Descriptor("ID_VEHICULO","String",5, hidden=True).build(),
-      
-      Descriptor("FECHA_NACIMIENTO","Date",label="Fecha nacimiento").build(),
-      Descriptor("SEXO","Integer",label="Sexo")\
-        .selectablefk("ARENA2_DIC_SEXO")\
-        .build(),
-      Descriptor("NACIONALIDAD","String", size=100,label="Nacionalidad").build(),
-      Descriptor("PAIS_RESIDENCIA","String", size=100,label="Pais de residencia").build(),
-      Descriptor("PROVINCIA_RESIDENCIA","String", size=100,label="Provincia de residencia").build(),
-      Descriptor("MUNICIPIO_RESIDENCIA","String", size=100,label="Municipio de residencia").build(),
-      Descriptor("ASISTENCIA_SANITARIA","Integer",label="Asistencia sanitaria")\
-        .selectablefk("ARENA2_DIC_ASISTENCIA_SANITARIA")\
-        .build(),
-      Descriptor("CARACT_PERMISO","Integer",label="Caracteristicas del permiso")\
-        .selectablefk("ARENA2_DIC_CARACTERISTICAS_PERMISO")\
-        .build(),
-      Descriptor("CLASE_PERMISO","Integer",label="Clase del permiso")\
-        .selectablefk("ARENA2_DIC_CLASE_PERMISO")\
-        .build(),
-      Descriptor("FECHA_PERMISO","Date",label="Fecha permiso").build(),
-
-      #ACCESORIOS_SEGURIDAD
-      Descriptor("ACC_SEG_CINTURON","Boolean",label="Cinturon").build(),
-      Descriptor("ACC_SEG_CASCO","Integer",label="Casco")\
-        .selectablefk("ARENA2_DIC_ACC_SEG_CASCO")\
-        .build(),
-
-      #ACCESORIOS_SEGURIDAD_OPCIONALES
-      Descriptor("ACC_SEG_BRAZOS","Boolean",label="Brazos").build(),
-      Descriptor("ACC_SEG_ESPALDA","Boolean",label="Espalda").build(),
-      Descriptor("ACC_SEG_TORSO","Boolean",label="Torso").build(),
-      Descriptor("ACC_SEG_MANOS","Boolean",label="Manos").build(),
-      Descriptor("ACC_SEG_PIERNAS","Boolean",label="Piernas").build(),
-      Descriptor("ACC_SEG_PIES","Boolean",label="Pies").build(),
-      Descriptor("ACC_SEG_PRENDA_REF","Boolean").build(),
-
-      # ALCOHOL
-      Descriptor("INFLU_ALCOHOL","Boolean").build(),
-      Descriptor("PRUEBA_ALCOHOLEMIA","Integer")
-        .selectablefk("ARENA2_DIC_PRUEBA_ALCOHOLEMIA"),
-      Descriptor("TASA_ALCOHOLEMIA1","Integer").build(),
-      Descriptor("TASA_ALCOHOLEMIA2","Integer").build(),
-      Descriptor("PRUEBA_ALC_SANGRE","Boolean").build(),
-      Descriptor("SIGNOS_INFLU_ALCOHOL","Boolean").build(),
-
-      # DROGAS
-      Descriptor("INFLU_DROGAS","Boolean").build(),
-      Descriptor("PRUEBA_DROGAS","Integer",label="Prueba drogas")\
-        .selectablefk("ARENA2_DIC_PRUEBA_DROGAS")\
-        .build(),
-      Descriptor("AMP","Boolean").build(),
-      Descriptor("CONFIRMADO_AMP","Boolean").build(),
-      Descriptor("BDZ","Boolean").build(),
-      Descriptor("CONFIRMADO_BDZ","Boolean").build(),
-      Descriptor("COC","Boolean").build(),
-      Descriptor("CONFIRMADO_COC","Boolean").build(),
-      Descriptor("THC","Boolean").build(),
-      Descriptor("CONFIRMADO_THC","Boolean").build(),
-      Descriptor("METH","Boolean").build(),
-      Descriptor("CONFIRMADO_METH","Boolean").build(),
-      Descriptor("OPI","Boolean").build(),
-      Descriptor("CONFIRMADO_OPI","Boolean").build(),
-      Descriptor("OTRAS","Boolean").build(),
-      Descriptor("CONFIRMADO_OTRAS","Boolean").build(),
-      Descriptor("SIGNOS_INFLU_DROGAS","Boolean").build(),
-      
-      Descriptor("MOTIVO_DESPLAZAMIENTO","Integer",label="Motivo desplazamiento")\
-        .selectablefk("ARENA2_DIC_MOTIVO_DESPLAZA_COND")\
-        .build(),
-      Descriptor("DESPLAZAMIENTO_PREVISTO","Integer",label="Desplazamiento previsto")\
-        .selectablefk("ARENA2_DIC_DESPLAZAMIENTO_PREVISTO")\
-        .build(),
-
-      # INFRACIONES
-      Descriptor("INFLU_PRES_INFRAC_COND","Boolean").build(),
-      Descriptor("PRES_INFRAC_COND","Integer")\
-        .selectablefk("ARENA2_DIC_INFRACCIONES_CODUCTOR"),
-      Descriptor("PRES_INFRAC_SIN_LUCES","Boolean").build(),
-      Descriptor("PRES_INFRAC_SIN_TRIANGULO","Boolean").build(),
-
-      # PRES_INFRAC_VEL_COND
-      Descriptor("INFLU_PRES_INFRAC_VEL","Boolean").build(),
-      Descriptor("PRES_INFRAC_VEL_COND","Integer").build(),
-
-      # OTRA_INFRAC_COND
-      Descriptor("INFLU_OTRA_INFRAC","Boolean").build(),
-      Descriptor("OTRA_INFRAC_COND_TIPO","Integer").build(),
-      
-      Descriptor("POSIBLE_RESPONSABLE","Boolean").build(),
-
-      # FACTORES_ATENCION
-      Descriptor("INFLU_FACT_ATENCION","Boolean").build(),
-      Descriptor("FACTORES_ATENCION","Integer")\
-        .selectablefk("ARENA2_DIC_FACTORES_ATENCION_COND"),
-      
-      # PRESUNTOS_ERRORES
-      Descriptor("INFLU_PRES_ERROR","Boolean").build(),
-      Descriptor("PRESUNTOS_ERRORES","Integer").build()
-    ]
-    return columns
+    return COLUMNS_DEFINITION
 
   def getRowCount(self):
     self.rewind()
@@ -178,86 +390,85 @@ class ConductoresParser(object):
     if conductor == None:
       return None
       
-    values = [ None ] * 61
-    # LID_CONDUCTOR
-    values[ 0] = get1(conductor,"@ID_ACCIDENTE") +"/"+ get1(conductor,"@ID_VEHICULO")
-    
-    values[ 1] = get1(conductor,"@ID_ACCIDENTE")
-    # LID_VEHICULO
-    values[ 2] = get1(conductor,"@ID_ACCIDENTE") +"/"+ get1(conductor,"@ID_VEHICULO")
-
-    values[ 3] = get1(conductor,"@ID_VEHICULO")
+    values = [
+      # LID_CONDUCTOR
+      get1(conductor,"@ID_ACCIDENTE") +"/"+ get1(conductor,"@ID_VEHICULO"),
       
-    values[ 4] = get1(conductor,"FECHA_NACIMIENTO")
-    values[ 5] = null2zero(get1(conductor,"SEXO"))
-    values[ 6] = get1(conductor,"NACIONALIDAD")
-    values[ 7] = get1(conductor,"PAIS_RESIDENCIA")
-    values[ 8] = get1(conductor,"PROVINCIA_RESIDENCIA")
-    values[ 9] = get1(conductor,"MUNICIPIO_RESIDENCIA")
-    values[10] = null2zero(get1(conductor,"ASISTENCIA_SANITARIA"))
-    
-    values[11] = null2zero(get1(conductor,"CARACT_PERMISO"))
-    values[12] = null2zero(get1(conductor,"CLASE_PERMISO"))
-    values[13] = get1(conductor,"FECHA_PERMISO")
-
-    values[14] = sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD","ACC_SEG_CINTURON"))
-    values[15] = null2zero(get2(conductor,"ACCESORIOS_SEGURIDAD","ACC_SEG_CASCO"))
-
-    values[16] = sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_BRAZOS"))
-    values[17] = sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_ESPALDA"))
-    values[18] = sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_TORSO"))
-    values[19] = sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_MANOS"))
-    values[20] = sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIERNAS"))
-    values[21] = sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIES"))
-    values[22] = sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PRENDA_REF"))
-
-    values[23] = sino2bool(get2(conductor,"ALCOHOL","@INFLU_ALCOHOL"))
-    values[24] = null2zero(get2(conductor,"ALCOHOL","PRUEBA_ALCOHOLEMIA"))
-    values[25] = null2zero(get2(conductor,"ALCOHOL","TASA_ALCOHOLEMIA1"))
-    values[26] = null2zero(get2(conductor,"ALCOHOL","TASA_ALCOHOLEMIA2"))
-    values[27] = sino2bool(get2(conductor,"ALCOHOL","PRUEBA_ALC_SANGRE"))
-    values[28] = sino2bool(get2(conductor,"ALCOHOL","SIGNOS_INFLU_ALCOHOL"))
-
-    values[29] = sino2bool(get2(conductor,"DROGAS","@INFLU_DROGAS"))
-    values[30] = null2zero(get2(conductor,"DROGAS","PRUEBA_DROGAS"))
-    values[31] = sino2bool(get2(conductor,"DROGAS","AMP"))
-    values[32] = sino2bool(get2(conductor,"DROGAS","CONFIRMADO_AMP"))
-    values[33] = sino2bool(get2(conductor,"DROGAS","BDZ"))
-    values[34] = sino2bool(get2(conductor,"DROGAS","CONFIRMADO_BDZ"))
-    values[35] = sino2bool(get2(conductor,"DROGAS","COC"))
-    values[36] = sino2bool(get2(conductor,"DROGAS","CONFIRMADO_COC"))
-    values[37] = sino2bool(get2(conductor,"DROGAS","THC"))
-    values[38] = sino2bool(get2(conductor,"DROGAS","CONFIRMADO_THC"))
-    values[39] = sino2bool(get2(conductor,"DROGAS","METH"))
-    values[40] = sino2bool(get2(conductor,"DROGAS","CONFIRMADO_METH"))
-    values[41] = sino2bool(get2(conductor,"DROGAS","OPI"))
-    values[42] = sino2bool(get2(conductor,"DROGAS","CONFIRMADO_OPI"))
-    values[43] = sino2bool(get2(conductor,"DROGAS","OTRAS"))
-    values[44] = sino2bool(get2(conductor,"DROGAS","CONFIRMADO_OTRAS"))
-    values[45] = sino2bool(get2(conductor,"DROGAS","SIGNOS_INFLU_DROGAS"))
-
-    values[46] = null2zero(get1(conductor,"MOTIVO_DESPLAZAMIENTO"))
-    values[47] = null2zero(get1(conductor,"DESPLAZAMIENTO_PREVISTO"))
-
-    values[48] = sino2bool(get2(conductor,"INFRACIONES","@INFLU_PRES_INFRAC_COND"))
-    values[49] = null2zero(get2(conductor,"INFRACIONES","PRES_INFRAC_COND"))
-    values[50] = sino2bool(get2(conductor,"INFRACIONES","PRES_INFRAC_SIN_LUCES"))
-    values[51] = sino2bool(get2(conductor,"INFRACIONES","PRES_INFRAC_SIN_TRIANGULO"))
-    
-    values[52] = sino2bool(get2(conductor,"PRES_INFRAC_VEL_COND","@INFLU_PRES_INFRAC_VEL"))
-    values[53] = null2zero(get2(conductor,"PRES_INFRAC_VEL_COND","#text"))
-
-    values[54] = sino2bool(get2(conductor,"OTRA_INFRAC_COND","@INFLU_OTRA_INFRAC"))
-    values[55] = null2zero(get2(conductor,"OTRA_INFRAC_COND","@TIPO"))
-
-    values[56] = sino2bool(get1(conductor,"POSIBLE_RESPONSABLE"))
-
-    values[57] = sino2bool(get2(conductor,"FACTORES_ATENCION","@INFLU_FACT_ATENCION"))
-    values[58] = null2zero(get2(conductor,"FACTORES_ATENCION","#text"))
-
-    values[59] = sino2bool(get2(conductor,"PRESUNTOS_ERRORES","@INFLU_PRES_ERROR"))
-    values[60] = null2zero(get2(conductor,"PRESUNTOS_ERRORES","#text"))
-  
+      get1(conductor,"@ID_ACCIDENTE"),
+      # LID_VEHICULO
+      get1(conductor,"@ID_ACCIDENTE") +"/"+ get1(conductor,"@ID_VEHICULO"),
+      
+      get1(conductor,"@ID_VEHICULO"),
+            
+      sino2bool(get1(conductor,"POSIBLE_RESPONSABLE")),
+      
+      get1(conductor,"FECHA_NACIMIENTO"),
+      null2zero(get1(conductor,"SEXO")),
+      get1(conductor,"NACIONALIDAD"),
+      get1(conductor,"PAIS_RESIDENCIA"),
+      get1(conductor,"PROVINCIA_RESIDENCIA"),
+      get1(conductor,"MUNICIPIO_RESIDENCIA"),
+      null2zero(get1(conductor,"ASISTENCIA_SANITARIA")),
+          
+      sino2bool(get2(conductor,"FACTORES_ATENCION","@INFLU_FACT_ATENCION")),
+      null2zero(get2(conductor,"FACTORES_ATENCION","#text")),
+      
+      sino2bool(get2(conductor,"PRESUNTOS_ERRORES","@INFLU_PRES_ERROR")),
+      null2zero(get2(conductor,"PRESUNTOS_ERRORES","#text")),
+        
+      null2zero(get1(conductor,"CARACT_PERMISO")),
+      null2zero(get1(conductor,"CLASE_PERMISO")),
+      get1(conductor,"FECHA_PERMISO"),
+      
+      null2zero(get1(conductor,"MOTIVO_DESPLAZAMIENTO")),
+      null2zero(get1(conductor,"DESPLAZAMIENTO_PREVISTO")),
+      
+      sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD","ACC_SEG_CINTURON")),
+      null2zero(get2(conductor,"ACCESORIOS_SEGURIDAD","ACC_SEG_CASCO")),
+      sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_BRAZOS")),
+      sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_ESPALDA")),
+      sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_TORSO")),
+      sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_MANOS")),
+      sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIERNAS")),
+      sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIES")),
+      sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PRENDA_REF")),
+      
+      sino2bool(get2(conductor,"ALCOHOL","@INFLU_ALCOHOL")),
+      null2zero(get2(conductor,"ALCOHOL","PRUEBA_ALCOHOLEMIA")),
+      null2zero(get2(conductor,"ALCOHOL","TASA_ALCOHOLEMIA1")),
+      null2zero(get2(conductor,"ALCOHOL","TASA_ALCOHOLEMIA2")),
+      sino2bool(get2(conductor,"ALCOHOL","PRUEBA_ALC_SANGRE")),
+      sino2bool(get2(conductor,"ALCOHOL","SIGNOS_INFLU_ALCOHOL")),
+      
+      sino2bool(get2(conductor,"DROGAS","@INFLU_DROGAS")),
+      null2zero(get2(conductor,"DROGAS","PRUEBA_DROGAS")),
+      sino2bool(get2(conductor,"DROGAS","AMP")),
+      sino2bool(get2(conductor,"DROGAS","CONFIRMADO_AMP")),
+      sino2bool(get2(conductor,"DROGAS","BDZ")),
+      sino2bool(get2(conductor,"DROGAS","CONFIRMADO_BDZ")),
+      sino2bool(get2(conductor,"DROGAS","COC")),
+      sino2bool(get2(conductor,"DROGAS","CONFIRMADO_COC")),
+      sino2bool(get2(conductor,"DROGAS","THC")),
+      sino2bool(get2(conductor,"DROGAS","CONFIRMADO_THC")),
+      sino2bool(get2(conductor,"DROGAS","METH")),
+      sino2bool(get2(conductor,"DROGAS","CONFIRMADO_METH")),
+      sino2bool(get2(conductor,"DROGAS","OPI")),
+      sino2bool(get2(conductor,"DROGAS","CONFIRMADO_OPI")),
+      sino2bool(get2(conductor,"DROGAS","OTRAS")),
+      sino2bool(get2(conductor,"DROGAS","CONFIRMADO_OTRAS")),
+      sino2bool(get2(conductor,"DROGAS","SIGNOS_INFLU_DROGAS")),
+      
+      sino2bool(get2(conductor,"INFRACIONES","@INFLU_PRES_INFRAC_COND")),
+      null2zero(get2(conductor,"INFRACIONES","PRES_INFRAC_COND")),
+      sino2bool(get2(conductor,"INFRACIONES","PRES_INFRAC_SIN_LUCES")),
+      sino2bool(get2(conductor,"INFRACIONES","PRES_INFRAC_SIN_TRIANGULO")),
+          
+      sino2bool(get2(conductor,"PRES_INFRAC_VEL_COND","@INFLU_PRES_INFRAC_VEL")),
+      null2zero(get2(conductor,"PRES_INFRAC_VEL_COND","#text")),
+      
+      sino2bool(get2(conductor,"OTRA_INFRAC_COND","@INFLU_OTRA_INFRAC")),
+      null2zero(get2(conductor,"OTRA_INFRAC_COND","@TIPO")),
+    ]
     return values
 
   def next(self):
@@ -292,3 +503,7 @@ class ConductoresParser(object):
 
     self.informeCorriente = None
     return None
+
+def main(*args):
+  generate_translations(COLUMNS_DEFINITION)
+  

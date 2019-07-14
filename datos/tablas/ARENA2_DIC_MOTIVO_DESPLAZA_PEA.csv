@@ -1,0 +1,11 @@
+ID:Integer; DESCRIPCION:String:100
+77;"Se desconoce"
+8;"Servicio de limpieza o recogida de basura"
+9;"Servicio de mantenimiento viario"
+10;"Bomberos, Policía o Ambulancia"
+11;"In itinere"
+12;"En misión"
+13;"Ocio y entretenimiento"
+14;"Estudiante hacia centro de estudios"
+18;"Otras actividades"
+15;"Transporte de menores al colegio"

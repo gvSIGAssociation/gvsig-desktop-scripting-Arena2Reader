@@ -7,7 +7,32 @@ from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor
+from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations
+
+COLUMNS_DEFINITION = [
+  Descriptor("LID_INFORME","String",20,hidden=True, pk=True, 
+    label="Id_informe")\
+    .tag("dynform.readonly",True),
+  Descriptor("COD_INFORME","String",20, 
+    label="_Codigo_informe",
+    shortlabel="_Cod_informe")\
+    .tag("dynform.readonly",True),
+  
+  Descriptor("FECHA_INI_EXPORT","Date",
+    label="_Fecha_inicio")\
+    .tag("dynform.readonly",True),
+  Descriptor("FECHA_FIN_EXPORT","Date",
+    label="_Fecha_fin")\
+    .tag("dynform.readonly",True),
+  Descriptor("ACCIDENTES","List", group="_Accidentes")\
+    .relatedFeatures(
+      "ARENA2_ACCIDENTES",
+      "ID_ACCIDENTE",
+      ("ID_ACCIDENTE","FECHA_ACCIDENTE","COD_PROVINCIA","COD_MUNICIPIO","COD_POBLACION"),
+      "FEATURES('ARENA2_ACCIDENTES',FORMAT('COD_INFORME = ''%s''',COD_INFORME))"
+    )\
+    .tag("dynform.label.empty",True)
+]
 
 class InformesParser(object):
   
@@ -39,22 +64,7 @@ class InformesParser(object):
     return informes
 
   def getColumns(self):
-    columns = [
-      Descriptor("LID_INFORME","String",20,hidden=True, pk=True),
-      Descriptor("COD_INFORME","String",20, hidden=False),
-      
-      Descriptor("FECHA_INI_EXPORT","Date",label="Fecha inicio"),
-      Descriptor("FECHA_FIN_EXPORT","Date",label="Fecha fin"),
-      Descriptor("ACCIDENTES","List", group="Accidentes")\
-        .relatedFeatures(
-          "ARENA2_ACCIDENTES",
-          "ID_ACCIDENTE",
-          ("ID_ACCIDENTE","FECHA_ACCIDENTE","COD_PROVINCIA","COD_MUNICIPIO","COD_POBLACION"),
-          "FEATURES('ARENA2_ACCIDENTES',FORMAT('COD_INFORME = ''%s''',COD_INFORME))"
-        )\
-        .set("dynform.label.empty",True)
-    ]
-    return columns
+    return COLUMNS_DEFINITION
 
   def getRowCount(self):
     informes = self.getInformes()
@@ -77,3 +87,9 @@ class InformesParser(object):
 
   def next(self):
     self.informeCorriente += 1
+
+
+def main(*args):
+  generate_translations(COLUMNS_DEFINITION)
+  
+    

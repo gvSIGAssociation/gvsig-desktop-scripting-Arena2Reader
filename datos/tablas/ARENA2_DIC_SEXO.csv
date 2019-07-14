@@ -1,0 +1,5 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Hombre"
+2;"Mujer"
+7;"Se desconoce"
+

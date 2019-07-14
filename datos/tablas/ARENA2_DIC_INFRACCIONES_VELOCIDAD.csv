@@ -1,0 +1,6 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Ninguna"
+2;"Velocidad inadecuada para las condiciones de la vía"
+3;"Sobrepasar la velocidad establecida"
+4;"Marcha lenta entorpeciendo la circulación"
+7;"Se desconoce"

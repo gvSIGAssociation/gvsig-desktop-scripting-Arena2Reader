@@ -1,0 +1,11 @@
+ID:Integer; DESCRIPCION:String:100
+1;"Asiento delantero"
+2;"Asiento delantero central"
+3;"Asiento trasero izquierdo"
+4;"Asiento trasero derecho"
+5;"Asiento trasero central"
+6;"Otros asientos o literas"
+7;"De pie"
+8;"Posición pasajero"
+9;"Pasajero adicional"
+10;"Se desconoce"
