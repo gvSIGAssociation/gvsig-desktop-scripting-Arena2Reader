@@ -111,4 +111,6 @@ def null2zero(n):
     return 0
   return n
 
+def main(*args):
+  print "hola"
   

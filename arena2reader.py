@@ -36,28 +36,69 @@ class Table(object):
 
 tables = {
   "ARENA2_INFORMES": Table(
-      InformesParser, 
-      "ARENA2_INFORMES", 
-      "Arena2 Informes", 
-      {
-        "dynform.width":500,
-      }
-    ),
+    InformesParser, 
+    "ARENA2_INFORMES", 
+    "Arena2 Informes", 
+    {
+      "dynform.width":500,
+    }
+  ),
+  
   "ARENA2_ACCIDENTES": Table(
-      AccidentesParser, 
-      "ARENA2_ACCIDENTES", 
-      "Arena2 Accidentes", 
-      {
-        "dynform.height":570, 
-        "dynform.width":830, 
-        "DAL.Search.Result.Columns":"COD_INFORME/ID_ACCIDENTE/TITULARIDAD_VIA/CALLE_NOMBRE/CALLE_NUMERO/CARRETERA/KM/COD_POBLACION/COD_MUNICIPIO/COD_PROVINCIA"
-      } 
-    ),
-  "ARENA2_VEHICULOS": Table(VehiculosParser, "ARENA2_VEHICULOS", "Arena2 Vehiculos", {"dynform.width":600} ),
-  "ARENA2_CONDUCTORES": Table(ConductoresParser, "ARENA2_CONDUCTORES", "Arena2 Conductores", {"dynform.width":500} ),
-  "ARENA2_PEATONES": Table(PeatonesParser, "ARENA2_PEATONES", "Arena2 Peatones", {"dynform.width":500} ),
-  "ARENA2_PASAJEROS": Table(PasajerosParser, "ARENA2_PASAJEROS", "Arena2 Pasajeros", {"dynform.width":500} ),
-  "ARENA2_CROQUIS": Table(CroquisParser, "ARENA2_CROQUIS", "Arena2 Croquis", {"dynform.width":500} )
+    AccidentesParser, 
+    "ARENA2_ACCIDENTES", 
+    "Arena2 Accidentes", 
+    {
+      "dynform.height":570, 
+      "dynform.width":830, 
+      "DAL.Preferred.Columns":"COD_INFORME/ID_ACCIDENTE/TITULARIDAD_VIA/CALLE_NOMBRE/CALLE_NUMERO/CARRETERA/KM/COD_POBLACION/COD_MUNICIPIO/COD_PROVINCIA"
+    } 
+  ),
+  
+  "ARENA2_VEHICULOS": Table(
+    VehiculosParser, 
+    "ARENA2_VEHICULOS", 
+    "Arena2 Vehiculos", 
+    {
+      "dynform.width":600
+    } 
+  ),
+  
+  "ARENA2_CONDUCTORES": Table(
+    ConductoresParser, 
+    "ARENA2_CONDUCTORES", 
+    "Arena2 Conductores", 
+    {
+      "dynform.width":500
+    } 
+  ),
+  
+  "ARENA2_PEATONES": Table(
+    PeatonesParser, 
+    "ARENA2_PEATONES", 
+    "Arena2 Peatones", 
+    {
+      "dynform.width":500
+    } 
+  ),
+  
+  "ARENA2_PASAJEROS": Table(
+    PasajerosParser, 
+    "ARENA2_PASAJEROS", 
+    "Arena2 Pasajeros", 
+    {
+      "dynform.width":500
+    } 
+  ),
+  
+  "ARENA2_CROQUIS": Table(
+    CroquisParser, 
+    "ARENA2_CROQUIS", 
+    "Arena2 Croquis", 
+    {
+      "dynform.width":500
+    } 
+  )
 }
 
 class Arena2ReaderFactory(AbstractSimpleSequentialReaderFactory):
