@@ -6,13 +6,13 @@ from gvsig import getResource
 from org.gvsig.tools.resourcesstorage import FilesResourcesStorage
 
 RESOURCE_NAMES = {
-  "ARENA2_ACCIDENTES": tuple("jfrm"),
-  "ARENA2_CONDUCTORES": tuple(),
-  "ARENA2_CROQUIS": tuple(),
-  "ARENA2_INFORMES": tuple(),
-  "ARENA2_PASAJEROS": tuple(),
-  "ARENA2_PEATONES": tuple(),
-  "ARENA2_VEHICULOS": tuple(),
+  "ARENA2_ACCIDENTES": ("jfrm",),
+  "ARENA2_CONDUCTORES": (),
+  "ARENA2_CROQUIS": (),
+  "ARENA2_INFORMES": (),
+  "ARENA2_PASAJEROS": (),
+  "ARENA2_PEATONES": (),
+  "ARENA2_VEHICULOS": (),
 }
 
 def getResourceNames(tablename):
