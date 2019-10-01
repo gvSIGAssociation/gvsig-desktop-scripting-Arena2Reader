@@ -1,4 +1,4 @@
-ID:Integer; DESCRIPCION:String:100
+ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
 1;"No se aprecian errores"
 2;"No ver una señal"
 3;"No ver un vehículo/peatón/obstáculo..."

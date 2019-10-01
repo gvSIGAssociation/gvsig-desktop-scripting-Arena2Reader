@@ -6,7 +6,8 @@ from gvsig import getResource
 from org.gvsig.tools.resourcesstorage import FilesResourcesStorage
 
 RESOURCE_NAMES = {
-  "ARENA2_ACCIDENTES": ("jfrm",),
+  "ARENA2_ACCIDENTES": ("jfrm","jasper","1.jasper"),
+  #"ARENA2_ACCIDENTES": ("jfrm","jasper","RESUMEN_VEHICULOS_IMPLICADOS.jasper"),
   "ARENA2_CONDUCTORES": (),
   "ARENA2_CROQUIS": (),
   "ARENA2_INFORMES": (),

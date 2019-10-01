@@ -1,4 +1,4 @@
-ID:Integer; DESCRIPCION:String:100
+ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
 1;"Hombre"
 2;"Mujer"
 7;"Se desconoce"

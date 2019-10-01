@@ -1,4 +1,4 @@
-ID:Integer; DESCRIPCION:String:100
+ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
 1;"Luz del día natural, solar"
 2;"Amanecer o atardecer, sin luz artificial"
 3;"Amanecer o atardecer, con luz artificial"

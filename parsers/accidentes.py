@@ -68,6 +68,11 @@ COLUMNS_DEFINITION = [
   Descriptor("KM","Double", 
     label="_Punto_kilometrico",
     shortLabel="_Pk")\
+    .tag("dynform.readonly",False)\
+    .tag("DAL.Search.Attribute.Priority",4),
+  Descriptor("KM_DGT","Double", 
+    label="_Punto_kilometrico_original",
+    shortLabel="_Pk_DGT")\
     .tag("dynform.readonly",True)\
     .tag("DAL.Search.Attribute.Priority",4),
   Descriptor("TITULARIDAD_VIA","Integer",
@@ -923,7 +928,7 @@ class AccidentesParser(object):
     x = accidente.get("MAPAX", None)
     y = accidente.get("MAPAY", None)
     if x != None and y != None:
-      geom = GeometryUtils.createPoint(float(x), float(y))
+      geom = GeometryUtils.createPoint(float(y), float(x))
     else:
       geom = None
     
@@ -942,6 +947,7 @@ class AccidentesParser(object):
       null2zero(accidente.get("TIPO_VIA", None)),
       null2empty(accidente.get("CARRETERA", None)),
       null2empty(accidente.get("CARRETERA", None)),
+      null2zero(accidente.get("KM", None)),
       null2zero(accidente.get("KM", None)),
       null2zero(accidente.get("TITULARIDAD_VIA", None)),
       null2zero(accidente.get("TITULARIDAD_VIA", None)),

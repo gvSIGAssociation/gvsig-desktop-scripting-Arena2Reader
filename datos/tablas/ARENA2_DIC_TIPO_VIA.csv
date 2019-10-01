@@ -1,4 +1,4 @@
-ID:Integer; DESCRIPCION:String:100
+ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
 1;"Autopista de peaje"
 2;"Autopista libre"
 3;"Autovia"

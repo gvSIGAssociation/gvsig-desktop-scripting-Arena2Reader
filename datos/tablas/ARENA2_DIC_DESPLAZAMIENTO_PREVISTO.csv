@@ -1,4 +1,4 @@
-ID:Integer;DESCRIPCION:String:100
+ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100
 1;"Local (Menos 50km)"
 2;"Medio (50 a 200km)"
 3;"Largo (de m�s de 200km)"

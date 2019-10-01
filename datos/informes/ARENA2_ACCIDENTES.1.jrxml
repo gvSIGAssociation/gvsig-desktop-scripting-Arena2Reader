@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Accidentes (Simple 2)" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapters/ARENA2_ACCIDENTES.xml"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="SansSerif" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="SansSerif" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="SansSerif" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="SansSerif"/>
+	<style name="Row" mode="Transparent" fontName="SansSerif" pdfFontName="SansSerif">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="COD_INFORME" class="java.lang.String">
+		<property name="net.sf.jasperreports.json.field.expression" value="COD_INFORME"/>
+		<fieldDescription><![CDATA[COD_INFORME]]></fieldDescription>
+	</field>
+	<field name="ID_ACCIDENTE" class="java.lang.String">
+		<property name="net.sf.jasperreports.json.field.expression" value="ID_ACCIDENTE"/>
+		<fieldDescription><![CDATA[ID_ACCIDENTE]]></fieldDescription>
+	</field>
+	<field name="CARRETERA" class="java.lang.String">
+		<property name="net.sf.jasperreports.json.field.expression" value="CARRETERA"/>
+		<fieldDescription><![CDATA[CARRETERA]]></fieldDescription>
+	</field>
+	<field name="TITULARIDAD_VIA@label" class="java.lang.String">
+		<property name="net.sf.jasperreports.json.field.expression" value="TITULARIDAD_VIA@label"/>
+		<fieldDescription><![CDATA[TITULARIDAD_VIA@label]]></fieldDescription>
+	</field>
+	<field name="TIPO_VIA@label" class="java.lang.String">
+		<property name="net.sf.jasperreports.json.field.expression" value="TIPO_VIA@label"/>
+		<fieldDescription><![CDATA[TIPO_VIA@label]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="132" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="553" height="95" backcolor="#000000" uuid="6c6ca4e1-17cd-4913-93d6-5e670ea9ae8a"/>
+				<staticText>
+					<reportElement style="Title" x="0" y="0" width="370" height="66" uuid="a2a2cac8-5a7d-4487-8c54-dab235ce4e21"/>
+					<textElement>
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[Accidentes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" x="157" y="66" width="249" height="29" uuid="8978eac3-c578-41c9-837e-48d2b0184642"/>
+					<textElement>
+						<font size="22" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Listado simple]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="100" width="553" height="32" forecolor="#000000" backcolor="#CC0000" uuid="e3c14156-5b51-4201-918b-97fdc012e5d4"/>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="404" y="12" width="144" height="20" forecolor="#FFFFFF" uuid="5c3301e7-a737-4c59-8a2f-a6c79fd1adb8"/>
+					<textElement textAlignment="Right">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="16" y="0" width="100" height="20" uuid="85ff3c67-4fd6-44c3-a230-79d8e9315a1c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="67e7dc44-d1b9-45d7-b1cc-1cc4f4825412"/>
+				</reportElement>
+				<text><![CDATA[COD_INFORME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="100" height="20" uuid="3a1c1521-4ecf-4603-bef0-ba67052379df">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fbf84f3f-0c45-4612-bd77-d485247d9ba0"/>
+				</reportElement>
+				<text><![CDATA[ID_ACCIDENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="202" y="0" width="100" height="20" uuid="4eebb1a4-bb65-426b-b4d7-e6df4f75571a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5a5cced2-af20-45a7-b507-90fa0dc43cd8"/>
+				</reportElement>
+				<text><![CDATA[CARRETERA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="0" width="100" height="10" uuid="de1d8cea-049d-4cb1-9d57-80b3e93ac1a9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9c879d32-b771-4931-a322-c726fb36309c"/>
+				</reportElement>
+				<text><![CDATA[TITULARIDAD_VIA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="32" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="18" uuid="b50221b5-8254-440b-8c6f-1f0b138c9259"/>
+			</frame>
+			<textField>
+				<reportElement x="0" y="18" width="100" height="12" uuid="cf5e6fe1-1a15-4009-a12e-94027f9b4750">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="67e7dc44-d1b9-45d7-b1cc-1cc4f4825412"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{COD_INFORME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="18" width="100" height="12" uuid="637760e2-86fb-4e4e-b0b0-e55e5aa26896">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fbf84f3f-0c45-4612-bd77-d485247d9ba0"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{ID_ACCIDENTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="18" width="100" height="12" uuid="756353c6-6fab-4eae-8f55-f64dfba0a244">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5a5cced2-af20-45a7-b507-90fa0dc43cd8"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{CARRETERA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="18" width="100" height="12" uuid="753b886d-5127-4180-bb45-795c42c23c2f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9c879d32-b771-4931-a322-c726fb36309c"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{TITULARIDAD_VIA@label}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="49" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="-10" y="40" width="555" height="1" uuid="1133a906-5b71-476e-9f3e-bc97c97058c1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="1" width="555" height="24" forecolor="#D0B48E" backcolor="#000000" uuid="729c3539-f946-4d0e-a0a7-bda2815ea1b0"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="513" y="0" width="40" height="20" forecolor="#FFFFFF" uuid="4834e99c-7f6c-485a-b098-50e5187f2ab4"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="433" y="0" width="80" height="20" forecolor="#FFFFFF" uuid="9825b46e-76f1-469a-abb8-a1cc27aad685"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="2" y="1" width="197" height="20" forecolor="#FFFFFF" uuid="137d38c7-1a83-4fc5-b156-9d5f1b1a0ddc"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

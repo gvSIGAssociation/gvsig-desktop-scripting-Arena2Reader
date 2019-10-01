@@ -1,4 +1,4 @@
-ID:Integer; DESCRIPCION:String:100
+ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
 1;"Ninguna infracción"
 2;"No respeta semáforo de peatones"
 3;"No cruza por paso para peatones"

@@ -1,4 +1,4 @@
-ID:Integer; DESCRIPCION:String:100
+ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
 1;"Transporte profesional de mercancías"
 2;"Taxi"
 3;"Bus urbano"

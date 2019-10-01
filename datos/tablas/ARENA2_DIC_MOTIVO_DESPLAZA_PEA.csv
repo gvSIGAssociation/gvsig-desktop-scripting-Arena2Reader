@@ -1,4 +1,4 @@
-ID:Integer; DESCRIPCION:String:100
+ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
 77;"Se desconoce"
 8;"Servicio de limpieza o recogida de basura"
 9;"Servicio de mantenimiento viario"

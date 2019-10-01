@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RESUMEN_VEHICULOS_IMPLICADOS" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b416e1c6-3462-4434-a53c-fa4be8dcf9f8">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapters/ARENA2_VEHICULOS.xml"/>
+	<queryString language="json">
+		<![CDATA[]]>
+	</queryString>
+	<field name="ID_ACCIDENTE" class="java.lang.String">
+		<fieldDescription><![CDATA[ID_ACCIDENTE]]></fieldDescription>
+	</field>
+	<field name="ID_VEHICULO" class="java.lang.Integer">
+		<fieldDescription><![CDATA[ID_VEHICULO]]></fieldDescription>
+	</field>
+	<field name="TIPO_VEHICULO" class="java.lang.Integer">
+		<fieldDescription><![CDATA[TIPO_VEHICULO]]></fieldDescription>
+	</field>
+	<field name="TIPO_VEHICULO@label" class="java.lang.String">
+		<fieldDescription><![CDATA[TIPO_VEHICULO@label]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="-1" y="1" width="130" height="12" uuid="85a75f8c-4ea9-44ed-88a0-25ee4e708f2f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c005d1ba-83b6-48a8-a6f8-ce5eb757b783"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{TIPO_VEHICULO@label}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-14" y="1" width="10" height="12" uuid="332a69ca-7054-4923-8f72-d3f5d68b1f63">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="54f04391-27f3-4d81-a07f-c197dcdeb882"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{ID_VEHICULO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

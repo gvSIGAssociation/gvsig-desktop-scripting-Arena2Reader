@@ -1,4 +1,4 @@
-ID:Integer; DESCRIPCION:String:100
+ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
 1;"Menos de 6 metros"
 2;"Entre 6 y 6,99 metros"
 3;"7 metros o más"

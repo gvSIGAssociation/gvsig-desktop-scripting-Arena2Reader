@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Accidentes (Simple)" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ce57f6f6-1c1a-433f-878f-bd308508beb4">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapters/ARENA2_ACCIDENTES.xml"/>
+	<queryString language="json">
+		<![CDATA[TITULARIDAD_VIA@label]]>
+	</queryString>
+	<field name="COD_INFORME" class="java.lang.String">
+		<fieldDescription><![CDATA[COD_INFORME]]></fieldDescription>
+	</field>
+	<field name="ID_ACCIDENTE" class="java.lang.String">
+		<fieldDescription><![CDATA[ID_ACCIDENTE]]></fieldDescription>
+	</field>
+	<field name="FECHA_ACCIDENTE" class="java.sql.Date">
+		<fieldDescription><![CDATA[FECHA_ACCIDENTE]]></fieldDescription>
+	</field>
+	<field name="TIPO_VIA@label" class="java.lang.String">
+		<fieldDescription><![CDATA[TIPO_VIA@label]]></fieldDescription>
+	</field>
+	<field name="TITULARIDAD_VIA@label" class="java.lang.String">
+		<fieldDescription><![CDATA[TITULARIDAD_VIA@label]]></fieldDescription>
+	</field>
+	<field name="CARRETERA" class="java.lang.String">
+		<fieldDescription><![CDATA[CARRETERA]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="7b1cbccd-451c-4930-a101-40743f3a7f50">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="85c94246-d368-4a36-ac15-ec329b7af60c"/>
+				</reportElement>
+				<text><![CDATA[Cod. Informe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="100" height="20" uuid="308ac880-dd73-4a38-8f0c-2708bf18fe02">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fea138d7-1165-4900-a17f-7e2a6d64f0da"/>
+				</reportElement>
+				<text><![CDATA[ID Accidente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="205" y="0" width="100" height="20" uuid="b13ee91e-276a-499c-9879-3188b4845412">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="60d3c145-88da-4d0c-9e9a-2ab111fa270c"/>
+				</reportElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="312" y="0" width="70" height="20" uuid="446d1d2c-9438-4194-9720-c9c3bf1aa7d9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="db3af7d0-e174-44b4-a6a3-f5a754152891"/>
+				</reportElement>
+				<text><![CDATA[Titularidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="440" y="0" width="100" height="20" uuid="e89ff19f-e0b2-42fb-b9bd-56fe17d324ec">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d0cf9f35-631f-4e8d-82fa-f50834238442"/>
+				</reportElement>
+				<text><![CDATA[CARRETERA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="727332d0-6e35-4b85-a396-029627caaaf6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="85c94246-d368-4a36-ac15-ec329b7af60c"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{COD_INFORME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="100" height="18" uuid="876d4c14-15a6-4224-93fd-3da6fff473c1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fea138d7-1165-4900-a17f-7e2a6d64f0da"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{ID_ACCIDENTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="0" width="100" height="18" uuid="54cc0edd-7050-4e22-96d2-b86d461806e1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="60d3c145-88da-4d0c-9e9a-2ab111fa270c"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{FECHA_ACCIDENTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="310" y="0" width="135" height="18" uuid="1936b5bc-3a9d-4a25-a8a9-92cb4c32ebd3">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="db3af7d0-e174-44b4-a6a3-f5a754152891"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{TITULARIDAD_VIA@label}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="440" y="0" width="104" height="18" uuid="79c412e8-5a27-4e86-8a8e-b04d8d33e639">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d0cf9f35-631f-4e8d-82fa-f50834238442"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{CARRETERA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,4 +1,4 @@
-ID:Integer; DESCRIPCION:String:100
+ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
 1;"Uso de teléfono móvil"
 2;"Uso de manos libres"
 3;"Uso de GPS"

@@ -49,7 +49,7 @@ tables = {
     "ARENA2_ACCIDENTES", 
     "Arena2 Accidentes", 
     {
-      "dynform.height":570, 
+      "dynform.height":550, 
       "dynform.width":830, 
       "DAL.Preferred.Columns":"COD_INFORME/ID_ACCIDENTE/TITULARIDAD_VIA/CALLE_NOMBRE/CALLE_NUMERO/CARRETERA/KM/COD_POBLACION/COD_MUNICIPIO/COD_PROVINCIA"
     } 
@@ -123,7 +123,7 @@ class Arena2ReaderFactory(AbstractSimpleSequentialReaderFactory):
     # Este metodo es opcional, si el fichero de datos no aporta ningun valor
     # de entre los requeridos en los parametros (como es el SRS), no hace
     # falta sobreescribirlo.
-    srs = "EPSG:4258"
+    srs = "EPSG:4326"
     params.setDynValue("CRS",srs)
     
   def createReader(self, params):

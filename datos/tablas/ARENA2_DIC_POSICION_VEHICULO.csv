@@ -1,4 +1,4 @@
-ID:Integer; DESCRIPCION:String:100
+ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
 1;"Asiento delantero"
 2;"Asiento delantero central"
 3;"Asiento trasero izquierdo"
