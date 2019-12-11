@@ -1,4 +1,4 @@
-ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
+ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100
 1;"Accidente con sólo daños materiales"
 2;"Accidente de baja gravedad"
 3;"Accidente de gravedad"

@@ -1,4 +1,4 @@
-ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
+ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100
 1;"Autopista de peaje"
 2;"Autopista libre"
 3;"Autovia"
@@ -12,4 +12,4 @@ ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
 11;"Recinto delimitado"
 12;"Via ciclista"
 13;"Senda ciclable"
-13;"Otro"
+14;"Otro"

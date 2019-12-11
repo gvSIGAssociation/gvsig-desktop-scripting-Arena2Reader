@@ -1,4 +1,4 @@
-ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
+ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100
 5;"Sin reflectantes"
 6;"Con chaleco"
 7;"Con otro reflectante"
