@@ -1,8 +1,8 @@
 #
-#Tue Jun 25 21:48:58 CEST 2019
+#Wed Dec 11 21:19:11 CET 2019
 owner=Asociacion gvSIG
 code=Arena2Reader
-download-url=https\://github.com/gvSIGAssociation/gvsig-desktop-scripting-Arena2Reader/releases/download/1.0.1-0/gvSIG-desktop-2.5.0-Arena2Reader-1.0.1-0-testing-all-all-j1_8.gvspkg
+download-url=https\://github.com/gvSIGAssociation/gvsig-desktop-scripting-Arena2Reader/releases/download/1.0.2.0/gvSIG-desktop-2.5.1-Arena2Reader-1.0.2-0-testing-all-all-j1_8.gvspkg
 java-version=j1_8
 operating-system=all
 description=Lector de ficheros XML de accidentes de la DGT en formato Arena 2.
@@ -15,7 +15,7 @@ owner-url=http\://www.gvsig.com/es
 dependencies=
 sources-url=https\://github.com/gvSIGAssociation/gvsig-desktop-scripting-Arena2Reader
 name=Formats\: DGT Arena 2
-gvSIG-version=2.5.0
+gvSIG-version=2.5.1
 state=testing
 categories=Formats
 model-version=1.0.1
