@@ -107,12 +107,20 @@ class Arena2ReaderFactory(AbstractSimpleSequentialReaderFactory):
   def __init__(self):
     AbstractSimpleSequentialReaderFactory.__init__(self, "ARENA2", "Arena2", ("xml","arena2"))
 
-  def accept(self, pathname):
+  def accept(self, f):
     # Este metodo es opcional, si con la extension del fichero es
     # suficiente, no hace falta sobreescribirlo.
-    if not AbstractSimpleSequentialReaderFactory.accept(self,pathname):
+    if not AbstractSimpleSequentialReaderFactory.accept(self,f):
       return False
-    return isArena2File(pathname)
+    if isinstance(f,File):
+      if f.isDirectory():
+        return True
+      f = f.getAbsolutePath()
+    else:
+      f = str(f)
+      if os.path.isdir(f):
+        return True
+    return isArena2File(f)
 
   def fetchDefaultParameters(self, params):
     # Este metodo es opcional, si el fichero de datos no aporta ningun valor
