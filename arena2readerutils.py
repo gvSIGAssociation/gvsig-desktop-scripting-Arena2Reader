@@ -85,14 +85,14 @@ DIC_NAMES = (
 )
 
 RESOURCE_NAMES = {
-  "ARENA2_ACCIDENTES": ("jfrm","jasper","1.jasper"),
-  #"ARENA2_ACCIDENTES": ("jfrm","jasper","RESUMEN_VEHICULOS_IMPLICADOS.jasper"),
+  "ARENA2_ACCIDENTES": ("jfrm","jasper", "report", "1.report"),
   "ARENA2_CONDUCTORES": (),
   "ARENA2_CROQUIS": (),
   "ARENA2_INFORMES": (),
   "ARENA2_PASAJEROS": (),
   "ARENA2_PEATONES": (),
   "ARENA2_VEHICULOS": (),
+  "ARENA2_AC_VE_CO_PA": ("dal","jasper", "report", "1.report"),
 }
 
 class Arena2XMLFileFilter(javax.swing.filechooser.FileFilter, java.io.FileFilter):
