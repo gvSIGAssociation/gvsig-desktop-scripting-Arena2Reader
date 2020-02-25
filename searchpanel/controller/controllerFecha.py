@@ -10,19 +10,14 @@ import gvsig
 from java.awt.event import ActionListener
 from javax.swing.event import ChangeListener
 from org.gvsig.tools.swing.api import ListElement
-
+from java.text import SimpleDateFormat
 from org.gvsig.expressionevaluator import ExpressionEvaluatorLocator
-def createIcon(color):
-  width = 16
-  height = 16
-  type = BufferedImage.TYPE_INT_ARGB
-  image = BufferedImage(width, height, type)
-  g2d = image.createGraphics()
-  g2d.setColor(color)
-  g2d.fillRect(0, 0, width, height)
-  g2d.dispose()
-  icon = ImageIcon(image)
-  return icon
+from org.gvsig.expressionevaluator import ExpressionBuilder
+from org.gvsig.expressionevaluator.ExpressionBuilder import FUNCTION_DATE
+from javax.swing.text import DefaultFormatterFactory, DateFormatter
+from java.text import DateFormat
+from java.util import Locale
+
 class TabControllerFecha(ChangeListener, ActionListener):
   TAB_INDEX_PANEL = 2
   def __init__(self, store, tabPanel, txtFechaDesde, btnFechaDesde, txtFechaHasta, btnFechaHasta, cboTipoAccidente):
@@ -37,9 +32,18 @@ class TabControllerFecha(ChangeListener, ActionListener):
     
   def initComponents(self):
     self.pickerFechaDesde = ToolsSwingLocator.getToolsSwingManager().createDatePickerController(self.fechaDesde, self.fechaDesdeBtn)
-    self.pickerFechaDesde.set(None)
+    #self.pickerFechaDesde.set(None)
     self.pickerFechaHasta = ToolsSwingLocator.getToolsSwingManager().createDatePickerController(self.fechaHasta, self.fechaHastaBtn)
-    self.pickerFechaHasta.set(None)
+    #self.pickerFechaHasta.set(None)
+    #self.fechaDesde.setEditable(True)
+    #dateFormat = DefaultFormatterFactory(DateFormatter(SimpleDateFormat('dd/MM/yyyy')))
+    #dateFormat = DefaultFormatterFactory(DateFormatter(SimpleDateFormat(SimpleDateFormat.SHORT)))
+    
+    #dateFormat = DefaultFormatterFactory(DateFormatter(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM, Locale.getDefault())))
+    #self.fechaDesde.setFormatterFactory(dateFormat)
+    #self.fechaHasta.setFormatterFactory(dateFormat)
+    
+    
     tipoAccidenteModel = DefaultComboBoxModel()
     attr = self.store.getDefaultFeatureType().get("TIPO_ACC_COLISION")
     values = attr.getAvailableValues()
@@ -52,27 +56,25 @@ class TabControllerFecha(ChangeListener, ActionListener):
     self.tipoAccidente.addActionListener(self)
     self.pickerFechaDesde.addChangeListener(self)
     self.pickerFechaHasta.addChangeListener(self)
-  
+    
+    self.pickerFechaDesde.setEnabled(True)
+    self.pickerFechaHasta.setEnabled(True)
+    
   def clear(self):
     self.tipoAccidente.setSelectedIndex(0)
     self.pickerFechaDesde.set(None)
     self.pickerFechaHasta.set(None)
   
   def checkModify(self):
-    print "fechadesde:", self.pickerFechaDesde.isEmpty()
-    print "fechaHasta:", self.pickerFechaHasta.isEmpty()
-    print "tipo:", self.tipoAccidente.getSelectedItem().getValue()
     iconTheme = ToolsSwingLocator.getIconThemeManager().getDefault()
     if(self.pickerFechaDesde.isEmpty() and
       self.pickerFechaHasta.isEmpty() and
       self.tipoAccidente.getSelectedItem().getValue()==''):
-        #icon = createIcon(Color.RED)
         icon = iconTheme.get("accidentcondition-tabtick-disabled")
         self.tabPanel.setIconAt(self.TAB_INDEX_PANEL, icon)
         return False
     else:
         icon = iconTheme.get("accidentcondition-tabtick-enabled")
-        #icon = createIcon(Color.GREEN)
         self.tabPanel.setIconAt(self.TAB_INDEX_PANEL, icon)
         return True
   def stateChanged(self, e):
@@ -80,7 +82,7 @@ class TabControllerFecha(ChangeListener, ActionListener):
   def actionPerformed(self, e):
     self.checkModify()
 
-  def getFilter(self): #getFilter
+  def getFilter(self):
     if (self.checkModify()==False):
       return None
     tipoAccidente = self.tipoAccidente.getSelectedItem().getValue()
@@ -97,29 +99,29 @@ class TabControllerFecha(ChangeListener, ActionListener):
         builder.constant(tipoAccidente)
         )
       )
-    
+
     if (dateDesde!=None and dateHasta != None):
       builder.and(
         builder.and(
           builder.ge(
-            builder.variable("FECHA_ACCIDENTE"), 
-            builder.constant(dateDesde)
+            builder.variable("FECHA_ACCIDENTE"),
+            builder.date(builder.constant(dateDesde))
           ),
           builder.le(
             builder.variable("FECHA_ACCIDENTE"), 
-            builder.constant(dateHasta)
+            builder.date(builder.constant(dateHasta)) #builder.function(FUNCTION_DATE,dateFormat.format(dateHasta), dateFormat)
           )
         )
       )
     elif (dateDesde!=None):
       builder.and(builder.ge(
             builder.variable("FECHA_ACCIDENTE"), 
-            builder.constant(dateDesde)
+            builder.date(builder.constant(dateDesde))
           ))
     elif (dateHasta!=None):
       builder.and(builder.le(
               builder.variable("FECHA_ACCIDENTE"), 
-              builder.constant(dateHasta)
+              builder.date(builder.constant(dateHasta))
             ))
     return builder.value()
 def main(*args):

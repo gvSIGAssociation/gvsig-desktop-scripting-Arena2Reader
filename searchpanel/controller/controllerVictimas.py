@@ -10,6 +10,7 @@ from org.gvsig.tools.swing.api import ListElement
 import gvsig
 from org.gvsig.expressionevaluator import ExpressionEvaluatorLocator
 from org.gvsig.expressionevaluator import ExpressionBuilder
+from org.gvsig.fmap.dal import DALLocator
 class TabControllerVictimas(DocumentListener, ActionListener):
   TAB_INDEX_PANEL = 3
   CATEGORIA_CON_VICTIMAS = 0
@@ -59,6 +60,7 @@ class TabControllerVictimas(DocumentListener, ActionListener):
     self.levesOperador.setModel(DefaultComboBoxModel(listOperatorFildElements))
     
     self.categoria.addActionListener(self)
+    self.peligrosas.addActionListener(self)
     self.mortalesOperador.addActionListener(self)
     self.operator1.addActionListener(self)
     self.gravesOperador.addActionListener(self)
@@ -67,8 +69,9 @@ class TabControllerVictimas(DocumentListener, ActionListener):
     self.mortales.getDocument().addDocumentListener(self)
     self.graves.getDocument().addDocumentListener(self)
     self.leves.getDocument().addDocumentListener(self)
-    
+  
   def clear(self):
+    self.peligrosas.setSelected(False)
     self.categoria.setSelectedIndex(0)
     self.mortalesOperador.setSelectedIndex(0)
     self.operator1.setSelectedIndex(0)
@@ -88,7 +91,6 @@ class TabControllerVictimas(DocumentListener, ActionListener):
   def changedUpdate(self, e):
     self.checkModify()
   def getFilter(self):
-    print "controller victimas"
     if (self.checkModify()==False):
       return None
     expManager= ExpressionEvaluatorLocator.getManager()
@@ -98,12 +100,11 @@ class TabControllerVictimas(DocumentListener, ActionListener):
     categoria = self.categoria.getSelectedItem().getValue()
     peligrosas = self.peligrosas.isSelected()
     mortalesOperador = self.mortalesOperador.getSelectedItem().getValue()
-    operator1 =           self.operator1.getSelectedItem().getValue()
+    operator1 = self.operator1.getSelectedItem().getValue()
     gravesOperador = self.gravesOperador.getSelectedItem().getValue()
     operator2 = self.operator2.getSelectedItem().getValue()
     levesOperador = self.levesOperador.getSelectedItem().getValue()
-    print "Victimas values:", categoria, mortalesOperador,operator1,gravesOperador, operator2, levesOperador
-    
+
     mortales = self.mortales.getText()
     graves = self.graves.getText()
     leves = self.leves.getText()
@@ -122,18 +123,27 @@ class TabControllerVictimas(DocumentListener, ActionListener):
           )
         )
     if (peligrosas):
-        pass
-    """
-        builder.and(builder.eq(
-          builder.variable("TOTAL_VICTIMAS"), 
-          builder.constant(0)
-          )
-        )
-    """
+        dataManager = DALLocator.getDataManager()
+        #EXISTS(SELECT LID_VEHICULO FROM ARENA2_VEHICULOS WHERE ARENA2_ACCIDENTES.ID_ACCIDENTE = ARENA2_VEHICULOS.ID_ACCIDENTE AND  MP LIMIT 1)
+        dalbuilder = dataManager.createDALExpressionBuilder() #DALExpressionBuilder
+        peligrosasfilter = dalbuilder.exists(dalbuilder.select()
+          .column("LID_VEHICULO")
+          .table("ARENA2_VEHICULOS")
+          .limit(1)
+          .where(
+          dalbuilder.expression().and(
+            dalbuilder.expression().eq(
+              dalbuilder.expression().getattr("ARENA2_ACCIDENTES","ID_ACCIDENTE"),
+              dalbuilder.expression().getattr("ARENA2_VEHICULOS","ID_ACCIDENTE")
+            ),
+            dalbuilder.expression().column("MP")
+          )).toValue())
+        builder.and(peligrosasfilter)
+
+    # TOTAL -> Juntos en allbuilder. como apoyo opbuilder
     opbuilder = expManager.createExpressionBuilder()
     allBuilder = expManager.createExpressionBuilder()
     valueMortales = None
-    print "Mortales:", mortales
     if (mortales!=""):
       valueMortales = opbuilder.binaryOperator(
         mortalesOperador,
@@ -144,7 +154,6 @@ class TabControllerVictimas(DocumentListener, ActionListener):
       allBuilder.and(valueMortales)
 
     valueGraves = None
-    print "Graves:", graves
     if (graves!=""):
       valueGraves = opbuilder.binaryOperator(
         gravesOperador,
@@ -159,7 +168,6 @@ class TabControllerVictimas(DocumentListener, ActionListener):
           
 
     valueLeves = None
-    print "Leves: ", leves
     if (leves!=""):
       valueLeves = opbuilder.binaryOperator(
         levesOperador,
@@ -174,7 +182,7 @@ class TabControllerVictimas(DocumentListener, ActionListener):
           allBuilder.or(valueLeves)
 
     allValue = allBuilder.value()
-    if (allValue!=None):
+    if (allValue!=None): # Unimos TOTAL_ con builder
       builder.and(allValue)
     
     return builder.value()
@@ -182,33 +190,20 @@ class TabControllerVictimas(DocumentListener, ActionListener):
 
   def checkModify(self):
     iconTheme = ToolsSwingLocator.getIconThemeManager().getDefault()
-    print (
-        self.mortalesOperador.getSelectedIndex() == 0,
-        self.operator1.getSelectedIndex() == 0,
-        self.gravesOperador.getSelectedIndex() == 0,
-        self.operator2.getSelectedIndex() == 0,
-        self.levesOperador.getSelectedIndex()==0,
-        self.mortales.getText()=="",
-        self.graves.getText()=="",
-        self.leves.getText()=="")
 
     if (self.categoria.getSelectedItem().getValue() == "" and
-        self.peligrosas==False and
+        self.peligrosas.isSelected()==False and
         self.mortales.getText()=="" and
         self.graves.getText()=="" and
         self.leves.getText()==""):
-          #icon = createIcon(Color.RED)
           icon = iconTheme.get("accidentcondition-tabtick-disabled")
           self.tabPanel.setIconAt(self.TAB_INDEX_PANEL, icon)
           return False
     else:
         icon = iconTheme.get("accidentcondition-tabtick-enabled")
-        #icon = createIcon(Color.GREEN)
         self.tabPanel.setIconAt(self.TAB_INDEX_PANEL, icon)
         return True
+        
 def main(*args):
-
-    #Remove this lines and add here your code
-
     print "hola mundo"
     pass

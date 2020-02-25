@@ -18,31 +18,47 @@ from java.awt.event import ActionListener
 from javax.swing.event import DocumentListener
 from javax.swing.event import ChangeListener
 from org.gvsig.tools.swing.api import ToolsSwingLocator
-
+from org.gvsig.expressionevaluator import ExpressionUtils
 from controller.controllerCarretera import TabControllerCarretera
 from controller.controllerFecha import TabControllerFecha
-
 from controller.controllerVictimas import TabControllerVictimas
 
-def createIcon(color):
-  width = 16
-  height = 16
-  type = BufferedImage.TYPE_INT_ARGB
-  image = BufferedImage(width, height, type)
-  g2d = image.createGraphics()
-  g2d.setColor(color)
-  g2d.fillRect(0, 0, width, height)
-  g2d.dispose()
-  icon = ImageIcon(image)
-  return icon
+class SearchConditionPanelAccidenteBase(SearchConditionPanel):
+  def __init__(self, store, conditionPanel):
+    SearchConditionPanel.__init__(self)
+    self.__form = SearchConditionPanelAccidente( store, conditionPanel)
 
-class SearchConditionPanelAccidente(FormPanel, SearchConditionPanel):
-  def __init__(self, store):
+  def setEnabled(self, enabled):
+    self.__form.setEnabled(enabled)
+
+  def clear(self):
+    self.__form.clear()
+  def asJComponent(self):
+    return self.__form.asJComponent()
+  def get(self):
+    return self.__form.get()
+    
+  def addChangeListener(self, listener):
+    pass
+   
+  def getChangeListeners(self):
+    pass
+  def removeChangeListener(self, listener):
+    pass
+  def removeAllChangeListener(self):
+    pass
+  def hasChangeListeners(self):
+    pass
+    
+    
+class SearchConditionPanelAccidente(FormPanel): #, SearchConditionPanel):
+  def __init__(self, store, conditionPanel):
     FormPanel.__init__(self,getResource(__file__,"SearchConditionPanelAccidente.xml"))
     self.store = store
+    self.conditionPanel = conditionPanel
     i18n = ToolsLocator.getI18nManager()
     self.initComponents()
-
+    
   def initComponents(self):
     iconTheme = ToolsSwingLocator.getIconThemeManager().getDefault()
     icon = iconTheme.get("accidentcondition-tabtick-disabled")
@@ -60,8 +76,10 @@ class SearchConditionPanelAccidente(FormPanel, SearchConditionPanel):
     self.btnAddAccumulate.setIcon(icon1)
     
     self.tabControllerCarretera = TabControllerCarretera(
+        self.store,
         self.tabPanel,
         self.cboProvincia,
+        self.cboTitularidad,
         self.txtCarretera,
         self.txtPkInicio,
         self.txtPkInicioUmbral,
@@ -91,23 +109,6 @@ class SearchConditionPanelAccidente(FormPanel, SearchConditionPanel):
       self.cboOperator2,
       self.cboLevesOperador,
       self.txtLeves)
-      
-    
-      
-    sentidoModel = DefaultComboBoxModel()
-    attr = self.store.getDefaultFeatureType().get("SENTIDO")
-    values = attr.getAvailableValues()
-    sentidoModel.addElement(ListElement(u' ',u''))
-    for value in values:
-      element = ListElement(value.getLabel(), value.getValue())
-      sentidoModel.addElement(element)
-    self.cboSentido.setModel(sentidoModel)
-    
-    provinciaModel = DefaultComboBoxModel()
-    addAllProvinciaToModel(provinciaModel)
-    self.cboProvincia.setModel(provinciaModel)
-
-    
     
   def clear(self):
     self.txtCodAccidente.setText("")
@@ -117,17 +118,15 @@ class SearchConditionPanelAccidente(FormPanel, SearchConditionPanel):
     return None
 
   def get(self):
-    #Accidente
-    codAccidente = self.txtCodAccidente.getText()
-    exp = self.createExpression(
-                  codAccidente
-                  )
+    exp = self.createExpression()
     return exp
 
-  def createExpression(self, codAccidente):
+  def createExpression(self):
     expManager= ExpressionEvaluatorLocator.getManager()
     exp = expManager.createExpression()
     builder = expManager.createExpressionBuilder()
+    # Accidente
+    codAccidente = self.txtCodAccidente.getText()
     #Codigo
     if (codAccidente!=""):
       builder.set(
@@ -148,12 +147,13 @@ class SearchConditionPanelAccidente(FormPanel, SearchConditionPanel):
     # Victimas
     victimasValue = self.tabControllerVictimas.getFilter()
     if (victimasValue!=None):
-      print "Builder victimas:", victimasValue
       builder.and(victimasValue)
-    
+
+    # Acumulada
+    accumulatedFilter = self.conditionPanel.getAccumulatedFilter()
+    if(accumulatedFilter!=None):
+      builder.and(builder.toValue(accumulatedFilter))
     try:
-      print "Final: ", builder
-      print "Final builder:", builder.toString()
       exp.setPhrase(builder.toString())
     except:
       exp.setPhrase("")
@@ -168,32 +168,29 @@ class SearchConditionPanelAccidente(FormPanel, SearchConditionPanel):
   
   def getFactory(self):
     return SearchArena2Factory()
-
+  
   def btnAddAccumulate_click(self, *args):
     exp = self.get()
-    self.addToAccumulatedFilter(exp)
-    pass
-  def btnEditAccumulate_click(self, *args):
-    pass
-  def btnClearAccumulate_click(self, *args):
-    self.clearAccumulatedFilter()
-    pass
+    self.conditionPanel.addToAccumulatedFilter(exp.getPhrase())
     
+  def btnEditAccumulate_click(self, *args):
+    self.conditionPanel.showAccumulatedFilter()
+    
+  def btnClearAccumulate_click(self, *args):
+    self.conditionPanel.clearAccumulatedFilter()
+    pass
+  
   def txtCodAccidente_change(self, *args):
-    print "txtcod:", self.txtCodAccidente.getText()
     iconTheme = ToolsSwingLocator.getIconThemeManager().getCurrent()
     if self.txtCodAccidente.getText()=="":
-      print "null"
       icon = iconTheme.get("accidentcondition-tabtick-disabled")
-      #icon = createIcon(Color.RED)
-      print icon, type(icon)
       self.tabPanel.setIconAt(0, icon)
     else:
       icon = iconTheme.get("accidentcondition-tabtick-enabled")
-      #icon = createIcon(Color.GREEN)
       self.tabPanel.setIconAt(0, icon)
-    
-    
+  
+      
+
 class SearchArena2Factory(SearchConditionPanel.SearchConditionPanelFactory):
   def isApplicable(self, store):
     if "ARENA2_ACCIDENTES" in str(store.getName()):
@@ -202,10 +199,12 @@ class SearchArena2Factory(SearchConditionPanel.SearchConditionPanelFactory):
   def create(self, os): #SearchConditionPanel
     try:
       store = os[0].getStore()
+      conditionPanel = os[0].getConditionPanel("Simplified")
     except:
       print "store is none"
       store = None
-    return SearchConditionPanelAccidente(store)
+      conditionPanel = None
+    return SearchConditionPanelAccidenteBase(store, conditionPanel)
   def getName(self):
     return "Accidentes"
 
@@ -222,65 +221,12 @@ def selfRegister():
   iconTheme.registerDefault("scripting.arena2reader", "action", "search-simplifiedcondition-add-accumulate", None, icon3)
   iconTheme.registerDefault("scripting.arena2reader", "action", "search-simplifiedcondition-clear-accumulate", None, icon4)
   iconTheme.registerDefault("scripting.arena2reader", "action", "search-simplifiedcondition-edit-accumulate", None, icon5)
-  
-def addAllProvinciaToModel(provinciaModel):
-    provinciaModel.addElement(ListElement(u' ',u''))
-    provinciaModel.addElement(ListElement(u'A Coruña',u'A Coruña'))
-    provinciaModel.addElement(ListElement(u'Álava',u'Álava'))
-    provinciaModel.addElement(ListElement(u'Albacete',u'Albacete'))
-    provinciaModel.addElement(ListElement(u'Alicante',u'Alicante/Alacant'))
-    provinciaModel.addElement(ListElement(u'Almería',u'Almería'))
-    provinciaModel.addElement(ListElement(u'Asturias',u'Asturias'))
-    provinciaModel.addElement(ListElement(u'Ávila',u'Ávila'))
-    provinciaModel.addElement(ListElement(u'Badajoz',u'Badajoz'))
-    provinciaModel.addElement(ListElement(u'Baleares',u'Baleares'))
-    provinciaModel.addElement(ListElement(u'Barcelona',u'Barcelona'))
-    provinciaModel.addElement(ListElement(u'Burgos',u'Burgos'))
-    provinciaModel.addElement(ListElement(u'Cáceres',u'Cáceres'))
-    provinciaModel.addElement(ListElement(u'Cádiz',u'Cádiz'))
-    provinciaModel.addElement(ListElement(u'Cantabria',u'Cantabria'))
-    provinciaModel.addElement(ListElement(u'Castellón',u'Castellón/Castello'))
-    provinciaModel.addElement(ListElement(u'Ceuta',u'Ceuta'))
-    provinciaModel.addElement(ListElement(u'Ciudad Real',u'Ciudad Real'))
-    provinciaModel.addElement(ListElement(u'Córdoba',u'Córdoba'))
-    provinciaModel.addElement(ListElement(u'Cuenca',u'Cuenca'))
-    provinciaModel.addElement(ListElement(u'Girona',u'Girona'))
-    provinciaModel.addElement(ListElement(u'Granada',u'Granada'))
-    provinciaModel.addElement(ListElement(u'Guadalajara',u'Guadalajara'))
-    provinciaModel.addElement(ListElement(u'Gipuzkoa',u'Gipuzkoa'))
-    provinciaModel.addElement(ListElement(u'Huelva',u'Huelva'))
-    provinciaModel.addElement(ListElement(u'Huesca',u'Huesca'))
-    provinciaModel.addElement(ListElement(u'Jaén',u'Jaén'))
-    provinciaModel.addElement(ListElement(u'La Rioja',u'La Rioja'))
-    provinciaModel.addElement(ListElement(u'Las Palmas',u'Las Palmas'))
-    provinciaModel.addElement(ListElement(u'León',u'León'))
-    provinciaModel.addElement(ListElement(u'Lérida',u'Lérida'))
-    provinciaModel.addElement(ListElement(u'Lugo',u'Lugo'))
-    provinciaModel.addElement(ListElement(u'Madrid',u'Madrid'))
-    provinciaModel.addElement(ListElement(u'Málaga',u'Málaga'))
-    provinciaModel.addElement(ListElement(u'Melilla',u'Melilla'))
-    provinciaModel.addElement(ListElement(u'Murcia',u'Murcia'))
-    provinciaModel.addElement(ListElement(u'Navarra',u'Navarra'))
-    provinciaModel.addElement(ListElement(u'Ourense',u'Ourense'))
-    provinciaModel.addElement(ListElement(u'Palencia',u'Palencia'))
-    provinciaModel.addElement(ListElement(u'Pontevedra',u'Pontevedra'))
-    provinciaModel.addElement(ListElement(u'Salamanca',u'Salamanca'))
-    provinciaModel.addElement(ListElement(u'Segovia',u'Segovia'))
-    provinciaModel.addElement(ListElement(u'Sevilla',u'Sevilla'))
-    provinciaModel.addElement(ListElement(u'Soria',u'Soria'))
-    provinciaModel.addElement(ListElement(u'Tarragona',u'Tarragona'))
-    provinciaModel.addElement(ListElement(u'Santa Cruz de Tenerife',u'Santa Cruz de Tenerife'))
-    provinciaModel.addElement(ListElement(u'Teruel',u'Teruel'))
-    provinciaModel.addElement(ListElement(u'Toledo',u'Toledo'))
-    provinciaModel.addElement(ListElement(u'Valencia',u'Valencia/Valencia'))
-    provinciaModel.addElement(ListElement(u'Valladolid',u'Valladolid'))
-    provinciaModel.addElement(ListElement(u'Vizcaya',u'Vizcaya'))
-    provinciaModel.addElement(ListElement(u'Zamora',u'Zamora'))
-    provinciaModel.addElement(ListElement(u'Zaragoza',u'Zaragoza'))
+
 def main(*args):
     selfRegister()
     manager = DALSwingLocator.getDataSwingManager();
     factory = SearchArena2Factory()
-    panel = factory.create([gvsig.currentDocument().getFeatureStore()])
-    panel.showTool("SearchConditionPanelAccidente")
+    #panel = SearchConditionPanelAccidenteBase(gvsig.currentDocument().getFeatureStore(), None) #factory.create([gvsig.currentDocument().getFeatureStore()])
+    #panel.showTool("SearchConditionPanelAccidente")
+    #print dir(panel)
     manager.registerSearchConditionPanel(factory) #SearchConditionPanelFactory
