@@ -18,6 +18,7 @@ COLUMNS_DEFINITION = [
   Descriptor("ID_ACCIDENTE","String",20,
     label="_Accidente")\
     .tag("dynform.readonly",True)\
+    .set("relation","Collaboration")\
     .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)"),
   Descriptor("ID_CROQUIS","Integer", 
     label="_Codigo_croquis",

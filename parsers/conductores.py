@@ -15,11 +15,13 @@ COLUMNS_DEFINITION = [
     .tag("dynform.readonly",True),
   Descriptor("ID_ACCIDENTE","String",20,
     label="_Accidente")\
+    .set("relation","Collaboration")\
     .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)")\
     .tag("dynform.readonly",True),
     
   Descriptor("LID_VEHICULO","String",20,
     label="_Vehiculo")\
+    .set("relation","Collaboration")\
     .foreingkey(
       "ARENA2_VEHICULOS",
       "LID_VEHICULO",
@@ -42,6 +44,7 @@ COLUMNS_DEFINITION = [
     .tag("dynform.separator","_Datos_personales"),
   Descriptor("SEXO","Integer",
     label="_Sexo")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_SEXO")\
     .tag("dynform.readonly",True),
   Descriptor("NACIONALIDAD","String", size=100,
@@ -62,6 +65,7 @@ COLUMNS_DEFINITION = [
   Descriptor("ASISTENCIA_SANITARIA","Integer",
     label="_Asistencia_sanitaria",
     shortlabel="_Asis_sanitaria")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_ASISTENCIA_SANITARIA")\
     .tag("dynform.readonly",True),
 
@@ -74,6 +78,7 @@ COLUMNS_DEFINITION = [
   Descriptor("FACTORES_ATENCION","Integer",
     label="_Factores_afectan_atencion",
     shortlabel="_Fact_atencion")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_FACTORES_ATENCION_COND")\
     .tag("dynform.readonly",True),
   
@@ -84,6 +89,7 @@ COLUMNS_DEFINITION = [
   Descriptor("PRESUNTOS_ERRORES","Integer",
     label="_Presuntos_errores",
     shortlabel="_Errores")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_ERRORES_COND")\
     .tag("dynform.readonly",True),
 
@@ -91,12 +97,14 @@ COLUMNS_DEFINITION = [
   Descriptor("CARACT_PERMISO","Integer",
     label="_Caracteristicas_del_permiso",
     shortlabel="_Carac_permiso")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_CARACTERISTICAS_PERMISO")\
     .tag("dynform.readonly",True)\
     .tag("dynform.separator","_Permiso"),
   Descriptor("CLASE_PERMISO","Integer",
     label="_Clase_del_permiso",
     shortlabel="_Clase_perm")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_CLASE_PERMISO")\
     .tag("dynform.readonly",True),
   Descriptor("FECHA_PERMISO","Date",
@@ -108,12 +116,14 @@ COLUMNS_DEFINITION = [
   Descriptor("MOTIVO_DESPLAZAMIENTO","Integer",
     label="_Motivo_desplazamiento",
     shortlabel="_Motivo_despl")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_MOTIVO_DESPLAZA_COND")\
     .tag("dynform.readonly",True)\
     .tag("dynform.separator","_Desplazamiento"),
   Descriptor("DESPLAZAMIENTO_PREVISTO","Integer",
     label="_Desplazamiento_previsto",
     shortlabel="_Despl_prev")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_DESPLAZAMIENTO_PREVISTO")\
     .tag("dynform.readonly",True),
 
@@ -125,6 +135,7 @@ COLUMNS_DEFINITION = [
   Descriptor("ACC_SEG_CASCO","Integer",
     group="_Accesorios_de_seguridad",
     label="_Casco")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_ACC_SEG_CASCO")\
     .tag("dynform.readonly",True),
   # Seccion: Accesorios de seguridad opcionales
@@ -171,6 +182,7 @@ COLUMNS_DEFINITION = [
     group="_Pruebas",
     label="_Prueba_en_aire",
     shortlabel="_Prueba_aire")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_PRUEBA_ALCOHOLEMIA")\
     .tag("dynform.readonly",True),
   Descriptor("TASA_ALCOHOLEMIA1","Integer",
@@ -204,6 +216,7 @@ COLUMNS_DEFINITION = [
     group="_Pruebas",
     label="_Prueba_de_drogas",
     shortlabel="_Prueba_drogas")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_PRUEBA_DROGAS")\
     .tag("dynform.readonly",True),
   Descriptor("AMP","Boolean",
@@ -292,6 +305,7 @@ COLUMNS_DEFINITION = [
     group="_Presuntas_infracciones",
     label="_Presuntas_infracciones_del_conductor",
     shortlabel="_Infrac_cond")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_INFRACCIONES_CODUCTOR")\
     .tag("dynform.readonly",True),
   Descriptor("PRES_INFRAC_SIN_LUCES","Boolean",
@@ -314,6 +328,7 @@ COLUMNS_DEFINITION = [
     label="_Presuntas_infracciones_de_velocidad",
     shortlabel="_Infrac_veloc")\
     .tag("dynform.readonly",True)\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_INFRACCIONES_VELOCIDAD"),
   Descriptor("INFLU_OTRA_INFRAC","Boolean",
     group="_Presuntas_infracciones",
@@ -325,6 +340,7 @@ COLUMNS_DEFINITION = [
     label="_Otra_infraccion",
     shortlabel="_Infrac_otra")\
     .tag("dynform.readonly",True)\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_INFRACCIONES_OTRAS")
 ]
 

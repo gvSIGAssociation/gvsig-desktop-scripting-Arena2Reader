@@ -14,6 +14,7 @@ COLUMNS_DEFINITION = [
     label="_ID_vehiculo"),
   Descriptor("ID_ACCIDENTE","String",20,
     label="_Accidente")\
+    .set("relation","Collaboration")\
     .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)")\
     .tag("dynform.readonly",True),
   Descriptor("ID_VEHICULO","Integer", 
@@ -25,6 +26,7 @@ COLUMNS_DEFINITION = [
     .tag("dynform.readonly",True),
   Descriptor("LID_CONDUCTOR","String",20,
     label="_Conductor")\
+    .set("relation","Collaboration")\
     .foreingkey(
       "ARENA2_CONDUCTORES",
       "LID_CONDUCTOR",
@@ -39,11 +41,13 @@ COLUMNS_DEFINITION = [
     .tag("dynform.readonly",True),
   Descriptor("TIPO_VEHICULO","Integer", 
     label="_Tipo_vehiculo")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_TIPO_VEHICULO")\
     .tag("dynform.dropdown","label")\
     .tag("dynform.readonly",True),
   Descriptor("MMA","Integer",
     label="_MMA")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_MMA")\
     .tag("dynform.readonly",True),
   Descriptor("MARCA_NOMBRE","String",100,
@@ -54,10 +58,12 @@ COLUMNS_DEFINITION = [
     .tag("dynform.readonly",True),
   Descriptor("ITV","Integer", 
     label="_ITV")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_ITV")\
     .tag("dynform.readonly",True),
   Descriptor("SEGURO","Integer", 
     label="_Seguro")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_GENERICO2")\
     .tag("dynform.readonly",True),
   Descriptor("NUM_OCUPANTES","Integer", 
@@ -87,11 +93,13 @@ COLUMNS_DEFINITION = [
   Descriptor("MP_NUMERO_ONU","Integer", 
     label="_MP_Numero_ONU",
     shortlabel="_MP_ONU")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_ONU",code="ID", label="FORMAT('%02d - %s',CODIGO,DESCRIPCION)")\
     .tag("dynform.readonly",True),
 
   Descriptor("DANYOS","Integer", 
     label="_Danyos")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_DANYOS")\
     .tag("dynform.readonly",True),
     
@@ -115,21 +123,25 @@ COLUMNS_DEFINITION = [
     label="_Posicion_en_la_via",
     shortlabel="_Posicion_via")\
     .tag("dynform.separator","_Posicion_en_la_via")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_POSICION_VIA")\
     .tag("dynform.readonly",True),
   Descriptor("APROXIMACION_NUDO","Integer",
     label="_Aproximacion_a_nudo",
     shortlabel="_Aprox_nudo")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_NUDO_APROX")\
     .tag("dynform.readonly",True),
   Descriptor("SENTIDO_CIRCULACION","Integer",
     label="_Sentido_de_la_circulacion",
     shortlabel="_Sentido_circulacion")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_SENTIDO_CIRCULA")\
     .tag("dynform.readonly",True),
   Descriptor("LUGAR_CIRCULABA","Integer",
     label="_Lugar_por_el_que_circulaba",
     shortlabel="_Lugar_circulaba")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_LUGAR_CIRCULA")\
     .tag("dynform.dropdown","label")\
     .tag("dynform.readonly",True),
@@ -293,11 +305,13 @@ COLUMNS_DEFINITION = [
   
   Descriptor("PASAJEROS","List",
     group="_Pasajeros")\
+    .set("relation","Aggregation")\
     .relatedFeatures(
       "ARENA2_PASAJEROS",
       "LID_PASAJERO",
       ("ID_PASAJERO","FECHA_NACIMIENTO","SEXO","PAIS_RESIDENCIA","PROVINCIA_RESIDENCIA","MUNICIPIO_RESIDENCIA"),
-      "FEATURES('ARENA2_PASAJEROS',FORMAT('LID_VEHICULO = ''%s''',LID_VEHICULO))"
+      "SELECT * FROM ARENA2_PASAJEROS WHERE ARENA2_PASAJEROS.LID_VEHICULO = ARENA2_VEHICULOS.LID_VEHICULO;"
+      
     )\
     .tag("dynform.label.empty",True)
 ]

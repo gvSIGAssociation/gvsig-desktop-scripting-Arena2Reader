@@ -15,10 +15,12 @@ COLUMNS_DEFINITION = [
     .tag("dynform.readonly",True),
   Descriptor("ID_ACCIDENTE","String",size=20,
     label="_Accidente")\
+    .set("relation","Collaboration")\
     .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)")\
     .tag("dynform.readonly",True),
   Descriptor("LID_VEHICULO","String",size=20,
     label="_Vehiculo")\
+    .set("relation","Collaboration")\
     .foreingkey("ARENA2_VEHICULOS","LID_VEHICULO","FORMAT('%s/%s %s %s %s %s',ID_ACCIDENTE,ID_VEHICULO,TIPO_VEHICULO,NACIONALIDAD,MARCA_NOMBRE,MODELO)")\
     .tag("dynform.readonly",True),
   Descriptor("ID_VEHICULO","String",size=5, hidden=True,
@@ -37,6 +39,7 @@ COLUMNS_DEFINITION = [
     label="_Sexo",
     shortlabel="_Sexo")\
     .tag("dynform.readonly",True)\
+    .set("relation","Collaboration")\
     .selectablefk("ARENA2_DIC_SEXO"),
   Descriptor("PAIS_RESIDENCIA","String", size=100,
     label="_Pais_de_residencia",
@@ -53,6 +56,7 @@ COLUMNS_DEFINITION = [
   Descriptor("ASISTENCIA_SANITARIA","Integer",
     label="_Asistencia_sanitaria",
     shortlabel="_Asis_sanitaria")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_ASISTENCIA_SANITARIA")\
     .tag("dynform.readonly",True),
 
@@ -60,6 +64,7 @@ COLUMNS_DEFINITION = [
     label="_Posicion_en_el_vehiculo",
     shortlabel="_Posicion")\
     .tag("dynform.readonly",True)\
+    .set("relation","Collaboration")\
     .selectablefk("ARENA2_DIC_POSICION_VEHICULO"),
   Descriptor("NINYO_EN_BRAZO","Boolean", 
     label="_Ninyo_en_brazo",
