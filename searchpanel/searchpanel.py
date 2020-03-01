@@ -2,10 +2,9 @@
 
 import gvsig
 from org.gvsig.fmap.dal.swing import DALSwingLocator
-#from org.gvsig.fmap.dal.swing.searchpanel import SearchConditionPanelFactory
 from gvsig.libs.formpanel import FormPanel
 from gvsig import getResource
-from org.gvsig.fmap.dal.swing.searchpanel import SearchConditionPanel
+from org.gvsig.fmap.dal.swing.searchpanel import SearchConditionPanel, AbstractSearchConditionPanel
 from org.gvsig.tools import ToolsLocator
 from java.io import File
 from org.gvsig.tools.swing.api import ToolsSwingLocator
@@ -19,22 +18,30 @@ from javax.swing.event import DocumentListener
 from javax.swing.event import ChangeListener
 from org.gvsig.tools.swing.api import ToolsSwingLocator
 from org.gvsig.expressionevaluator import ExpressionUtils
+
 from controller.controllerCarretera import TabControllerCarretera
 from controller.controllerFecha import TabControllerFecha
 from controller.controllerVictimas import TabControllerVictimas
 
-class SearchConditionPanelAccidenteBase(SearchConditionPanel):
-  def __init__(self, store, conditionPanel):
+class SearchConditionPanelAccident(AbstractSearchConditionPanel):
+  def __init__(self, factory, searchPanel, store, simplifiedPanel):
     SearchConditionPanel.__init__(self)
-    self.__form = SearchConditionPanelAccidente( store, conditionPanel)
+    self.__factory = factory
+    self.__searchPanel = searchPanel
+    self.__form = SearchConditionPanelAccidentForm( store, simplifiedPanel)
 
+  def getFactory(self):
+    return self.__factory
+    
   def setEnabled(self, enabled):
     self.__form.setEnabled(enabled)
 
   def clear(self):
     self.__form.clear()
+    
   def asJComponent(self):
     return self.__form.asJComponent()
+    
   def get(self):
     return self.__form.get()
     
@@ -43,19 +50,24 @@ class SearchConditionPanelAccidenteBase(SearchConditionPanel):
    
   def getChangeListeners(self):
     pass
+    
   def removeChangeListener(self, listener):
     pass
+    
   def removeAllChangeListener(self):
     pass
+    
   def hasChangeListeners(self):
     pass
+
+  def isValid(self, messagebuilder):
+    return True
     
-    
-class SearchConditionPanelAccidente(FormPanel): #, SearchConditionPanel):
-  def __init__(self, store, conditionPanel):
+class SearchConditionPanelAccidentForm(FormPanel): 
+  def __init__(self, store, simplifiedPanel):
     FormPanel.__init__(self,getResource(__file__,"SearchConditionPanelAccidente.xml"))
     self.store = store
-    self.conditionPanel = conditionPanel
+    self.simplifiedPanel = simplifiedPanel
     i18n = ToolsLocator.getI18nManager()
     self.initComponents()
     
@@ -150,7 +162,7 @@ class SearchConditionPanelAccidente(FormPanel): #, SearchConditionPanel):
       builder.and(victimasValue)
 
     # Acumulada
-    accumulatedFilter = self.conditionPanel.getAccumulatedFilter()
+    accumulatedFilter = self.simplifiedPanel.getAccumulatedFilter()
     if(accumulatedFilter!=None):
       builder.and(builder.toValue(accumulatedFilter))
     try:
@@ -161,23 +173,20 @@ class SearchConditionPanelAccidente(FormPanel): #, SearchConditionPanel):
     return exp
     
   def set(self, fil):
-    pass
+    self.clear()
 
   def setEnabled(self, enabled):
     pass
   
-  def getFactory(self):
-    return SearchArena2Factory()
-  
   def btnAddAccumulate_click(self, *args):
     exp = self.get()
-    self.conditionPanel.addToAccumulatedFilter(exp.getPhrase())
+    self.simplifiedPanel.addToAccumulatedFilter(exp.getPhrase())
     
   def btnEditAccumulate_click(self, *args):
-    self.conditionPanel.showAccumulatedFilter()
+    self.simplifiedPanel.showAccumulatedFilter()
     
   def btnClearAccumulate_click(self, *args):
-    self.conditionPanel.clearAccumulatedFilter()
+    self.simplifiedPanel.clearAccumulatedFilter()
     pass
   
   def txtCodAccidente_change(self, *args):
@@ -192,22 +201,28 @@ class SearchConditionPanelAccidente(FormPanel): #, SearchConditionPanel):
       
 
 class SearchArena2Factory(SearchConditionPanel.SearchConditionPanelFactory):
+  def __init__(self):
+    pass
+    
+  def getName(self):
+    return "Accidentes"
+
   def isApplicable(self, store):
     if "ARENA2_ACCIDENTES" in str(store.getName()):
       return True
     return False
+    
   def create(self, os): #SearchConditionPanel
     try:
-      store = os[0].getStore()
-      conditionPanel = os[0].getConditionPanel("Simplified")
+      searchPanel = os[0]
+      store = searchPanel.getStore()
+      simplifiedPanel = searchPanel.getConditionPanel("Simplified")
     except:
       print "store is none"
       store = None
-      conditionPanel = None
-    return SearchConditionPanelAccidenteBase(store, conditionPanel)
-  def getName(self):
-    return "Accidentes"
-
+      simplifiedPanel = None
+    return SearchConditionPanelAccident(self, searchPanel, store, simplifiedPanel)
+    
 def selfRegister():
   iconTheme = ToolsSwingLocator.getIconThemeManager().getDefault()
   icon1 = File(getResource(__file__,"imagenes","accidentcondition-tabtick-enabled.png")).toURI().toURL()

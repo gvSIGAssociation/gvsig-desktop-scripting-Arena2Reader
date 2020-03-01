@@ -24,7 +24,7 @@
     </at>
     <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
    </super>
-   <at name="id">/home/osc/gvSIG/plugins/org.gvsig.scripting.app.mainplugin/2.5.1/scripts/addons/Arena2Reader/searchpanel/SearchConditionPanelAccidente.xml</at>
+   <at name="id">/home/jjdelcerro/gvSIG/plugins/org.gvsig.scripting.app.mainplugin/2.5.1/scripts/addons/Arena2Reader/searchpanel/SearchConditionPanelAccidente.xml</at>
    <at name="path">addons/Arena2Reader/searchpanel/SearchConditionPanelAccidente.xml</at>
    <at name="rowspecs">FILL:DEFAULT:NONE,CENTER:DEFAULT:NONE</at>
    <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:GROW(1.0),FILL:4DLU:NONE</at>
@@ -111,7 +111,7 @@
                       </at>
                       <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                      </super>
-                     <at name="id">embedded.810001948</at>
+                     <at name="id">embedded.2038498554</at>
                      <at name="rowspecs">CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE</at>
                      <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.4),FILL:DEFAULT:NONE,FILL:DEFAULT:GROW(0.6),FILL:4DLU:NONE</at>
                      <at name="components">
@@ -161,7 +161,7 @@
                                </object>
                               </at>
                               <at name="name">txtCodAccidente</at>
-                              <at name="width">329</at>
+                              <at name="width">350</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -214,7 +214,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">329</at>
+                              <at name="width">350</at>
                               <at name="name"/>
                               <at name="text">_Codigo_de_accidente</at>
                               <at name="fill">
@@ -274,7 +274,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">552</at>
+                              <at name="width">582</at>
                               <at name="name"/>
                               <at name="text">_Puede_utilizar_porcentage_como_comodin</at>
                               <at name="fill">
@@ -413,7 +413,7 @@
                       </at>
                       <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                      </super>
-                     <at name="id">embedded.775604985</at>
+                     <at name="id">embedded.38484771</at>
                      <at name="rowspecs">CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE</at>
                      <at name="colspecs">FILL:4DLU:NONE,FILL:MIN(20DLU;DEFAULT):GROW(0.2),FILL:4PX:NONE,FILL:20DLU:GROW(0.2),FILL:3DLU:NONE,FILL:DEFAULT:GROW(0.1),FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.1),FILL:DEFAULT:NONE,FILL:DEFAULT:GROW(0.1),FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.1),FILL:DEFAULT:NONE,FILL:DEFAULT:GROW(0.1),FILL:4DLU:NONE,FILL:MIN(20DLU;DEFAULT):GROW(0.2),FILL:4DLU:NONE</at>
                      <at name="components">
@@ -463,7 +463,7 @@
                                </object>
                               </at>
                               <at name="name">cboProvincia</at>
-                              <at name="width">143</at>
+                              <at name="width">152</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -522,7 +522,7 @@
                                </object>
                               </at>
                               <at name="name">txtCarretera</at>
-                              <at name="width">111</at>
+                              <at name="width">116</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -576,7 +576,7 @@
                                </object>
                               </at>
                               <at name="name">txtPkInicio</at>
-                              <at name="width">67</at>
+                              <at name="width">72</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -690,7 +690,7 @@
                                </object>
                               </at>
                               <at name="name">txtPkInicioUmbral</at>
-                              <at name="width">68</at>
+                              <at name="width">73</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -744,7 +744,7 @@
                                </object>
                               </at>
                               <at name="name">txtPkFin</at>
-                              <at name="width">68</at>
+                              <at name="width">72</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -798,7 +798,7 @@
                                </object>
                               </at>
                               <at name="name">txtPkFinUmbral</at>
-                              <at name="width">68</at>
+                              <at name="width">73</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -912,7 +912,7 @@
                                </object>
                               </at>
                               <at name="name">cboSentido</at>
-                              <at name="width">143</at>
+                              <at name="width">152</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -970,7 +970,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">143</at>
+                              <at name="width">152</at>
                               <at name="name"/>
                               <at name="text">_Provincia</at>
                               <at name="fill">
@@ -1030,7 +1030,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">111</at>
+                              <at name="width">116</at>
                               <at name="name"/>
                               <at name="text">Carretera</at>
                               <at name="fill">
@@ -1090,7 +1090,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">156</at>
+                              <at name="width">165</at>
                               <at name="name"/>
                               <at name="text">_Pk_fin</at>
                               <at name="fill">
@@ -1150,7 +1150,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">143</at>
+                              <at name="width">152</at>
                               <at name="name"/>
                               <at name="text">_Sentido</at>
                               <at name="fill">
@@ -1210,7 +1210,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">155</at>
+                              <at name="width">165</at>
                               <at name="name"/>
                               <at name="text">_Pk_inicio</at>
                               <at name="fill">
@@ -1270,7 +1270,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">143</at>
+                              <at name="width">152</at>
                               <at name="name"/>
                               <at name="text">_Titularidad</at>
                               <at name="fill">
@@ -1331,7 +1331,7 @@
                                </object>
                               </at>
                               <at name="name">cboTitularidad</at>
-                              <at name="width">143</at>
+                              <at name="width">152</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -1468,9 +1468,9 @@
                       </at>
                       <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                      </super>
-                     <at name="id">embedded.830216921</at>
+                     <at name="id">embedded.1853290647</at>
                      <at name="rowspecs">CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE</at>
-                     <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.2),FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.2),FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:8DLU:NONE,FILL:DEFAULT:GROW(0.6),FILL:4DLU:NONE</at>
+                     <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.3),FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.3),FILL:DEFAULT:NONE,FILL:8DLU:NONE,FILL:DEFAULT:GROW(0.6),FILL:4DLU:NONE</at>
                      <at name="components">
                       <object classname="java.util.LinkedList">
                        <item >
@@ -1479,7 +1479,7 @@
                           <super classname="com.jeta.forms.store.memento.ComponentMemento">
                            <at name="cellconstraints">
                             <object classname="com.jeta.forms.store.memento.CellConstraintsMemento">
-                             <at name="column">4</at>
+                             <at name="column">3</at>
                              <at name="row">3</at>
                              <at name="colspan">1</at>
                              <at name="rowspan">1</at>
@@ -1539,7 +1539,7 @@
                           <super classname="com.jeta.forms.store.memento.ComponentMemento">
                            <at name="cellconstraints">
                             <object classname="com.jeta.forms.store.memento.CellConstraintsMemento">
-                             <at name="column">8</at>
+                             <at name="column">6</at>
                              <at name="row">3</at>
                              <at name="colspan">1</at>
                              <at name="rowspan">1</at>
@@ -1599,7 +1599,7 @@
                           <super classname="com.jeta.forms.store.memento.ComponentMemento">
                            <at name="cellconstraints">
                             <object classname="com.jeta.forms.store.memento.CellConstraintsMemento">
-                             <at name="column">10</at>
+                             <at name="column">8</at>
                              <at name="row">3</at>
                              <at name="colspan">1</at>
                              <at name="rowspan">1</at>
@@ -1638,7 +1638,7 @@
                                </object>
                               </at>
                               <at name="name">cboTipoAccidente</at>
-                              <at name="width">486</at>
+                              <at name="width">456</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -1696,7 +1696,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">167</at>
+                              <at name="width">215</at>
                               <at name="name"/>
                               <at name="text">_Desde</at>
                               <at name="fill">
@@ -1718,7 +1718,7 @@
                           <super classname="com.jeta.forms.store.memento.ComponentMemento">
                            <at name="cellconstraints">
                             <object classname="com.jeta.forms.store.memento.CellConstraintsMemento">
-                             <at name="column">6</at>
+                             <at name="column">5</at>
                              <at name="row">1</at>
                              <at name="colspan">1</at>
                              <at name="rowspan">1</at>
@@ -1756,7 +1756,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">165</at>
+                              <at name="width">212</at>
                               <at name="name"/>
                               <at name="text">_Hasta</at>
                               <at name="fill">
@@ -1778,7 +1778,7 @@
                           <super classname="com.jeta.forms.store.memento.ComponentMemento">
                            <at name="cellconstraints">
                             <object classname="com.jeta.forms.store.memento.CellConstraintsMemento">
-                             <at name="column">10</at>
+                             <at name="column">8</at>
                              <at name="row">1</at>
                              <at name="colspan">1</at>
                              <at name="rowspan">1</at>
@@ -1816,7 +1816,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">486</at>
+                              <at name="width">456</at>
                               <at name="name"/>
                               <at name="text">_Tipo_de_accidente</at>
                               <at name="fill">
@@ -1877,7 +1877,7 @@
                                </object>
                               </at>
                               <at name="name">txtFechaDesde</at>
-                              <at name="width">167</at>
+                              <at name="width">215</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -1892,7 +1892,7 @@
                           <super classname="com.jeta.forms.store.memento.ComponentMemento">
                            <at name="cellconstraints">
                             <object classname="com.jeta.forms.store.memento.CellConstraintsMemento">
-                             <at name="column">6</at>
+                             <at name="column">5</at>
                              <at name="row">3</at>
                              <at name="colspan">1</at>
                              <at name="rowspan">1</at>
@@ -1931,7 +1931,7 @@
                                </object>
                               </at>
                               <at name="name">txtFechaHasta</at>
-                              <at name="width">165</at>
+                              <at name="width">212</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -1999,16 +1999,16 @@
                        <at name="rows">
                         <object classname="[Ljava.lang.Object;" size="4">
                          <at name="item" index="0">
-                          <object classname="[Ljava.lang.Object;" size="11"/>
+                          <object classname="[Ljava.lang.Object;" size="9"/>
                          </at>
                          <at name="item" index="1">
-                          <object classname="[Ljava.lang.Object;" size="11"/>
+                          <object classname="[Ljava.lang.Object;" size="9"/>
                          </at>
                          <at name="item" index="2">
-                          <object classname="[Ljava.lang.Object;" size="11"/>
+                          <object classname="[Ljava.lang.Object;" size="9"/>
                          </at>
                          <at name="item" index="3">
-                          <object classname="[Ljava.lang.Object;" size="11"/>
+                          <object classname="[Ljava.lang.Object;" size="9"/>
                          </at>
                         </object>
                        </at>
@@ -2063,9 +2063,9 @@
                       </at>
                       <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                      </super>
-                     <at name="id">embedded.131596228</at>
+                     <at name="id">embedded.1611669640</at>
                      <at name="rowspecs">CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE</at>
-                     <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.2),FILL:3PX:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.1),FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.1),FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.1),FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.1),FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.1),FILL:4DLU:NONE</at>
+                     <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:3PX:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.2),FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.2),FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.2),FILL:4DLU:NONE</at>
                      <at name="components">
                       <object classname="java.util.LinkedList">
                        <item >
@@ -2113,7 +2113,7 @@
                                </object>
                               </at>
                               <at name="name">cboCategoria</at>
-                              <at name="width">169</at>
+                              <at name="width">55</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -2172,7 +2172,7 @@
                                </object>
                               </at>
                               <at name="name">txtMortales</at>
-                              <at name="width">70</at>
+                              <at name="width">177</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -2225,7 +2225,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">180</at>
+                              <at name="width">230</at>
                               <at name="name"/>
                               <at name="text">_Victimas_mortales</at>
                               <at name="fill">
@@ -2392,7 +2392,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">122</at>
+                              <at name="width">230</at>
                               <at name="name"/>
                               <at name="text">_Victimas_graves</at>
                               <at name="fill">
@@ -2453,7 +2453,7 @@
                                </object>
                               </at>
                               <at name="name">txtGraves</at>
-                              <at name="width">69</at>
+                              <at name="width">177</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -2507,7 +2507,7 @@
                                </object>
                               </at>
                               <at name="name">txtLeves</at>
-                              <at name="width">69</at>
+                              <at name="width">177</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -2560,7 +2560,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">169</at>
+                              <at name="width">55</at>
                               <at name="name"/>
                               <at name="text">Categoria</at>
                               <at name="fill">
@@ -2691,7 +2691,7 @@
                             <object classname="com.jeta.forms.store.memento.CellConstraintsMemento">
                              <at name="column">18</at>
                              <at name="row">1</at>
-                             <at name="colspan">1</at>
+                             <at name="colspan">3</at>
                              <at name="rowspan">1</at>
                              <at name="halign">default</at>
                              <at name="valign">default</at>
@@ -2727,7 +2727,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">143</at>
+                              <at name="width">230</at>
                               <at name="name"/>
                               <at name="text">_Heridos_leves</at>
                               <at name="fill">
@@ -2801,7 +2801,7 @@
                                </object>
                               </at>
                               <at name="name">cboMortalesOperador</at>
-                              <at name="width">99</at>
+                              <at name="width">42</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -3135,7 +3135,7 @@
                                </object>
                               </at>
                               <at name="name">cboLevesOperador</at>
-                              <at name="width">143</at>
+                              <at name="width">42</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -3398,7 +3398,7 @@
               </at>
              </object>
             </at>
-            <at name="width">946</at>
+            <at name="width">997</at>
             <at name="tabCount">4</at>
             <at name="height">120</at>
            </object>
@@ -3425,7 +3425,7 @@
          </at>
          <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
         </super>
-        <at name="id">embedded.1863038301</at>
+        <at name="id">embedded.329110332</at>
         <at name="rowspecs">CENTER:DEFAULT:NONE</at>
         <at name="colspecs">FILL:DEFAULT:GROW(1.0),FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE</at>
         <at name="components">

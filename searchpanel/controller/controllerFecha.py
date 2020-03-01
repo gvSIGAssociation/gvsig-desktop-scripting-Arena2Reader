@@ -105,23 +105,23 @@ class TabControllerFecha(ChangeListener, ActionListener):
         builder.and(
           builder.ge(
             builder.variable("FECHA_ACCIDENTE"),
-            builder.date(builder.constant(dateDesde))
+            builder.date(dateDesde)
           ),
           builder.le(
             builder.variable("FECHA_ACCIDENTE"), 
-            builder.date(builder.constant(dateHasta)) #builder.function(FUNCTION_DATE,dateFormat.format(dateHasta), dateFormat)
+            builder.date(dateHasta) #builder.function(FUNCTION_DATE,dateFormat.format(dateHasta), dateFormat)
           )
         )
       )
     elif (dateDesde!=None):
       builder.and(builder.ge(
             builder.variable("FECHA_ACCIDENTE"), 
-            builder.date(builder.constant(dateDesde))
+            builder.date(dateDesde)
           ))
     elif (dateHasta!=None):
       builder.and(builder.le(
               builder.variable("FECHA_ACCIDENTE"), 
-              builder.date(builder.constant(dateHasta))
+              builder.date(dateHasta)
             ))
     return builder.value()
 def main(*args):
