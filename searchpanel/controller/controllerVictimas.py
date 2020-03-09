@@ -11,6 +11,8 @@ import gvsig
 from org.gvsig.expressionevaluator import ExpressionEvaluatorLocator
 from org.gvsig.expressionevaluator import ExpressionBuilder
 from org.gvsig.fmap.dal import DALLocator
+from org.gvsig.tools.dataTypes import DataTypes
+
 class TabControllerVictimas(DocumentListener, ActionListener):
   TAB_INDEX_PANEL = 3
   CATEGORIA_CON_VICTIMAS = 0
@@ -148,7 +150,7 @@ class TabControllerVictimas(DocumentListener, ActionListener):
       valueMortales = opbuilder.binaryOperator(
         mortalesOperador,
         opbuilder.variable("TOTAL_MUERTOS"), 
-        opbuilder.constant(mortales)
+        opbuilder.constant(mortales, DataTypes.INT)
         )
       
       allBuilder.and(valueMortales)
@@ -158,7 +160,7 @@ class TabControllerVictimas(DocumentListener, ActionListener):
       valueGraves = opbuilder.binaryOperator(
         gravesOperador,
         opbuilder.variable("TOTAL_GRAVES"), 
-        opbuilder.constant(graves)
+        opbuilder.constant(graves, DataTypes.INT)
         )
       if (valueMortales!=""):
         if (operator1 == ExpressionBuilder.OPERATOR_AND):
@@ -172,7 +174,7 @@ class TabControllerVictimas(DocumentListener, ActionListener):
       valueLeves = opbuilder.binaryOperator(
         levesOperador,
         opbuilder.variable("TOTAL_LEVES"), 
-        opbuilder.constant(leves)
+        opbuilder.constant(leves, DataTypes.INT)
         )
       
       if (valueMortales!="" or valueGraves!=""):
