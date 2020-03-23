@@ -18,12 +18,13 @@ from javax.swing.event import DocumentListener
 from javax.swing.event import ChangeListener
 from org.gvsig.tools.swing.api import ToolsSwingLocator
 from org.gvsig.expressionevaluator import ExpressionUtils
-
+from javax.json import Json
 from controller.controllerCarretera import TabControllerCarretera
 from controller.controllerFecha import TabControllerFecha
 from controller.controllerVictimas import TabControllerVictimas
 
 class SearchConditionPanelAccident(AbstractSearchConditionPanel):
+  PANEL_NAME = "SearchConditionPanelAccident"
   def __init__(self, factory, searchPanel, store, simplifiedPanel):
     SearchConditionPanel.__init__(self)
     self.__factory = factory
@@ -62,6 +63,18 @@ class SearchConditionPanelAccident(AbstractSearchConditionPanel):
 
   def isValid(self, messagebuilder):
     return True
+
+  def put(self, params): #SearchParameters
+    values = params.getValues()
+    jsonState = values.get(self.PANEL_NAME)
+    self.__form.fromJson(jsonState)
+    pass
+
+  def fetch(self, params):
+    jsonState = self.__form.toJson()
+    persistenceJson = params.getValues()
+    persistenceJson.put(self.PANEL_NAME, jsonState)
+    return params
     
 class SearchConditionPanelAccidentForm(FormPanel): 
   def __init__(self, store, simplifiedPanel):
@@ -121,7 +134,45 @@ class SearchConditionPanelAccidentForm(FormPanel):
       self.cboOperator2,
       self.cboLevesOperador,
       self.txtLeves)
+      
+  def toJson(self):
+    builder = Json.createObjectBuilder()
+
+    codAccidente = self.txtCodAccidente.getText()
+    if codAccidente!=None: builder.add("codAccidente", codAccidente)
+      
+    tabCarretera = self.tabControllerCarretera.toJson()
+    if tabCarretera!=None: builder.add("tabCarretera", tabCarretera)
     
+    tabFecha = self.tabControllerFecha.toJson()
+    if tabFecha != None: builder.add("tabFecha", tabFecha)
+    
+    tabVictimas = self.tabControllerVictimas.toJson()
+    if tabVictimas != None: builder.add("tabVictimas", tabVictimas)
+      
+    return builder.build()
+    
+    
+  def fromJson(self, jsonObject):
+      self.clear()
+      if (jsonObject==None): return 
+      
+      if (jsonObject.containsKey("codAccidente")): 
+          codAccidente = jsonObject.getString("codAccidente")
+          self.txtCodAccidente.setText(codAccidente)
+
+      if (jsonObject.containsKey("tabCarretera")): 
+          jsonCarretera = jsonObject.getJsonObject("tabCarretera")
+          self.tabControllerCarretera.fromJson(jsonCarretera)
+
+      if (jsonObject.containsKey("tabFecha")):
+          jsonFecha = jsonObject.getJsonObject("tabFecha")
+          self.tabControllerFecha.fromJson(jsonFecha)
+
+      if (jsonObject.containsKey("tabVictimas")):
+          jsonVictimas = jsonObject.getJsonObject("tabVictimas")
+          self.tabControllerVictimas.fromJson(jsonVictimas)
+      
   def clear(self):
     self.txtCodAccidente.setText("")
     self.tabControllerCarretera.clear()
@@ -169,9 +220,8 @@ class SearchConditionPanelAccidentForm(FormPanel):
       exp.setPhrase(builder.toString())
     except:
       exp.setPhrase("")
-    print "Expresion final del Accidentes panel:", exp
     return exp
-    
+
   def set(self, fil):
     self.clear()
 
@@ -199,11 +249,10 @@ class SearchConditionPanelAccidentForm(FormPanel):
       self.tabPanel.setIconAt(0, icon)
   
       
-
 class SearchArena2Factory(SearchConditionPanel.SearchConditionPanelFactory):
   def __init__(self):
     pass
-    
+
   def getName(self):
     return "Accidentes"
 
@@ -245,3 +294,4 @@ def main(*args):
     #panel.showTool("SearchConditionPanelAccidente")
     #print dir(panel)
     manager.registerSearchConditionPanel(factory) #SearchConditionPanelFactory
+    

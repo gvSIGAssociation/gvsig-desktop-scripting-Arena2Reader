@@ -12,6 +12,8 @@ from org.gvsig.expressionevaluator import ExpressionEvaluatorLocator
 from org.gvsig.expressionevaluator import ExpressionBuilder
 from org.gvsig.fmap.dal import DALLocator
 from org.gvsig.tools.dataTypes import DataTypes
+from javax.json import Json, JsonValue
+from org.gvsig.tools.dataTypes import DataTypeUtils
 
 class TabControllerVictimas(DocumentListener, ActionListener):
   TAB_INDEX_PANEL = 3
@@ -71,7 +73,76 @@ class TabControllerVictimas(DocumentListener, ActionListener):
     self.mortales.getDocument().addDocumentListener(self)
     self.graves.getDocument().addDocumentListener(self)
     self.leves.getDocument().addDocumentListener(self)
-  
+    
+  def toJson(self):
+    categoria = self.categoria.getSelectedItem().getValue()
+    peligrosas = self.peligrosas.isSelected()
+    mortalesOperador = self.mortalesOperador.getSelectedItem().getValue()
+    operator1 = self.operator1.getSelectedItem().getValue()
+    gravesOperador = self.gravesOperador.getSelectedItem().getValue()
+    operator2 = self.operator2.getSelectedItem().getValue()
+    levesOperador = self.levesOperador.getSelectedItem().getValue()
+
+    mortales = self.mortales.getText()
+    graves = self.graves.getText()
+    leves = self.leves.getText()
+    
+    builder = Json.createObjectBuilder();
+    if not categoria=="": builder.add("categoria", categoria)
+    peligrosasJson = JsonValue.TRUE if peligrosas else JsonValue.FALSE
+        
+    builder.add("peligrosas", peligrosasJson)
+    if not mortalesOperador=="": builder.add("mortalesOperador", mortalesOperador)
+    if not operator1=="": builder.add("operator1", operator1)
+    if not gravesOperador=="": builder.add("gravesOperador", gravesOperador)
+    if not operator2=="": builder.add("operator2", operator2)
+    if not levesOperador=="": builder.add("levesOperador", levesOperador)
+    if not mortales=="": builder.add("mortales", mortales)
+    if not graves=="": builder.add("graves", graves)
+    if not leves=="": builder.add("leves", leves)
+    finalJson = builder.build()
+    return finalJson
+
+  def fromJson(self, json):
+        if (json==None):
+            return json
+        categoria = json.getInt("categoria") if json.containsKey("categoria") else None
+
+        peligrosas = json.getBoolean("peligrosas") if json.containsKey("peligrosas") else None
+        mortalesOperador = json.getString("mortalesOperador") if json.containsKey("mortalesOperador") else None
+        operator1 = json.getString("operator1") if json.containsKey("operator1") else None
+        gravesOperador =json.getString("gravesOperador") if json.containsKey("gravesOperador") else None
+        operator2 = json.getString("operator2") if json.containsKey("operator2") else None
+        levesOperador = json.getString("levesOperador") if json.containsKey("levesOperador") else None
+        
+        mortales = json.getString("mortales") if json.containsKey("mortales") else None
+        graves = json.getString("graves") if json.containsKey("graves") else None
+        leves = json.getString("leves") if json.containsKey("leves") else None
+        
+        
+        self.setValues(categoria, peligrosas, mortalesOperador, operator1, gravesOperador, operator2, levesOperador, mortales, graves, leves)
+        
+  def setValues(self, categoriaValues, peligrosasValues, mortalesOperadorValues, operator1Values, gravesOperadorValues, operator2Values, levesOperadorValues, mortalesValues, gravesValues, levesValues):
+      if categoriaValues!=None: 
+          ListElement.setSelected(self.categoria, categoriaValues)
+      if peligrosasValues!=None: 
+          self.peligrosas.setSelected(peligrosasValues)
+      if mortalesOperadorValues != None:
+          ListElement.setSelected(self.mortalesOperador, mortalesOperadorValues)
+      if operator1Values != None:
+          ListElement.setSelected(self.operator1, operator1Values)
+      if gravesOperadorValues != None:
+          ListElement.setSelected(self.gravesOperador, gravesOperadorValues)
+      if operator2Values != None:
+          ListElement.setSelected(self.operator2, operator2Values)
+      if levesOperadorValues != None:
+          ListElement.setSelected(self.levesOperador, levesOperadorValues)
+      if mortalesValues != None:
+          self.mortales.setText(mortalesValues)
+      if gravesValues != None:
+          self.graves.setText(gravesValues)   
+      if levesValues != None:
+          self.leves.setText(levesValues)
   def clear(self):
     self.peligrosas.setSelected(False)
     self.categoria.setSelectedIndex(0)
@@ -130,7 +201,7 @@ class TabControllerVictimas(DocumentListener, ActionListener):
         dalbuilder = dataManager.createDALExpressionBuilder() #DALExpressionBuilder
         peligrosasfilter = dalbuilder.exists(dalbuilder.select()
           .column("LID_VEHICULO")
-          .table("ARENA2_VEHICULOS")
+          .from("ARENA2_VEHICULOS")
           .limit(1)
           .where(
           dalbuilder.expression().and(

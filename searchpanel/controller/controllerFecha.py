@@ -17,6 +17,9 @@ from org.gvsig.expressionevaluator.ExpressionBuilder import FUNCTION_DATE
 from javax.swing.text import DefaultFormatterFactory, DateFormatter
 from java.text import DateFormat
 from java.util import Locale
+from org.gvsig.tools.swing.api import ListElement
+from javax.json import Json
+from org.gvsig.tools.dataTypes import DataTypeUtils
 
 class TabControllerFecha(ChangeListener, ActionListener):
   TAB_INDEX_PANEL = 2
@@ -32,16 +35,7 @@ class TabControllerFecha(ChangeListener, ActionListener):
     
   def initComponents(self):
     self.pickerFechaDesde = ToolsSwingLocator.getToolsSwingManager().createDatePickerController(self.fechaDesde, self.fechaDesdeBtn)
-    #self.pickerFechaDesde.set(None)
     self.pickerFechaHasta = ToolsSwingLocator.getToolsSwingManager().createDatePickerController(self.fechaHasta, self.fechaHastaBtn)
-    #self.pickerFechaHasta.set(None)
-    #self.fechaDesde.setEditable(True)
-    #dateFormat = DefaultFormatterFactory(DateFormatter(SimpleDateFormat('dd/MM/yyyy')))
-    #dateFormat = DefaultFormatterFactory(DateFormatter(SimpleDateFormat(SimpleDateFormat.SHORT)))
-    
-    #dateFormat = DefaultFormatterFactory(DateFormatter(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM, Locale.getDefault())))
-    #self.fechaDesde.setFormatterFactory(dateFormat)
-    #self.fechaHasta.setFormatterFactory(dateFormat)
     
     
     tipoAccidenteModel = DefaultComboBoxModel()
@@ -60,6 +54,47 @@ class TabControllerFecha(ChangeListener, ActionListener):
     self.pickerFechaDesde.setEnabled(True)
     self.pickerFechaHasta.setEnabled(True)
     
+  def toJson(self):
+      tipoAccidente = self.tipoAccidente.getSelectedItem().getValue()
+      dateDesde = self.pickerFechaDesde.get()
+      if dateDesde != None:
+          dateDesde = DataTypeUtils.toString(dateDesde, None)
+      
+      dateHasta = self.pickerFechaHasta.get()
+      if dateHasta!=None:
+          dateHasta = DataTypeUtils.toString(dateHasta, None)
+      
+      builder = Json.createObjectBuilder();
+      if tipoAccidente!=None and not tipoAccidente=="": builder.add("tipoAccidente", tipoAccidente)
+      
+      if dateDesde != None: builder.add("dateDesde", dateDesde)
+      if dateHasta != None: builder.add("dateHasta", dateHasta)
+      finalJson = builder.build()
+      return finalJson
+  
+  def fromJson(self, json):
+      if (json==None):
+          return
+      tipoAccidenteValue = json.getInt("tipoAccidente") if json.containsKey("tipoAccidente") else None
+      if json.containsKey("dateDesde"):
+          dateDesdeValue = json.getString("dateDesde")  
+      else:
+          dateDesdeValue = None
+      if json.containsKey("dateHasta"):    
+          dateHastaValue = json.getString("dateHasta")  
+      else:
+        dateHastaValue= None
+      self.setValues(tipoAccidenteValue, dateDesdeValue, dateHastaValue)
+      
+  def setValues(self, tipoAccidenteValue, dateDesdeValue, dateHastaValue):
+      if tipoAccidenteValue!=None: ListElement.setSelected(self.tipoAccidente, tipoAccidenteValue)
+      if dateDesdeValue!=None: 
+          d = DataTypeUtils.toDate(dateDesdeValue)
+          self.pickerFechaDesde.set(d)
+      if dateHastaValue!=None: 
+          d = DataTypeUtils.toDate(dateHastaValue)
+          self.pickerFechaHasta.set(DataTypeUtils.toDate(d))
+           
   def clear(self):
     self.tipoAccidente.setSelectedIndex(0)
     self.pickerFechaDesde.set(None)

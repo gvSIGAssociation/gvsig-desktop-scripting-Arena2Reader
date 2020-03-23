@@ -9,7 +9,9 @@ from org.gvsig.expressionevaluator import ExpressionEvaluatorLocator
 from javax.swing import ImageIcon, DefaultComboBoxModel
 from org.gvsig.tools.swing.api import ListElement
 import gvsig
-  
+from javax.json import Json
+from org.gvsig.tools.dataTypes import DataTypeUtils
+
 class TabControllerCarretera(ActionListener, DocumentListener):
   TAB_INDEX_PANEL = 1
   def __init__(self, store, tabPanel, provincia, titularidad, carretera, pki,pkiu, pkf, pkfu, sentido):
@@ -60,7 +62,61 @@ class TabControllerCarretera(ActionListener, DocumentListener):
       titularidadModel.addElement(element)
     self.titularidad.setModel(titularidadModel)
 
-    
+  def toJson(self):
+      provincia = self.provincia.getSelectedItem().getValue()
+      titularidad = self.titularidad.getSelectedItem().getValue()
+      carretera = self.carretera.getText()
+      pkInicio = self.pki.getText()
+      pkInicioUmbral = self.pkiu.getText()
+      pkFin = self.pkf.getText()
+      pkFinUmbral = self.pkfu.getText()
+      sentido = self.sentido.getSelectedItem().getValue()
+      
+      builder = Json.createObjectBuilder();
+      
+      if not provincia=="": builder.add("provincia", provincia)
+      if not titularidad=="": builder.add("titularidad", titularidad)
+      if not carretera=="":builder.add("carretera", carretera)
+      if not pkInicio=="":builder.add("pkInicio", pkInicio)
+      if not pkInicioUmbral=="":builder.add("pkInicioUmbral", pkInicioUmbral)
+      if not pkFin=="":builder.add("pkFin", pkFin)
+      if not pkFinUmbral=="":builder.add("pkFinUmbral", pkFinUmbral)
+      if not sentido=="": builder.add("sentido", sentido)
+      finalJson = builder.build()
+      return finalJson
+
+  def fromJson(self, json):
+      if (json==None):
+          return 
+      provincia = json.getString("provincia") if json.containsKey("provincia") else None
+      titularidad = json.getInt("titularidad") if json.containsKey("titularidad") else None
+      carretera = json.getString("carretera") if json.containsKey("carretera") else None
+      pkInicio = json.getString("pkInicio") if json.containsKey("pkInicio") else None
+      pkInicioUmbral = json.getString("pkInicioUmbral") if json.containsKey("pkInicioUmbral") else None
+      pkFin = json.getString("pkFin") if json.containsKey("pkFin") else None
+      pkFinUmbral = json.getString("pkFinUmbral") if json.containsKey("pkFinUmbral") else None
+      sentido = json.getInt("sentido") if json.containsKey("sentido") else None
+      
+      self.setValues(provincia,titularidad,carretera,pkInicio,pkInicioUmbral,pkFin, pkFinUmbral,sentido)
+      
+  def setValues(self, provinciaValue,titularidadValue,carreteraValue,pkInicioValue,pkInicioUmbralValue,pkFinValue, pkFinUmbralValue,sentidoValue):
+      if provinciaValue!=None: 
+          ListElement.setSelected(self.provincia, provinciaValue)
+      if titularidadValue!=None: 
+          ListElement.setSelected(self.titularidad, titularidadValue)
+      if carreteraValue!=None: 
+          self.carretera.setText(carreteraValue)
+      if pkInicioValue!=None: 
+          self.pki.setText(pkInicioValue)
+      if pkInicioUmbralValue!=None: 
+          self.pkiu.setText(pkInicioUmbralValue)
+      if pkFinValue!=None: 
+          self.pkf.setText(pkFinValue)
+      if pkFinUmbralValue!=None: 
+          self.pkfu.setText(pkFinUmbralValue)
+      if sentidoValue!=None and sentidoValue!="": 
+          ListElement.setSelected(self.sentido, sentidoValue)
+      
   def clear(self):
     self.provincia.setSelectedIndex(0)
     self.titularidad.setSelectedIndex(0)
