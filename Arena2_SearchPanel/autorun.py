@@ -2,8 +2,8 @@
 
 import gvsig
 from org.gvsig.fmap.dal.swing import DALSwingLocator
-from addons.Arena2Reader.searchpanel.searchpanel import SearchArena2Factory
-from addons.Arena2Reader.searchpanel.searchpanel import selfRegister
+from addons.Arena2Reader.Arena2_SearchPanel.searchpanel import SearchArena2Factory
+from addons.Arena2Reader.Arena2_SearchPanel.searchpanel import selfRegister
 
 def main(*args):
     selfRegister()
