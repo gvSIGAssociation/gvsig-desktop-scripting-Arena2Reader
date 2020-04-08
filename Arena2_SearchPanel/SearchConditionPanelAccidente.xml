@@ -24,8 +24,8 @@
     </at>
     <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
    </super>
-   <at name="id">/home/jjdelcerro/gvSIG/plugins/org.gvsig.scripting.app.mainplugin/2.5.1/scripts/addons/Arena2Reader/searchpanel/SearchConditionPanelAccidente.xml</at>
-   <at name="path">addons/Arena2Reader/searchpanel/SearchConditionPanelAccidente.xml</at>
+   <at name="id">C:\Users\jolic\gvSIG\plugins\org.gvsig.scripting.app.mainplugin\2.5.1\scripts\addons\Arena2Reader\Arena2_SearchPanel\SearchConditionPanelAccidente.xml</at>
+   <at name="path">addons\Arena2Reader\Arena2_SearchPanel\SearchConditionPanelAccidente.xml</at>
    <at name="rowspecs">FILL:DEFAULT:NONE,CENTER:DEFAULT:NONE</at>
    <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:GROW(1.0),FILL:4DLU:NONE</at>
    <at name="components">
@@ -89,7 +89,7 @@
                    <at name="icon">
                     <object classname="com.jeta.forms.store.properties.IconProperty">
                      <at name="embedded">false</at>
-                     <at name="path">imagenes/accidentcondition-tabtick-enabled.png</at>
+                     <at name="path">imagenes\accidentcondition-tabtick-enabled.png</at>
                      <at name="description">accidentcondition-tabtick-enabled.png</at>
                      <at name="width">16</at>
                      <at name="height">16</at>
@@ -111,7 +111,7 @@
                       </at>
                       <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                      </super>
-                     <at name="id">embedded.2038498554</at>
+                     <at name="id">embedded.1710042228</at>
                      <at name="rowspecs">CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE</at>
                      <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.4),FILL:DEFAULT:NONE,FILL:DEFAULT:GROW(0.6),FILL:4DLU:NONE</at>
                      <at name="components">
@@ -161,7 +161,7 @@
                                </object>
                               </at>
                               <at name="name">txtCodAccidente</at>
-                              <at name="width">350</at>
+                              <at name="width">208</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -214,8 +214,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">350</at>
-                              <at name="name"/>
+                              <at name="name">lblCodAccidente</at>
+                              <at name="width">208</at>
                               <at name="text">_Codigo_de_accidente</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -274,8 +274,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">582</at>
-                              <at name="name"/>
+                              <at name="name">lblPuede_utilizar_porcentage_como_comodin</at>
+                              <at name="width">358</at>
                               <at name="text">_Puede_utilizar_porcentage_como_comodin</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -307,7 +307,7 @@
                            </at>
                           </object>
                          </at>
-                         <at name="name"/>
+                         <at name="name"></at>
                          <at name="fill">
                           <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
                            <at name="name">fill</at>
@@ -391,7 +391,7 @@
                    <at name="icon">
                     <object classname="com.jeta.forms.store.properties.IconProperty">
                      <at name="embedded">false</at>
-                     <at name="path">imagenes/accidentcondition-tabtick-disabled.png</at>
+                     <at name="path">imagenes\accidentcondition-tabtick-disabled.png</at>
                      <at name="description">accidentcondition-tabtick-disabled.png</at>
                      <at name="width">16</at>
                      <at name="height">16</at>
@@ -413,7 +413,7 @@
                       </at>
                       <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                      </super>
-                     <at name="id">embedded.38484771</at>
+                     <at name="id">embedded.1078760335</at>
                      <at name="rowspecs">CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE</at>
                      <at name="colspecs">FILL:4DLU:NONE,FILL:MIN(20DLU;DEFAULT):GROW(0.2),FILL:4PX:NONE,FILL:20DLU:GROW(0.2),FILL:3DLU:NONE,FILL:DEFAULT:GROW(0.1),FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.1),FILL:DEFAULT:NONE,FILL:DEFAULT:GROW(0.1),FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.1),FILL:DEFAULT:NONE,FILL:DEFAULT:GROW(0.1),FILL:4DLU:NONE,FILL:MIN(20DLU;DEFAULT):GROW(0.2),FILL:4DLU:NONE</at>
                      <at name="components">
@@ -463,7 +463,7 @@
                                </object>
                               </at>
                               <at name="name">cboProvincia</at>
-                              <at name="width">152</at>
+                              <at name="width">84</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -522,7 +522,7 @@
                                </object>
                               </at>
                               <at name="name">txtCarretera</at>
-                              <at name="width">116</at>
+                              <at name="width">82</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -576,7 +576,7 @@
                                </object>
                               </at>
                               <at name="name">txtPkInicio</at>
-                              <at name="width">72</at>
+                              <at name="width">42</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -690,7 +690,7 @@
                                </object>
                               </at>
                               <at name="name">txtPkInicioUmbral</at>
-                              <at name="width">73</at>
+                              <at name="width">41</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -744,7 +744,7 @@
                                </object>
                               </at>
                               <at name="name">txtPkFin</at>
-                              <at name="width">72</at>
+                              <at name="width">41</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -798,7 +798,7 @@
                                </object>
                               </at>
                               <at name="name">txtPkFinUmbral</at>
-                              <at name="width">73</at>
+                              <at name="width">41</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -912,7 +912,7 @@
                                </object>
                               </at>
                               <at name="name">cboSentido</at>
-                              <at name="width">152</at>
+                              <at name="width">84</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -970,8 +970,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">152</at>
-                              <at name="name"/>
+                              <at name="name">lblProvincia</at>
+                              <at name="width">84</at>
                               <at name="text">_Provincia</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -1030,9 +1030,9 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">116</at>
-                              <at name="name"/>
-                              <at name="text">Carretera</at>
+                              <at name="name">lblCarretera</at>
+                              <at name="width">82</at>
+                              <at name="text">_Carretera</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
                                 <at name="name">fill</at>
@@ -1090,8 +1090,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">165</at>
-                              <at name="name"/>
+                              <at name="name">lblPkFin</at>
+                              <at name="width">102</at>
                               <at name="text">_Pk_fin</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -1150,8 +1150,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">152</at>
-                              <at name="name"/>
+                              <at name="name">lblSentido</at>
+                              <at name="width">84</at>
                               <at name="text">_Sentido</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -1210,8 +1210,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">165</at>
-                              <at name="name"/>
+                              <at name="name">lblPkInicio</at>
+                              <at name="width">103</at>
                               <at name="text">_Pk_inicio</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -1270,8 +1270,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">152</at>
-                              <at name="name"/>
+                              <at name="name">lblTitularidad</at>
+                              <at name="width">84</at>
                               <at name="text">_Titularidad</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -1331,7 +1331,7 @@
                                </object>
                               </at>
                               <at name="name">cboTitularidad</at>
-                              <at name="width">152</at>
+                              <at name="width">84</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -1362,7 +1362,7 @@
                            </at>
                           </object>
                          </at>
-                         <at name="name"/>
+                         <at name="name"></at>
                          <at name="fill">
                           <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
                            <at name="name">fill</at>
@@ -1446,7 +1446,7 @@
                    <at name="icon">
                     <object classname="com.jeta.forms.store.properties.IconProperty">
                      <at name="embedded">false</at>
-                     <at name="path">imagenes/accidentcondition-tabtick-disabled.png</at>
+                     <at name="path">imagenes\accidentcondition-tabtick-disabled.png</at>
                      <at name="description">accidentcondition-tabtick-disabled.png</at>
                      <at name="width">16</at>
                      <at name="height">16</at>
@@ -1468,7 +1468,7 @@
                       </at>
                       <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                      </super>
-                     <at name="id">embedded.1853290647</at>
+                     <at name="id">embedded.658915801</at>
                      <at name="rowspecs">CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE</at>
                      <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.3),FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.3),FILL:DEFAULT:NONE,FILL:8DLU:NONE,FILL:DEFAULT:GROW(0.6),FILL:4DLU:NONE</at>
                      <at name="components">
@@ -1638,7 +1638,7 @@
                                </object>
                               </at>
                               <at name="name">cboTipoAccidente</at>
-                              <at name="width">456</at>
+                              <at name="width">273</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -1696,8 +1696,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">215</at>
-                              <at name="name"/>
+                              <at name="name">lblFechaDesde</at>
+                              <at name="width">125</at>
                               <at name="text">_Desde</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -1756,8 +1756,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">212</at>
-                              <at name="name"/>
+                              <at name="name">lblFechaHasta</at>
+                              <at name="width">122</at>
                               <at name="text">_Hasta</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -1816,8 +1816,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">456</at>
-                              <at name="name"/>
+                              <at name="name">lblTipoAccidente</at>
+                              <at name="width">273</at>
                               <at name="text">_Tipo_de_accidente</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -1877,7 +1877,7 @@
                                </object>
                               </at>
                               <at name="name">txtFechaDesde</at>
-                              <at name="width">215</at>
+                              <at name="width">125</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -1931,7 +1931,7 @@
                                </object>
                               </at>
                               <at name="name">txtFechaHasta</at>
-                              <at name="width">212</at>
+                              <at name="width">122</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -2041,7 +2041,7 @@
                    <at name="icon">
                     <object classname="com.jeta.forms.store.properties.IconProperty">
                      <at name="embedded">false</at>
-                     <at name="path">imagenes/accidentcondition-tabtick-disabled.png</at>
+                     <at name="path">imagenes\accidentcondition-tabtick-disabled.png</at>
                      <at name="description">accidentcondition-tabtick-disabled.png</at>
                      <at name="width">16</at>
                      <at name="height">16</at>
@@ -2063,7 +2063,7 @@
                       </at>
                       <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                      </super>
-                     <at name="id">embedded.1611669640</at>
+                     <at name="id">embedded.1719652472</at>
                      <at name="rowspecs">CENTER:DEFAULT:NONE,CENTER:2DLU:NONE,CENTER:DEFAULT:NONE,CENTER:2DLU:NONE</at>
                      <at name="colspecs">FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:3PX:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.2),FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.2),FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:GROW(0.2),FILL:4DLU:NONE</at>
                      <at name="components">
@@ -2113,7 +2113,7 @@
                                </object>
                               </at>
                               <at name="name">cboCategoria</at>
-                              <at name="width">55</at>
+                              <at name="width">53</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -2172,7 +2172,7 @@
                                </object>
                               </at>
                               <at name="name">txtMortales</at>
-                              <at name="width">177</at>
+                              <at name="width">62</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -2225,8 +2225,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">230</at>
-                              <at name="name"/>
+                              <at name="name">lblMortales</at>
+                              <at name="width">112</at>
                               <at name="text">_Victimas_mortales</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -2299,7 +2299,7 @@
                                </object>
                               </at>
                               <at name="name">cboOperator1</at>
-                              <at name="width">51</at>
+                              <at name="width">49</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -2392,8 +2392,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">230</at>
-                              <at name="name"/>
+                              <at name="name">lblGraves</at>
+                              <at name="width">113</at>
                               <at name="text">_Victimas_graves</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -2453,7 +2453,7 @@
                                </object>
                               </at>
                               <at name="name">txtGraves</at>
-                              <at name="width">177</at>
+                              <at name="width">63</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -2507,7 +2507,7 @@
                                </object>
                               </at>
                               <at name="name">txtLeves</at>
-                              <at name="width">177</at>
+                              <at name="width">62</at>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -2560,9 +2560,9 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">55</at>
-                              <at name="name"/>
-                              <at name="text">Categoria</at>
+                              <at name="name">lblCategoria</at>
+                              <at name="width">53</at>
+                              <at name="text">_Categoria</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
                                 <at name="name">fill</at>
@@ -2634,7 +2634,7 @@
                                </object>
                               </at>
                               <at name="name">cboOperator2</at>
-                              <at name="width">51</at>
+                              <at name="width">49</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -2727,8 +2727,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">230</at>
-                              <at name="name"/>
+                              <at name="name">lblLeves</at>
+                              <at name="width">112</at>
                               <at name="text">_Heridos_leves</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -2801,7 +2801,7 @@
                                </object>
                               </at>
                               <at name="name">cboMortalesOperador</at>
-                              <at name="width">42</at>
+                              <at name="width">40</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -2968,7 +2968,7 @@
                                </object>
                               </at>
                               <at name="name">cboGravesOperador</at>
-                              <at name="width">42</at>
+                              <at name="width">40</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -3135,7 +3135,7 @@
                                </object>
                               </at>
                               <at name="name">cboLevesOperador</at>
-                              <at name="width">42</at>
+                              <at name="width">40</at>
                               <at name="items">
                                <object classname="com.jeta.forms.store.properties.ItemsProperty">
                                 <at name="name">items</at>
@@ -3290,7 +3290,7 @@
                               </at>
                               <at name="actionCommand">M.P.</at>
                               <at name="name">chkPeligrosas</at>
-                              <at name="width">43</at>
+                              <at name="width">41</at>
                               <at name="text">M.P.</at>
                               <at name="toolTipText">Mercancias peligrosas</at>
                               <at name="height">16</at>
@@ -3398,7 +3398,7 @@
               </at>
              </object>
             </at>
-            <at name="width">997</at>
+            <at name="width">629</at>
             <at name="tabCount">4</at>
             <at name="height">120</at>
            </object>
@@ -3425,7 +3425,7 @@
          </at>
          <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
         </super>
-        <at name="id">embedded.329110332</at>
+        <at name="id">embedded.350957197</at>
         <at name="rowspecs">CENTER:DEFAULT:NONE</at>
         <at name="colspecs">FILL:DEFAULT:GROW(1.0),FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE,FILL:4DLU:NONE,FILL:DEFAULT:NONE</at>
         <at name="components">
@@ -3482,7 +3482,7 @@
                  <at name="icon">
                   <object classname="com.jeta.forms.store.properties.IconProperty">
                    <at name="embedded">false</at>
-                   <at name="path">imagenes/search-simplifiedcondition-add-accumulate.png</at>
+                   <at name="path">imagenes\search-simplifiedcondition-add-accumulate.png</at>
                    <at name="description">search-simplifiedcondition-add-accumulate.png</at>
                    <at name="width">16</at>
                    <at name="height">16</at>
@@ -3490,6 +3490,7 @@
                  </at>
                  <at name="name">btnAddAccumulate</at>
                  <at name="width">20</at>
+                 <at name="toolTipText">_Acumular_filtro</at>
                  <at name="height">20</at>
                 </object>
                </at>
@@ -3550,7 +3551,7 @@
                  <at name="icon">
                   <object classname="com.jeta.forms.store.properties.IconProperty">
                    <at name="embedded">false</at>
-                   <at name="path">imagenes/search-simplifiedcondition-edit-accumulate.png</at>
+                   <at name="path">imagenes\search-simplifiedcondition-edit-accumulate.png</at>
                    <at name="description">search-simplifiedcondition-edit-accumulate.png</at>
                    <at name="width">16</at>
                    <at name="height">16</at>
@@ -3558,6 +3559,7 @@
                  </at>
                  <at name="name">btnEditAccumulate</at>
                  <at name="width">20</at>
+                 <at name="toolTipText">_Ver_el_filtro_acumulado</at>
                  <at name="height">20</at>
                 </object>
                </at>
@@ -3618,7 +3620,7 @@
                  <at name="icon">
                   <object classname="com.jeta.forms.store.properties.IconProperty">
                    <at name="embedded">false</at>
-                   <at name="path">imagenes/search-simplifiedcondition-clear-accumulate.png</at>
+                   <at name="path">imagenes\search-simplifiedcondition-clear-accumulate.png</at>
                    <at name="description">search-simplifiedcondition-clear-accumulate.png</at>
                    <at name="width">16</at>
                    <at name="height">16</at>
@@ -3626,6 +3628,7 @@
                  </at>
                  <at name="name">btnClearAccumulate</at>
                  <at name="width">20</at>
+                 <at name="toolTipText">_Eliminar_el_filtro_acumulado</at>
                  <at name="height">20</at>
                 </object>
                </at>
@@ -3733,7 +3736,7 @@
          </at>
         </object>
        </at>
-       <at name="name"/>
+       <at name="name"></at>
        <at name="fill">
         <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
          <at name="name">fill</at>
