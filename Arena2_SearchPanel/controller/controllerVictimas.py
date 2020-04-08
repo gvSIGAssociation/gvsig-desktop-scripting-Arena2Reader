@@ -38,14 +38,14 @@ class TabControllerVictimas(DocumentListener, ActionListener):
   def initComponents(self):
     listCategoriaElements = [
       ListElement(u' ',u''), 
-      ListElement(u'Con victimas',self.CATEGORIA_CON_VICTIMAS),
-      ListElement(u'Con daños',self.CATEGORIA_CON_DANOS)
+      ListElement(i18n.getTranslation(u'_Con_victimas'),self.CATEGORIA_CON_VICTIMAS),
+      ListElement(i18n.getTranslation(u'_Con_danos'),self.CATEGORIA_CON_DANOS)
       ]
     self.categoria.setModel(DefaultComboBoxModel(listCategoriaElements))
     
     listOperatorElements = [
-        ListElement(u'_And',ExpressionBuilder.OPERATOR_AND),
-        ListElement(u'_Or',ExpressionBuilder.OPERATOR_OR)
+        ListElement(i18n.getTranslation(u'_And'),ExpressionBuilder.OPERATOR_AND),
+        ListElement(i18n.getTranslation(u'_Or'),ExpressionBuilder.OPERATOR_OR)
         ]
     self.operator1.setModel(DefaultComboBoxModel(listOperatorElements))
     self.operator2.setModel(DefaultComboBoxModel(listOperatorElements))

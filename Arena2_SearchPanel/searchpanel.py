@@ -106,8 +106,6 @@ class SearchConditionPanelAccidentForm(FormPanel):
     swingManager.translate(self.lblMortales)
     swingManager.translate(self.lblGraves)
     swingManager.translate(self.lblLeves)
-    swingManager.translate(self.cboOperator1)
-    swingManager.translate(self.cboOperator2)
 
     iconTheme = ToolsSwingLocator.getIconThemeManager().getDefault()
     icon = iconTheme.get("accidentcondition-tabtick-disabled")
