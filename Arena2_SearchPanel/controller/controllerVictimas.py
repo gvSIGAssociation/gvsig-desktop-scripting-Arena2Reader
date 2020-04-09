@@ -14,6 +14,7 @@ from org.gvsig.fmap.dal import DALLocator
 from org.gvsig.tools.dataTypes import DataTypes
 from javax.json import Json, JsonValue
 from org.gvsig.tools.dataTypes import DataTypeUtils
+from org.gvsig.tools import ToolsLocator
 
 class TabControllerVictimas(DocumentListener, ActionListener):
   TAB_INDEX_PANEL = 3
@@ -36,6 +37,7 @@ class TabControllerVictimas(DocumentListener, ActionListener):
     self.leves = txtLeves
     self.initComponents()
   def initComponents(self):
+    i18n = ToolsLocator.getI18nManager()
     listCategoriaElements = [
       ListElement(u' ',u''), 
       ListElement(i18n.getTranslation(u'_Con_victimas'),self.CATEGORIA_CON_VICTIMAS),

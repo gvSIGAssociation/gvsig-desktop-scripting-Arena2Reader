@@ -24,8 +24,8 @@
     </at>
     <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
    </super>
-   <at name="id">/home/osc/gvSIG/plugins/org.gvsig.scripting.app.mainplugin/2.5.1/scripts/addons/Arena2Reader/searchpanel/searchpanel.xml</at>
-   <at name="path">addons/Arena2Reader/searchpanel/searchpanel.xml</at>
+   <at name="id">C:\Users\jolic\gvSIG\plugins\org.gvsig.scripting.app.mainplugin\2.5.1\scripts\addons\Arena2Reader\Arena2_SearchPanel\searchpanel.xml</at>
+   <at name="path">addons\Arena2Reader\Arena2_SearchPanel\searchpanel.xml</at>
    <at name="rowspecs">FILL:DEFAULT:GROW(1.0)</at>
    <at name="colspecs">FILL:301PX:GROW(1.0)</at>
    <at name="components">
@@ -75,7 +75,6 @@
              </object>
             </at>
             <at name="componentCount">2</at>
-            <at name="name"></at>
             <at name="tabs">
              <object classname="com.jeta.forms.store.properties.TabbedPaneProperties">
               <at name="name">tabs</at>
@@ -109,7 +108,7 @@
                       </at>
                       <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                      </super>
-                     <at name="id">embedded.1841682982</at>
+                     <at name="id">embedded.1022244476</at>
                      <at name="rowspecs">CENTER:3PX:NONE,FILL:DEFAULT:NONE,CENTER:4PX:NONE</at>
                      <at name="colspecs">FILL:3PX:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:NONE,FILL:DEFAULT:GROW(1.0)</at>
                      <at name="components">
@@ -158,8 +157,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="name"></at>
-                              <at name="width">69</at>
+                              <at name="width">61</at>
+                              <at name="name"/>
                               <at name="text">ID Accidente</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -218,7 +217,7 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="width">680</at>
+                              <at name="width">526</at>
                               <at name="name"/>
                               <at name="height">20</at>
                              </object>
@@ -245,7 +244,7 @@
                            </at>
                           </object>
                          </at>
-                         <at name="name"></at>
+                         <at name="name"/>
                          <at name="fill">
                           <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
                            <at name="name">fill</at>
@@ -346,7 +345,7 @@
                       </at>
                       <at name="componentclass">com.jeta.forms.gui.form.FormComponent</at>
                      </super>
-                     <at name="id">embedded.981272056</at>
+                     <at name="id">embedded.1070792640</at>
                      <at name="rowspecs">CENTER:4PX:NONE,CENTER:DEFAULT:NONE,CENTER:6PX:NONE,CENTER:DEFAULT:NONE,CENTER:6PX:NONE</at>
                      <at name="colspecs">FILL:3PX:NONE,FILL:86PX:NONE,FILL:DEFAULT:NONE,FILL:106PX:GROW(1.0),FILL:DEFAULT:NONE,FILL:72PX:NONE,FILL:DEFAULT:NONE,FILL:104PX:GROW(1.0),FILL:3PX:NONE</at>
                      <at name="components">
@@ -395,8 +394,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="name"></at>
                               <at name="width">82</at>
+                              <at name="name"/>
                               <at name="text">Carretera</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -455,8 +454,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="name"></at>
-                              <at name="width">279</at>
+                              <at name="width">198</at>
+                              <at name="name"/>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -509,8 +508,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="name"></at>
                               <at name="width">68</at>
+                              <at name="name"/>
                               <at name="text">PK Inicial</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -569,8 +568,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="name"></at>
-                              <at name="width">277</at>
+                              <at name="width">196</at>
+                              <at name="name"/>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -623,8 +622,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="name"></at>
                               <at name="width">82</at>
+                              <at name="name"/>
                               <at name="text">Titularidad</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -683,8 +682,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="name"></at>
                               <at name="width">68</at>
+                              <at name="name"/>
                               <at name="text">PK Final</at>
                               <at name="fill">
                                <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
@@ -743,8 +742,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="name"></at>
-                              <at name="width">279</at>
+                              <at name="width">198</at>
+                              <at name="name"/>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -797,8 +796,8 @@
                                 </at>
                                </object>
                               </at>
-                              <at name="name"></at>
-                              <at name="width">277</at>
+                              <at name="width">196</at>
+                              <at name="name"/>
                               <at name="height">20</at>
                              </object>
                             </at>
@@ -824,7 +823,7 @@
                            </at>
                           </object>
                          </at>
-                         <at name="name"></at>
+                         <at name="name"/>
                          <at name="fill">
                           <object classname="com.jeta.forms.store.properties.effects.PaintProperty">
                            <at name="name">fill</at>
@@ -907,9 +906,10 @@
               </at>
              </object>
             </at>
-            <at name="width">803</at>
+            <at name="width">641</at>
+            <at name="name"/>
             <at name="tabCount">2</at>
-            <at name="height">626</at>
+            <at name="height">849</at>
            </object>
           </at>
          </object>
