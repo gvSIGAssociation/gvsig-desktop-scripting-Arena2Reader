@@ -210,8 +210,8 @@ class Arena2Reader(AbstractSimpleSequentialReader):
 def selfRegister():
   factory = Arena2ReaderFactory()
   factory.selfRegister(
-    URL("file://"+getResource(__file__,"Arena2Parameters.xml")),
-    URL("file://"+getResource(__file__,"Arena2Metadata.xml")),
+    URL("file:///"+getResource(__file__,"Arena2Parameters.xml")),
+    URL("file:///"+getResource(__file__,"Arena2Metadata.xml")),
   )
 
 def test(factory, fname, table):
