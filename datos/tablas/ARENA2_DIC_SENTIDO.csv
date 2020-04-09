@@ -1,4 +1,4 @@
-ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100; TRADUCCION:String:set:size=1
+ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100;TRADUCCION:String:set:size=1
 1;"Ascendente";"A"
 2;"Descendente";"D"
 3;"Mixto";"S"

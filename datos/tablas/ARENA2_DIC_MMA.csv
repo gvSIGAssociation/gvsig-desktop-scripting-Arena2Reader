@@ -1,4 +1,4 @@
-ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
+ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100
 1;"Menor de 3,5 T"
 2;"De 3,5 T a 10 T"
 3;"De 10 T a 20 T"

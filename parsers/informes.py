@@ -25,11 +25,12 @@ COLUMNS_DEFINITION = [
     label="_Fecha_fin")\
     .tag("dynform.readonly",True),
   Descriptor("ACCIDENTES","List", group="_Accidentes")\
+    .set("relation","Aggregation")\
     .relatedFeatures(
       "ARENA2_ACCIDENTES",
       "ID_ACCIDENTE",
       ("ID_ACCIDENTE","FECHA_ACCIDENTE","COD_PROVINCIA","COD_MUNICIPIO","COD_POBLACION"),
-      "FEATURES('ARENA2_ACCIDENTES',FORMAT('COD_INFORME = ''%s''',COD_INFORME))"
+      "SELECT * FROM ARENA2_ACCIDENTES WHERE ARENA2_INFORMES.COD_INFORME = ARENA2_ACCIDENTES.COD_INFORME;"
     )\
     .tag("dynform.label.empty",True)
 ]

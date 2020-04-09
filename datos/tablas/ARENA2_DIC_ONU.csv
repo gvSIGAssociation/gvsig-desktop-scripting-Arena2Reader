@@ -1,4 +1,4 @@
-ID:Integer:set:pk=true; CODIGO:Integer; DESCRIPCION:String:set:size=200
+ID:Integer:set:pk=true;CODIGO:Integer;DESCRIPCION:String:set:size=200
 10010;1001;"Acetileno disuelto"
 10020;1002;"Aire comprimido"
 10030;1003;"Aire líquido, refrigerado"

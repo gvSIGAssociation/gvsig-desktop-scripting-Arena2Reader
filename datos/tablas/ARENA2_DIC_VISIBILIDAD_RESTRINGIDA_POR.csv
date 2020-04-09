@@ -1,4 +1,4 @@
-ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
+ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100
 1;"Buena visibilidad"
 2;"Edificios"
 3;"Instalaciones o elementos de la vía"

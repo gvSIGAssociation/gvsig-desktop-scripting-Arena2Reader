@@ -1,4 +1,4 @@
-ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
+ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100
 1;"Uso de teléfono móvil"
 4;"Uso de radio, DVD, video, auriculares..."
 8;"Presencia de accidente anterior"

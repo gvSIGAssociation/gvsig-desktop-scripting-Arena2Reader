@@ -1,4 +1,4 @@
-ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
+ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100
 1;"Calzada única"
 2;"Doble calzada"
 3;"Más de dos"

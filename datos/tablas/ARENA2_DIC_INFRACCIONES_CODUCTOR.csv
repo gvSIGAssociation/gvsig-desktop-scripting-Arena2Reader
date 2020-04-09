@@ -1,4 +1,4 @@
-ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
+ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100
 1;"Presuntamente no existe infracción"
 2;"No respetar el STOP"
 3;"No respetar "ceda el paso""

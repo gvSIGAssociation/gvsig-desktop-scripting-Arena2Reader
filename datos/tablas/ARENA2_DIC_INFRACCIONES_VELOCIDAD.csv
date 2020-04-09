@@ -1,4 +1,4 @@
-ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
+ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100
 1;"Ninguna"
 2;"Velocidad inadecuada para las condiciones de la vía"
 3;"Sobrepasar la velocidad establecida"

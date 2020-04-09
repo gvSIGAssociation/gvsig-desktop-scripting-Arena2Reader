@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Listado de accidentes" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="08643c55-92f1-4f98-95fb-1f7907f04306">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Accidentes.xml"/>
 	<subDataset name="Dataset1" uuid="47c53e5b-98c4-418a-94cc-63308d356214">
@@ -387,7 +387,7 @@
 					<font size="8"/>
 					<paragraph firstLineIndent="0" leftIndent="2" rightIndent="2"/>
 				</textElement>
-				<textFieldExpression><![CDATA[IF($F{DESCRIPCION}.length() >85,LEFT(  $F{DESCRIPCION},85)+" (...)", $F{DESCRIPCION})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{DESCRIPCION}.length() >85? LEFT(  $F{DESCRIPCION},85)+" (...)" :$F{DESCRIPCION}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="ElementGroupHeight" x="130" y="0" width="40" height="62" uuid="063b103b-1910-401c-89c4-99885dcac196">

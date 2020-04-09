@@ -1,4 +1,4 @@
-ID:Integer:set:pk=true; DESCRIPCION:String:set:size=100
+ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100
 1;"Saliendo entre vehículos aparcados"
 2;"En la calzada delante de la parada del bus"
 3;"Cruzando la calzada justo antes de una intersección"

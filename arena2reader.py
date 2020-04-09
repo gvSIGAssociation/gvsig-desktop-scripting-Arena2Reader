@@ -21,8 +21,9 @@ from addons.Arena2Reader.parsers.peatones import PeatonesParser
 from addons.Arena2Reader.parsers.pasajeros import PasajerosParser
 from addons.Arena2Reader.parsers.croquis import CroquisParser
 
-from addons.Arena2Reader import diccionarios
-from addons.Arena2Reader import recursos
+from addons.Arena2Reader.arena2readerutils import isArena2File
+from addons.Arena2Reader.arena2readerutils import getDictionaryNames, getOpenStoreParametersOfDictionary
+from addons.Arena2Reader.arena2readerutils import getResourcesStorage
 
 class Table(object):
   def __init__(self, parser, name, label=None, tags=None):
@@ -106,18 +107,20 @@ class Arena2ReaderFactory(AbstractSimpleSequentialReaderFactory):
   def __init__(self):
     AbstractSimpleSequentialReaderFactory.__init__(self, "ARENA2", "Arena2", ("xml","arena2"))
 
-  def accept(self, pathname):
+  def accept(self, f):
     # Este metodo es opcional, si con la extension del fichero es
     # suficiente, no hace falta sobreescribirlo.
-    if not AbstractSimpleSequentialReaderFactory.accept(self,pathname):
+    if not AbstractSimpleSequentialReaderFactory.accept(self,f):
       return False
-    f = open(pathname.getAbsolutePath(),"r")
-    head = f.read(500)
-    f.close()
-    head = head.lower()
-    head = head.replace("\r","").replace("\n"," ")
-    #print pathname, repr(head)
-    return ("<informe" in head) and ("cod_informe=" in head) and ("fecha_ini_export=" in head) and ("<accidentes>" in head) and ("<accidente" in head) and ("id_accidente=" in head)
+    if isinstance(f,File):
+      if f.isDirectory():
+        return True
+      f = f.getAbsolutePath()
+    else:
+      f = str(f)
+      if os.path.isdir(f):
+        return True
+    return isArena2File(f)
 
   def fetchDefaultParameters(self, params):
     # Este metodo es opcional, si el fichero de datos no aporta ningun valor
@@ -130,8 +133,8 @@ class Arena2ReaderFactory(AbstractSimpleSequentialReaderFactory):
     f = params.getFile()
     dataManager = DALLocator.getDataManager()
     repo = BaseStoresRepository("ARENA2_"+f.getName())
-    for name in diccionarios.getNames():
-      parameters = diccionarios.getParameters(name)
+    for name in getDictionaryNames():
+      parameters = getOpenStoreParametersOfDictionary(name)
       repo.add(name,parameters)
     reader = Arena2Reader(self, params, repo)
     return reader
@@ -177,7 +180,7 @@ class Arena2Reader(AbstractSimpleSequentialReader):
 
   def getResourcesStorage(self):
     if self._resourcesStorage == None:
-      self._resourcesStorage = recursos.getResourcesStorage(self._table.name)
+      self._resourcesStorage = getResourcesStorage(self._table.name)
     return self._resourcesStorage
     
   def getName(self):

@@ -5,7 +5,7 @@ Lang = python
 
 [Unit]
 type = Script
-name = recursos
+name = autorun
 description = 
 createdBy = 
 version = 

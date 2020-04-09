@@ -16,6 +16,7 @@ COLUMNS_DEFINITION = [
   Descriptor("ID_ACCIDENTE","String",20,
     label="_Accidente")\
     .tag("dynform.readonly",True)\
+    .set("relation","Collaboration")\
     .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)"),
   Descriptor("ID_PEATON","Integer", 
     label="_Codigo_peaton",
@@ -34,6 +35,7 @@ COLUMNS_DEFINITION = [
     .tag("dynform.separator","_Datos_personales"),
   Descriptor("SEXO","Integer",
     label="_Sexo")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_SEXO")\
     .tag("dynform.readonly",True),
   Descriptor("NACIONALIDAD","String", size=100,
@@ -54,6 +56,7 @@ COLUMNS_DEFINITION = [
   Descriptor("ASISTENCIA_SANITARIA","Integer",
     label="_Asistencia_sanitaria",
     shortlabel="_Asis_sanitaria")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_ASISTENCIA_SANITARIA")\
     .tag("dynform.readonly",True),
 
@@ -66,6 +69,7 @@ COLUMNS_DEFINITION = [
   Descriptor("FACTORES_ATENCION","Integer",
     label="_Factores_afectan_atencion",
     shortlabel="_Fact_atencion")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_FACTORES_ATENCION_PEA")\
     .tag("dynform.readonly",True),
   
@@ -76,6 +80,7 @@ COLUMNS_DEFINITION = [
   Descriptor("PRESUNTOS_ERRORES","Integer",
     label="_Presuntos_errores",
     shortlabel="_Errores")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_ERRORES_PEA")\
     .tag("dynform.readonly",True),
   
@@ -93,6 +98,7 @@ COLUMNS_DEFINITION = [
   Descriptor("MOTIVO_DESPLAZAMIENTO","Integer",
     label="_Motivo_desplazamiento",
     shortlabel="_Motivo_despl")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_MOTIVO_DESPLAZA_PEA")\
     .tag("dynform.readonly",True)\
     .tag("dynform.separator","_Desplazamiento"),
@@ -100,6 +106,7 @@ COLUMNS_DEFINITION = [
     label="_Accion_del_peaton",
     shortlabel="_Accion_pea")\
     .tag("dynform.readonly",True)\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_ACCION_PEA"),
 
   # Grupo: Pruebas
@@ -114,6 +121,7 @@ COLUMNS_DEFINITION = [
     group="_Pruebas",
     label="_Prueba_en_aire",
     shortlabel="_Prueba_aire")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_PRUEBA_ALCOHOLEMIA")\
     .tag("dynform.readonly",True),
   Descriptor("TASA_ALCOHOLEMIA1","Integer",
@@ -147,6 +155,7 @@ COLUMNS_DEFINITION = [
     group="_Pruebas",
     label="_Prueba_de_drogas",
     shortlabel="_Prueba_drogas")\
+    .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_PRUEBA_DROGAS")\
     .tag("dynform.readonly",True),
   Descriptor("AMP","Boolean",
