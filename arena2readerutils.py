@@ -117,6 +117,7 @@ def createArena2XMLFileFilter():
   return Arena2XMLFileFilter()
 
 def isArena2File(pathname):
+  try:
     if pathname==None:
       return False
     if os.path.splitext(pathname)[1].lower() != ".xml":
@@ -132,7 +133,9 @@ def isArena2File(pathname):
     #if not x:
     #  print "@@@@ isArena2File return False (3) head=", repr(head)
     return x
-
+  except:
+    return False
+    
 def getDictionaryNames():
   return DIC_NAMES
 
