@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 import gvsig
+import sys
 
 from org.gvsig.fmap.geom.aggregate import MultiPolygon
 from org.gvsig.scripting.app.extension import ScriptingUtils
@@ -10,7 +11,7 @@ from org.gvsig.fmap.geom import GeometryUtils
 from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations
 
 COLUMNS_DEFINITION = [
-  Descriptor("LID_CONDUCTOR","String",20,hidden=True, pk=True,
+  Descriptor("LID_CONDUCTOR","String",30,hidden=True, pk=True,
     label="_Id_conduct")\
     .tag("dynform.readonly",True),
   Descriptor("ID_ACCIDENTE","String",20,
@@ -378,13 +379,23 @@ class ConductoresParser(object):
     return informes
 
   def getAccidentes(self, informe):
-    accidentes = informe["ACCIDENTES"]['ACCIDENTE']
+    accidentes = informe["ACCIDENTES"]
+    if accidentes==None:
+      return tuple()
+    accidentes = accidentes.get('ACCIDENTE',None)
+    if accidentes==None:
+      return tuple()
     if not isinstance(accidentes,list):
       accidentes = [ accidentes ]
     return accidentes
 
   def getVehiculos(self, accidente):
-    vehiculos = accidente["VEHICULOS"]['VEHICULO']
+    vehiculos = accidente["VEHICULOS"]
+    if vehiculos==None:
+      return tuple()
+    vehiculos = vehiculos.get('VEHICULO',None)
+    if vehiculos==None:
+      return tuple()
     if not isinstance(vehiculos,list):
       vehiculos = [ vehiculos ]
     return vehiculos
@@ -399,6 +410,8 @@ class ConductoresParser(object):
       row = self.next()
       if row == None:
         return rowCount
+      #conductor_id = get1(row,"@ID_ACCIDENTE") +"/"+ get1(row,"@ID_VEHICULO")
+      #print "Conductor: ", conductor_id
       rowCount+=1
     
   def read(self):
@@ -406,85 +419,94 @@ class ConductoresParser(object):
     if conductor == None:
       return None
       
-    values = [
+    values = []
+    conductor_id = None
+    try:
+      conductor_id = get1(conductor,"@ID_ACCIDENTE") +"/"+ get1(conductor,"@ID_VEHICULO")
+      
       # LID_CONDUCTOR
-      get1(conductor,"@ID_ACCIDENTE") +"/"+ get1(conductor,"@ID_VEHICULO"),
+      values.append(conductor_id)
       
-      get1(conductor,"@ID_ACCIDENTE"),
+      values.append(get1(conductor,"@ID_ACCIDENTE"))
       # LID_VEHICULO
-      get1(conductor,"@ID_ACCIDENTE") +"/"+ get1(conductor,"@ID_VEHICULO"),
+      values.append(get1(conductor,"@ID_ACCIDENTE") +"/"+ get1(conductor,"@ID_VEHICULO"))
       
-      get1(conductor,"@ID_VEHICULO"),
+      values.append(get1(conductor,"@ID_VEHICULO"))
             
-      sino2bool(get1(conductor,"POSIBLE_RESPONSABLE")),
+      values.append(sino2bool(get1(conductor,"POSIBLE_RESPONSABLE")))
       
-      get1(conductor,"FECHA_NACIMIENTO"),
-      null2zero(get1(conductor,"SEXO")),
-      get1(conductor,"NACIONALIDAD"),
-      get1(conductor,"PAIS_RESIDENCIA"),
-      get1(conductor,"PROVINCIA_RESIDENCIA"),
-      get1(conductor,"MUNICIPIO_RESIDENCIA"),
-      null2zero(get1(conductor,"ASISTENCIA_SANITARIA")),
+      values.append(get1(conductor,"FECHA_NACIMIENTO"))
+      values.append(null2zero(get1(conductor,"SEXO")))
+      values.append(get1(conductor,"NACIONALIDAD"))
+      values.append(get1(conductor,"PAIS_RESIDENCIA"))
+      values.append(get1(conductor,"PROVINCIA_RESIDENCIA"))
+      values.append(get1(conductor,"MUNICIPIO_RESIDENCIA"))
+      values.append(null2zero(get1(conductor,"ASISTENCIA_SANITARIA")))
           
-      sino2bool(get2(conductor,"FACTORES_ATENCION","@INFLU_FACT_ATENCION")),
-      null2zero(get2(conductor,"FACTORES_ATENCION","#text")),
+      values.append(sino2bool(get2(conductor,"FACTORES_ATENCION","@INFLU_FACT_ATENCION")))
+      values.append(null2zero(get2(conductor,"FACTORES_ATENCION","#text")))
       
-      sino2bool(get2(conductor,"PRESUNTOS_ERRORES","@INFLU_PRES_ERROR")),
-      null2zero(get2(conductor,"PRESUNTOS_ERRORES","#text")),
+      values.append(sino2bool(get2(conductor,"PRESUNTOS_ERRORES","@INFLU_PRES_ERROR")))
+      values.append(null2zero(get2(conductor,"PRESUNTOS_ERRORES","#text")))
         
-      null2zero(get1(conductor,"CARACT_PERMISO")),
-      null2zero(get1(conductor,"CLASE_PERMISO")),
-      get1(conductor,"FECHA_PERMISO"),
+      values.append(null2zero(get1(conductor,"CARACT_PERMISO")))
+      values.append(null2zero(get1(conductor,"CLASE_PERMISO")))
+      values.append(get1(conductor,"FECHA_PERMISO"))
       
-      null2zero(get1(conductor,"MOTIVO_DESPLAZAMIENTO")),
-      null2zero(get1(conductor,"DESPLAZAMIENTO_PREVISTO")),
+      values.append(null2zero(get1(conductor,"MOTIVO_DESPLAZAMIENTO")))
+      values.append(null2zero(get1(conductor,"DESPLAZAMIENTO_PREVISTO")))
       
-      sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD","ACC_SEG_CINTURON")),
-      null2zero(get2(conductor,"ACCESORIOS_SEGURIDAD","ACC_SEG_CASCO")),
-      sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_BRAZOS")),
-      sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_ESPALDA")),
-      sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_TORSO")),
-      sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_MANOS")),
-      sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIERNAS")),
-      sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIES")),
-      sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PRENDA_REF")),
+      values.append(sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD","ACC_SEG_CINTURON")))
+      values.append(null2zero(get2(conductor,"ACCESORIOS_SEGURIDAD","ACC_SEG_CASCO")))
+      values.append(sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_BRAZOS")))
+      values.append(sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_ESPALDA")))
+      values.append(sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_TORSO")))
+      values.append(sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_MANOS")))
+      values.append(sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIERNAS")))
+      values.append(sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIES")))
+      values.append(sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PRENDA_REF")))
       
-      sino2bool(get2(conductor,"ALCOHOL","@INFLU_ALCOHOL")),
-      null2zero(get2(conductor,"ALCOHOL","PRUEBA_ALCOHOLEMIA")),
-      null2zero(get2(conductor,"ALCOHOL","TASA_ALCOHOLEMIA1")),
-      null2zero(get2(conductor,"ALCOHOL","TASA_ALCOHOLEMIA2")),
-      sino2bool(get2(conductor,"ALCOHOL","PRUEBA_ALC_SANGRE")),
-      sino2bool(get2(conductor,"ALCOHOL","SIGNOS_INFLU_ALCOHOL")),
+      values.append(sino2bool(get2(conductor,"ALCOHOL","@INFLU_ALCOHOL")))
+      values.append(null2zero(get2(conductor,"ALCOHOL","PRUEBA_ALCOHOLEMIA")))
+      values.append(null2zero(get2(conductor,"ALCOHOL","TASA_ALCOHOLEMIA1")))
+      values.append(null2zero(get2(conductor,"ALCOHOL","TASA_ALCOHOLEMIA2")))
+      values.append(sino2bool(get2(conductor,"ALCOHOL","PRUEBA_ALC_SANGRE")))
+      values.append(sino2bool(get2(conductor,"ALCOHOL","SIGNOS_INFLU_ALCOHOL")))
       
-      sino2bool(get2(conductor,"DROGAS","@INFLU_DROGAS")),
-      null2zero(get2(conductor,"DROGAS","PRUEBA_DROGAS")),
-      sino2bool(get2(conductor,"DROGAS","AMP")),
-      sino2bool(get2(conductor,"DROGAS","CONFIRMADO_AMP")),
-      sino2bool(get2(conductor,"DROGAS","BDZ")),
-      sino2bool(get2(conductor,"DROGAS","CONFIRMADO_BDZ")),
-      sino2bool(get2(conductor,"DROGAS","COC")),
-      sino2bool(get2(conductor,"DROGAS","CONFIRMADO_COC")),
-      sino2bool(get2(conductor,"DROGAS","THC")),
-      sino2bool(get2(conductor,"DROGAS","CONFIRMADO_THC")),
-      sino2bool(get2(conductor,"DROGAS","METH")),
-      sino2bool(get2(conductor,"DROGAS","CONFIRMADO_METH")),
-      sino2bool(get2(conductor,"DROGAS","OPI")),
-      sino2bool(get2(conductor,"DROGAS","CONFIRMADO_OPI")),
-      sino2bool(get2(conductor,"DROGAS","OTRAS")),
-      sino2bool(get2(conductor,"DROGAS","CONFIRMADO_OTRAS")),
-      sino2bool(get2(conductor,"DROGAS","SIGNOS_INFLU_DROGAS")),
+      values.append(sino2bool(get2(conductor,"DROGAS","@INFLU_DROGAS")))
+      values.append(null2zero(get2(conductor,"DROGAS","PRUEBA_DROGAS")))
+      values.append(sino2bool(get2(conductor,"DROGAS","AMP")))
+      values.append(sino2bool(get2(conductor,"DROGAS","CONFIRMADO_AMP")))
+      values.append(sino2bool(get2(conductor,"DROGAS","BDZ")))
+      values.append(sino2bool(get2(conductor,"DROGAS","CONFIRMADO_BDZ")))
+      values.append(sino2bool(get2(conductor,"DROGAS","COC")))
+      values.append(sino2bool(get2(conductor,"DROGAS","CONFIRMADO_COC")))
+      values.append(sino2bool(get2(conductor,"DROGAS","THC")))
+      values.append(sino2bool(get2(conductor,"DROGAS","CONFIRMADO_THC")))
+      values.append(sino2bool(get2(conductor,"DROGAS","METH")))
+      values.append(sino2bool(get2(conductor,"DROGAS","CONFIRMADO_METH")))
+      values.append(sino2bool(get2(conductor,"DROGAS","OPI")))
+      values.append(sino2bool(get2(conductor,"DROGAS","CONFIRMADO_OPI")))
+      values.append(sino2bool(get2(conductor,"DROGAS","OTRAS")))
+      values.append(sino2bool(get2(conductor,"DROGAS","CONFIRMADO_OTRAS")))
+      values.append(sino2bool(get2(conductor,"DROGAS","SIGNOS_INFLU_DROGAS")))
       
-      sino2bool(get2(conductor,"INFRACIONES","@INFLU_PRES_INFRAC_COND")),
-      null2zero(get2(conductor,"INFRACIONES","PRES_INFRAC_COND")),
-      sino2bool(get2(conductor,"INFRACIONES","PRES_INFRAC_SIN_LUCES")),
-      sino2bool(get2(conductor,"INFRACIONES","PRES_INFRAC_SIN_TRIANGULO")),
+      values.append(sino2bool(get2(conductor,"INFRACIONES","@INFLU_PRES_INFRAC_COND")))
+      values.append(null2zero(get2(conductor,"INFRACIONES","PRES_INFRAC_COND")))
+      values.append(sino2bool(get2(conductor,"INFRACIONES","PRES_INFRAC_SIN_LUCES")))
+      values.append(sino2bool(get2(conductor,"INFRACIONES","PRES_INFRAC_SIN_TRIANGULO")))
           
-      sino2bool(get2(conductor,"PRES_INFRAC_VEL_COND","@INFLU_PRES_INFRAC_VEL")),
-      null2zero(get2(conductor,"PRES_INFRAC_VEL_COND","#text")),
+      values.append(sino2bool(get2(conductor,"PRES_INFRAC_VEL_COND","@INFLU_PRES_INFRAC_VEL")))
+      values.append(null2zero(get2(conductor,"PRES_INFRAC_VEL_COND","#text")))
       
-      sino2bool(get2(conductor,"OTRA_INFRAC_COND","@INFLU_OTRA_INFRAC")),
-      null2zero(get2(conductor,"OTRA_INFRAC_COND","@TIPO")),
-    ]
+      values.append(sino2bool(get2(conductor,"OTRA_INFRAC_COND","@INFLU_OTRA_INFRAC")))
+      values.append(null2zero(get2(conductor,"OTRA_INFRAC_COND","@TIPO")))
+    
+    except:
+      ex = sys.exc_info()[1]
+      gvsig.logger("No se puede leer el conductor %s. %s" % (conductor_id,str(ex)), gvsig.LOGGER_WARN, ex)
+      raise
+    
     return values
 
   def next(self):

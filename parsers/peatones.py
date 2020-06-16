@@ -10,7 +10,7 @@ from org.gvsig.fmap.geom import GeometryUtils
 from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations
 
 COLUMNS_DEFINITION = [
-  Descriptor("LID_PEATON","String",20,hidden=True, pk=True,
+  Descriptor("LID_PEATON","String",30,hidden=True, pk=True,
     label="_Id_peaton")\
     .tag("dynform.readonly",True),
   Descriptor("ID_ACCIDENTE","String",20,
@@ -270,19 +270,26 @@ class PeatonesParser(object):
     return informes
 
   def getAccidentes(self, informe):
-    accidentes = informe["ACCIDENTES"]['ACCIDENTE']
+    accidentes = informe["ACCIDENTES"]
+    if accidentes==None:
+      return tuple()
+    accidentes = accidentes.get('ACCIDENTE',None)
+    if accidentes==None:
+      return tuple()
     if not isinstance(accidentes,list):
       accidentes = [ accidentes ]
     return accidentes
 
   def getPeatones(self, accidente):
-    try:
-      peatones = accidente["PEATONES"]['PEATON']
-      if not isinstance(peatones,list):
-        peatones = [ peatones ]
-      return peatones
-    except: # Si no hay peatones da error; nosotros devolvemos una lista vacia
-      return list()
+    peatones = accidente["PEATONES"]
+    if peatones==None:
+      return tuple()
+    peatones = peatones.get('PEATON',None)
+    if peatones==None:
+      return tuple()
+    if not isinstance(peatones,list):
+      peatones = [ peatones ]
+    return peatones
 
   def getColumns(self):
     return COLUMNS_DEFINITION
@@ -301,58 +308,66 @@ class PeatonesParser(object):
     if peaton == None:
       return None
 
-    values = [
+    values = []
+    peaton_id = None
+    try:
+      peaton_id = get1(peaton,"@ID_ACCIDENTE") +"/"+ get1(peaton,"@ID_PEATON")
+    
       # LID_PEATON
-      get1(peaton,"@ID_ACCIDENTE") +"/"+ get1(peaton,"@ID_PEATON"),
+      values.append(peaton_id)
       
-      get1(peaton,"@ID_ACCIDENTE"),      
-      get1(peaton,"@ID_PEATON"),
+      values.append(get1(peaton,"@ID_ACCIDENTE"))
+      values.append(get1(peaton,"@ID_PEATON"))
       
-      sino2bool(get1(peaton,"POSIBLE_RESPONSABLE")),
+      values.append(sino2bool(get1(peaton,"POSIBLE_RESPONSABLE")))
       
-      get1(peaton,"FECHA_NACIMIENTO"),
-      null2zero(get1(peaton,"SEXO")),
-      get1(peaton,"PAIS_RESIDENCIA"),
-      get1(peaton,"PROVINCIA_RESIDENCIA"),
-      get1(peaton,"MUNICIPIO_RESIDENCIA"),
-      null2zero(get1(peaton,"ASISTENCIA_SANITARIA")),
+      values.append(get1(peaton,"FECHA_NACIMIENTO"))
+      values.append(null2zero(get1(peaton,"SEXO")))
+      values.append(get1(peaton,"PAIS_RESIDENCIA"))
+      values.append(get1(peaton,"PROVINCIA_RESIDENCIA"))
+      values.append(get1(peaton,"MUNICIPIO_RESIDENCIA"))
+      values.append(null2zero(get1(peaton,"ASISTENCIA_SANITARIA")))
 
-      sino2bool(get2(peaton,"FACTORES_ATENCION","@INFLU_FACT_ATENCION")),
-      null2zero(get2(peaton,"FACTORES_ATENCION","#text")),
-      sino2bool(get2(peaton,"PRESUNTOS_ERRORES","@INFLU_PRES_ERROR")),
-      null2zero(get2(peaton,"PRESUNTOS_ERRORES","#text")),
-      sino2bool(get2(peaton,"PRES_INFRAC_PEA","@INFLU_PRES_INFRAC")),
-      null2zero(get2(peaton,"PRES_INFRAC_PEA","#text")),
+      values.append(sino2bool(get2(peaton,"FACTORES_ATENCION","@INFLU_FACT_ATENCION")))
+      values.append(null2zero(get2(peaton,"FACTORES_ATENCION","#text")))
+      values.append(sino2bool(get2(peaton,"PRESUNTOS_ERRORES","@INFLU_PRES_ERROR")))
+      values.append(null2zero(get2(peaton,"PRESUNTOS_ERRORES","#text")))
+      values.append(sino2bool(get2(peaton,"PRES_INFRAC_PEA","@INFLU_PRES_INFRAC")))
+      values.append(null2zero(get2(peaton,"PRES_INFRAC_PEA","#text")))
 
-      get1(peaton,"MOTIVO_DESPLAZAMIENTO"),
-      null2zero(get1(peaton,"ACCION_PEA")),
+      values.append(get1(peaton,"MOTIVO_DESPLAZAMIENTO"))
+      values.append(null2zero(get1(peaton,"ACCION_PEA")))
       
-      sino2bool(get2(peaton,"ALCOHOL","@INFLU_ALCOHOL")),
-      null2zero(get2(peaton,"ALCOHOL","PRUEBA_ALCOHOLEMIA")),
-      null2zero(get2(peaton,"ALCOHOL","TASA_ALCOHOLEMIA1")),
-      null2zero(get2(peaton,"ALCOHOL","TASA_ALCOHOLEMIA2")),
-      sino2bool(get2(peaton,"ALCOHOL","PRUEBA_ALC_SANGRE")),
-      sino2bool(get2(peaton,"ALCOHOL","SIGNOS_INFLU_ALCOHOL")),
+      values.append(sino2bool(get2(peaton,"ALCOHOL","@INFLU_ALCOHOL")))
+      values.append(null2zero(get2(peaton,"ALCOHOL","PRUEBA_ALCOHOLEMIA")))
+      values.append(null2zero(get2(peaton,"ALCOHOL","TASA_ALCOHOLEMIA1")))
+      values.append(null2zero(get2(peaton,"ALCOHOL","TASA_ALCOHOLEMIA2")))
+      values.append(sino2bool(get2(peaton,"ALCOHOL","PRUEBA_ALC_SANGRE")))
+      values.append(sino2bool(get2(peaton,"ALCOHOL","SIGNOS_INFLU_ALCOHOL")))
 
-      sino2bool(get2(peaton,"DROGAS","@INFLU_DROGAS")),
-      null2zero(get2(peaton,"DROGAS","PRUEBA_DROGAS")),
-      sino2bool(get2(peaton,"DROGAS","AMP")),
-      sino2bool(get2(peaton,"DROGAS","CONFIRMADO_AMP")),
-      sino2bool(get2(peaton,"DROGAS","BDZ")),
-      sino2bool(get2(peaton,"DROGAS","CONFIRMADO_BDZ")),
-      sino2bool(get2(peaton,"DROGAS","COC")),
-      sino2bool(get2(peaton,"DROGAS","CONFIRMADO_COC")),
-      sino2bool(get2(peaton,"DROGAS","THC")),
-      sino2bool(get2(peaton,"DROGAS","CONFIRMADO_THC")),
-      sino2bool(get2(peaton,"DROGAS","METH")),
-      sino2bool(get2(peaton,"DROGAS","CONFIRMADO_METH")),
-      sino2bool(get2(peaton,"DROGAS","OPI")),
-      sino2bool(get2(peaton,"DROGAS","CONFIRMADO_OPI")),
-      sino2bool(get2(peaton,"DROGAS","OTRAS")),
-      sino2bool(get2(peaton,"DROGAS","CONFIRMADO_OTRAS")),
-      sino2bool(get2(peaton,"DROGAS","SIGNOS_INFLU_DROGAS")),
+      values.append(sino2bool(get2(peaton,"DROGAS","@INFLU_DROGAS")))
+      values.append(null2zero(get2(peaton,"DROGAS","PRUEBA_DROGAS")))
+      values.append(sino2bool(get2(peaton,"DROGAS","AMP")))
+      values.append(sino2bool(get2(peaton,"DROGAS","CONFIRMADO_AMP")))
+      values.append(sino2bool(get2(peaton,"DROGAS","BDZ")))
+      values.append(sino2bool(get2(peaton,"DROGAS","CONFIRMADO_BDZ")))
+      values.append(sino2bool(get2(peaton,"DROGAS","COC")))
+      values.append(sino2bool(get2(peaton,"DROGAS","CONFIRMADO_COC")))
+      values.append(sino2bool(get2(peaton,"DROGAS","THC")))
+      values.append(sino2bool(get2(peaton,"DROGAS","CONFIRMADO_THC")))
+      values.append(sino2bool(get2(peaton,"DROGAS","METH")))
+      values.append(sino2bool(get2(peaton,"DROGAS","CONFIRMADO_METH")))
+      values.append(sino2bool(get2(peaton,"DROGAS","OPI")))
+      values.append(sino2bool(get2(peaton,"DROGAS","CONFIRMADO_OPI")))
+      values.append(sino2bool(get2(peaton,"DROGAS","OTRAS")))
+      values.append(sino2bool(get2(peaton,"DROGAS","CONFIRMADO_OTRAS")))
+      values.append(sino2bool(get2(peaton,"DROGAS","SIGNOS_INFLU_DROGAS")))
 
-    ]
+    except:
+      ex = sys.exc_info()[1]
+      gvsig.logger("No se puede leer el peaton %s. %s" % (peaton_id,str(ex)), gvsig.LOGGER_WARN, ex)
+      raise
+
     return values
 
   def next(self):

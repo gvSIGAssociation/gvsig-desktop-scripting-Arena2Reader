@@ -10,7 +10,7 @@ from org.gvsig.fmap.geom import GeometryUtils
 from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations
 
 COLUMNS_DEFINITION = [
-  Descriptor("LID_PASAJERO","String",size=20,hidden=True, pk=True,
+  Descriptor("LID_PASAJERO","String",size=30,hidden=True, pk=True,
     label="_Id_pasajero")\
     .tag("dynform.readonly",True),
   Descriptor("ID_ACCIDENTE","String",size=20,
@@ -154,25 +154,37 @@ class PasajerosParser(object):
     return informes
 
   def getAccidentes(self, informe):
-    accidentes = informe["ACCIDENTES"]['ACCIDENTE']
+    accidentes = informe["ACCIDENTES"]
+    if accidentes==None:
+      return tuple()
+    accidentes = accidentes.get('ACCIDENTE',None)
+    if accidentes==None:
+      return tuple()
     if not isinstance(accidentes,list):
       accidentes = [ accidentes ]
     return accidentes
 
   def getVehiculos(self, accidente):
-    vehiculos = accidente["VEHICULOS"]['VEHICULO']
+    vehiculos = accidente["VEHICULOS"]
+    if vehiculos==None:
+      return tuple()
+    vehiculos = vehiculos.get('VEHICULO',None)
+    if vehiculos==None:
+      return tuple()
     if not isinstance(vehiculos,list):
       vehiculos = [ vehiculos ]
     return vehiculos
 
   def getPasajeros(self, vehiculo):
-    try:
-      pasajeros = vehiculo["PASAJEROS"]['PASAJERO']
-      if not isinstance(pasajeros,list):
-        pasajeros = [ pasajeros ]
-      return pasajeros
-    except: # Si no hay pasajeros da error; devolvemos una lista vacia
-      return list()
+    pasajeros = vehiculo["PASAJEROS"]
+    if pasajeros==None:
+      return tuple()
+    pasajeros = pasajeros.get('PASAJERO',None)
+    if pasajeros==None:
+      return tuple()
+    if not isinstance(pasajeros,list):
+      pasajeros = [ pasajeros ]
+    return pasajeros
 
   def getColumns(self):
     return COLUMNS_DEFINITION
@@ -191,39 +203,47 @@ class PasajerosParser(object):
     if pasajero == None:
       return None
 
-    values = [
-      get1(pasajero,"@ID_ACCIDENTE") +"/"+ get1(pasajero,"@ID_VEHICULO") +"/"+ get1(pasajero,"@ID_PASAJERO"),
+    values = []
+    pasajero_id = None
+    try:
+      pasajero_id = get1(pasajero,"@ID_ACCIDENTE") +"/"+ get1(pasajero,"@ID_VEHICULO") +"/"+ get1(pasajero,"@ID_PASAJERO")
+    
+      values.append(pasajero_id)
       
-      get1(pasajero,"@ID_ACCIDENTE"),      
+      values.append(get1(pasajero,"@ID_ACCIDENTE"))  
       
-      get1(pasajero,"@ID_ACCIDENTE") +"/"+ get1(pasajero,"@ID_VEHICULO"),
+      values.append(get1(pasajero,"@ID_ACCIDENTE") +"/"+ get1(pasajero,"@ID_VEHICULO"))
       
-      get1(pasajero,"@ID_VEHICULO"),
+      values.append(get1(pasajero,"@ID_VEHICULO"))
       
-      get1(pasajero,"@ID_PASAJERO"),
+      values.append(get1(pasajero,"@ID_PASAJERO"))
 
-      get1(pasajero,"FECHA_NACIMIENTO"),
-      null2zero(get1(pasajero,"SEXO")),
-      get1(pasajero,"PAIS_RESIDENCIA"),
-      get1(pasajero,"PROVINCIA_RESIDENCIA"),
-      get1(pasajero,"MUNICIPIO_RESIDENCIA"),
-      null2zero(get1(pasajero,"ASISTENCIA_SANITARIA")),
+      values.append(get1(pasajero,"FECHA_NACIMIENTO"))
+      values.append(null2zero(get1(pasajero,"SEXO")))
+      values.append(get1(pasajero,"PAIS_RESIDENCIA"))
+      values.append(get1(pasajero,"PROVINCIA_RESIDENCIA"))
+      values.append(get1(pasajero,"MUNICIPIO_RESIDENCIA"))
+      values.append(null2zero(get1(pasajero,"ASISTENCIA_SANITARIA")))
 
-      sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_CINTURON")),
-      null2zero(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_CASCO")),
-      sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_SIS_RETEN_INFANTIL")),
-      sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_BRAZOS")),
-      sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_ESPALDA")),
-      sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_TORSO")),
-      sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_MANOS")),
-      sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIERNAS")),
-      sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIES")),
-      sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PRENDA_REF")),
+      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_CINTURON")))
+      values.append(null2zero(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_CASCO")))
+      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_SIS_RETEN_INFANTIL")))
+      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_BRAZOS")))
+      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_ESPALDA")))
+      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_TORSO")))
+      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_MANOS")))
+      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIERNAS")))
+      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIES")))
+      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PRENDA_REF")))
 
-      null2zero(get1(pasajero,"POSICION_VEHI")),
-      sino2bool(get1(pasajero,"NINYO_EN_BRAZO"))
+      values.append(null2zero(get1(pasajero,"POSICION_VEHI")))
+      values.append(sino2bool(get1(pasajero,"NINYO_EN_BRAZO")))
 
-    ]
+    except:
+      ex = sys.exc_info()[1]
+      gvsig.logger("No se puede leer el pasajero %s. %s" % (pasajero_id,str(ex)), gvsig.LOGGER_WARN, ex)
+      raise
+
     return values
 
   def next(self):

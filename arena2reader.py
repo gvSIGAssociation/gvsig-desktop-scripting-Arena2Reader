@@ -13,6 +13,23 @@ from org.gvsig.fmap.dal import BaseStoresRepository
 from java.net import URL
 from java.io import File
 
+import addons.Arena2Reader.parsers.informes 
+import addons.Arena2Reader.parsers.accidentes 
+import addons.Arena2Reader.parsers.vehiculos 
+import addons.Arena2Reader.parsers.conductores 
+import addons.Arena2Reader.parsers.peatones 
+import addons.Arena2Reader.parsers.pasajeros 
+import addons.Arena2Reader.parsers.croquis
+
+reload(addons.Arena2Reader.parsers.informes)
+reload(addons.Arena2Reader.parsers.accidentes )
+reload(addons.Arena2Reader.parsers.vehiculos )
+reload(addons.Arena2Reader.parsers.conductores) 
+reload(addons.Arena2Reader.parsers.peatones )
+reload(addons.Arena2Reader.parsers.pasajeros )
+reload(addons.Arena2Reader.parsers.croquis)
+
+
 from addons.Arena2Reader.parsers.informes import InformesParser
 from addons.Arena2Reader.parsers.accidentes import AccidentesParser
 from addons.Arena2Reader.parsers.vehiculos import VehiculosParser
@@ -249,13 +266,84 @@ def test(factory, fname, table):
     lineNum += 1
   reader.rewind() # test rewind
   reader.close()
+
+def test2():
+  factory = Arena2ReaderFactory()
+  folder = '/home/jjdelcerro/arena2/quincenas'
+  fnames = list()
+  for root, dirs, files in os.walk(folder, followlinks=True):
+     for name in files:
+       pathname = os.path.join(root, name)
+       if pathname.lower().endswith(".xml"):
+        if factory.accept(File(pathname)):
+          gvsig.logger("found file: %r" % pathname)
+          fnames.append(pathname)
+        else:
+          gvsig.logger("skip file: %r" % pathname, gvsig.LOGGER_WARN)
+  fnames.sort() 
+  #fnames = ( '/home/jjdelcerro/arena2/quincenas/Valencia/TV_46_2018_01_Q1/victimas.xml', )
+  n=1
+  for fname in fnames:
+    gvsig.logger("Process: %d/%d %r" % (n, len(fnames), fname))
+    if not factory.accept(File(fname)):
+      gvsig.logger("File not supported ", gvsig.LOGGER_WARN)
+      continue
+    params = factory.createStoreProviderFactory().createParameters()
+    params.setFile(File(fname))
+    params.setDynValue("Tabla","arena2_informes")
+    factory.fetchDefaultParameters(params)
+    main_reader = factory.createReader(params)
+    readers = [ main_reader ]
+    readers.extend(main_reader.getChildren())
+    for reader in readers:
+      gvsig.logger("  %s (%s)" % (reader.getName(), reader.getRowCount()))
+      line = reader.read()
+      while line!=None:
+        #print line
+        line = reader.read()
+    main_reader.close()
+    n+=1
+
+def test3():
+  from org.gvsig.fmap.dal import DALLocator
+
+  dataManager = DALLocator.getDataManager()
+  factory = Arena2ReaderFactory()
+  folder = '/home/jjdelcerro/arena2/quincenas'
+  fnames = list()
+  for root, dirs, files in os.walk(folder, followlinks=True):
+     for name in files:
+       pathname = os.path.join(root, name)
+       if pathname.lower().endswith(".xml"):
+        if factory.accept(File(pathname)):
+          gvsig.logger("found file: %r" % pathname)
+          fnames.append(pathname)
+        else:
+          gvsig.logger("skip file: %r" % pathname, gvsig.LOGGER_WARN)
+  fnames.sort() 
+  #fnames = ( '/home/jjdelcerro/arena2/quincenas/Valencia/TV_46_2018_01_Q1/victimas.xml', )
+
+  maxfiles = len(fnames)
+  maxfiles = min(10,len(fnames))
+  for n in range(0,maxfiles):
+    fname = fnames[n]
+    gvsig.logger("Process: %d/%d %r" % (n, maxfiles, fname))
+    if not factory.accept(File(fname)):
+      gvsig.logger("File not supported ", gvsig.LOGGER_WARN)
+      continue
+    store = dataManager.openStore("ARENA2", "file", fname, "CRS", "EPSG:25830")
+    for feature in store:
+      pass
+    store.close()
+    store = None
+  
     
-
-
-
 def main(*args):
-  selfRegister()
-  fname = "/home/jjdelcerro/Descargas/ARENA/TV_03_2019_01_Q1/victimas.xml"
+  #test2()
+  test3()
+  
+  #selfRegister()
+  #fname = "/home/jjdelcerro/Descargas/ARENA/TV_03_2019_01_Q1/victimas.xml"
   #test(Arena2ReaderFactory(), fname, "arena2_informes")
   #test(Arena2ReaderFactory(), fname, "arena2_accidentes")
   #test(Arena2ReaderFactory(), fname, "arena2_vehiculos")

@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 import gvsig
+import sys
 
 from java.lang import Object 
 
@@ -86,13 +87,25 @@ def generate_translations(columns):
   
 
 def get2(x, key1, key2):
-  v = x.get(key1,None)
-  if v == None:
-    return None
-  return v.get(key2, None)
-
-def get1(x, key1):
-  return x.get(key1,None)
+  try:
+    v = x.get(key1,None)
+    if v == None:
+      return None
+    if key2=="#text" and isinstance(v,basestring):
+      return v
+    return v.get(key2, None)
+  except:
+    ex = sys.exc_info()[1]
+    gvsig.logger("No se puede leer %s.%s. %s" % (key1,key2,str(ex)), gvsig.LOGGER_WARN, ex)
+    raise
+    
+def get1(x, key1, defvalue=None):
+  try:
+    return x.get(key1,defvalue)
+  except:
+    ex = sys.exc_info()[1]
+    gvsig.logger("No se puede leer %s. %s" % (key1,str(ex)), gvsig.LOGGER_WARN, ex)
+    raise
   
 def sino2bool(n):
   if n==None:

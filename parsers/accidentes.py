@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 import gvsig
+import sys
 
 from org.gvsig.fmap.geom.aggregate import MultiPolygon
 from org.gvsig.scripting.app.extension import ScriptingUtils
@@ -937,7 +938,12 @@ class AccidentesParser(object):
     return informes
 
   def getAccidentes(self, informe):
-    accidentes = informe["ACCIDENTES"]['ACCIDENTE']
+    accidentes = informe["ACCIDENTES"]
+    if accidentes==None:
+      return tuple()
+    accidentes = accidentes.get('ACCIDENTE',None)
+    if accidentes==None:
+      return tuple()
     if not isinstance(accidentes,list):
       accidentes = [ accidentes ]
     return accidentes
@@ -960,216 +966,226 @@ class AccidentesParser(object):
     if accidente == None:
       return None
 
-    
-    x = accidente.get("MAPAX", None)
-    y = accidente.get("MAPAY", None)
-    if x != None and y != None:
-      geom = GeometryUtils.createPoint(float(y), float(x))
-    else:
-      geom = None
-    
-    values = [
-      null2empty(accidente.get("@ID_ACCIDENTE", None)),
-      null2empty(informe.get("@COD_INFORME", None)),
-
-      null2empty(accidente.get("@ID_ACCIDENTE", None)),
-      null2empty(accidente.get("FECHA_ACCIDENTE", None)),
-      null2empty(accidente.get("HORA_ACCIDENTE", None)),
-      null2empty(accidente.get("COD_PROVINCIA", None)),
-      null2empty(accidente.get("COD_MUNICIPIO", None)),
-      null2empty(accidente.get("COD_POBLACION", None)),
-      null2zero(accidente.get("ZONA", None)),
-      null2zero(accidente.get("TIPO_VIA", None)),
-      null2zero(accidente.get("TIPO_VIA", None)),
-      null2empty(accidente.get("CARRETERA", None)),
-      null2empty(accidente.get("CARRETERA", None)),
-      null2zero(accidente.get("KM", None)),
-      null2zero(accidente.get("KM", None)),
-      null2zero(accidente.get("TITULARIDAD_VIA", None)),
-      null2zero(accidente.get("TITULARIDAD_VIA", None)),
-      null2zero(accidente.get("SENTIDO", None)),
-
-      null2empty(accidente.get("CALLE_CODIGO", None)),
-      null2empty(accidente.get("CALLE_NOMBRE", None)),
-      null2empty(accidente.get("CALLE_NUMERO", None)),
-
-      null2zero(accidente.get("MAPAY", None)),
-      null2zero(accidente.get("MAPAX", None)),
-      geom, # Campo geometria calculado
-      null2zero(accidente.get("NUDO", None)),
-      null2zero(accidente.get("NUDO_INFO", None)),
+    accidente_id = None
+    try:
+      x = accidente.get("MAPAX", None)
+      y = accidente.get("MAPAY", None)
+      if x != None and y != None:
+        geom = GeometryUtils.createPoint(float(y), float(x))
+      else:
+        geom = None
+        
+      accidente_id = accidente.get("@ID_ACCIDENTE", None)
       
-      null2empty(accidente.get("CRUCE_CALLE", None)),
-      null2empty(accidente.get("CRUCE_INE_CALLE", None)),
+      values = []
+
+      values.append(null2empty(accidente_id))
+      values.append(null2empty(informe.get("@COD_INFORME", None)))
+
+      values.append(null2empty(accidente.get("@ID_ACCIDENTE", None)))
+      values.append(null2empty(accidente.get("FECHA_ACCIDENTE", None)))
+      values.append(null2empty(accidente.get("HORA_ACCIDENTE", None)))
+      values.append(null2empty(accidente.get("COD_PROVINCIA", None)))
+      values.append(null2empty(accidente.get("COD_MUNICIPIO", None)))
+      values.append(null2empty(accidente.get("COD_POBLACION", None)))
+      values.append(null2zero(accidente.get("ZONA", None)))
+      values.append(null2zero(accidente.get("TIPO_VIA", None)))
+      values.append(null2zero(accidente.get("TIPO_VIA", None)))
+      values.append(null2empty(accidente.get("CARRETERA", None)))
+      values.append(null2empty(accidente.get("CARRETERA", None)))
+      values.append(null2zero(accidente.get("KM", None)))
+      values.append(null2zero(accidente.get("KM", None)))
+      values.append(null2zero(accidente.get("TITULARIDAD_VIA", None)))
+      values.append(null2zero(accidente.get("TITULARIDAD_VIA", None)))
+      values.append(null2zero(accidente.get("SENTIDO", None)))
+
+
+      values.append(null2empty(accidente.get("CALLE_CODIGO", None)))
+      values.append(null2empty(accidente.get("CALLE_NOMBRE", None)))
+      values.append(null2empty(accidente.get("CALLE_NUMERO", None)))
+
+      values.append(null2zero(accidente.get("MAPAY", None)))
+      values.append(null2zero(accidente.get("MAPAX", None)))
+      values.append(geom) # Campo geometria calculado
+      values.append(null2zero(accidente.get("NUDO", None)))
+      values.append(null2zero(accidente.get("NUDO_INFO", None)))
+
+      values.append(null2empty(accidente.get("CRUCE_CALLE", None)))
+      values.append(null2empty(accidente.get("CRUCE_INE_CALLE", None)))
+
+      values.append(null2zero(get2(accidente,"VICTIMAS","@TOTAL_VICTIMAS")))
+      values.append(null2zero(get2(accidente,"VICTIMAS","TOTAL_MUERTOS")))
+      values.append(null2zero(get2(accidente,"VICTIMAS","TOTAL_GRAVES")))
+      values.append(null2zero(get2(accidente,"VICTIMAS","TOTAL_LEVES")))
+      values.append(null2zero(get2(accidente,"VICTIMAS","TOTAL_ILESOS")))
+
+      values.append(null2zero(accidente.get("TOTAL_VEHICULOS", None)))
+      values.append(null2zero(accidente.get("TOTAL_CONDUCTORES", None)))
+      values.append(null2zero(accidente.get("TOTAL_PASAJEROS", None)))
+      values.append(null2zero(accidente.get("TOTAL_PEATONES", None)))
+      values.append(null2zero(accidente.get("NUM_TURISMOS", None)))
+      values.append(null2zero(accidente.get("NUM_FURGONETAS", None)))
+      values.append(null2zero(accidente.get("NUM_CAMIONES", None)))
+      values.append(null2zero(accidente.get("NUM_AUTOBUSES", None)))
+      values.append(null2zero(accidente.get("NUM_CICLOMOTORES", None)))
+      values.append(null2zero(accidente.get("NUM_MOTOCICLETAS", None)))
+      values.append(null2zero(accidente.get("NUM_BICICLETAS", None)))
+      values.append(null2zero(accidente.get("NUM_OTROS_VEHI", None)))
+
+      values.append(null2zero(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_SALIDA")))
+      values.append(null2zero(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_COLISION")))
+      values.append(null2zero(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_ANIMAL")))
+
+      values.append(sino2bool(accidente.get("SENTIDO_CONTRARIO", None)))
+
+      values.append(null2zero(get2(accidente,"CONDICION_NIVEL_CIRCULA","#text")))
+      values.append(sino2bool(get2(accidente,"CONDICION_NIVEL_CIRCULA","@INFLU_NIVEL_CIRC")))
+      values.append(null2zero(get2(accidente,"CONDICION_FIRME","#text")))
+      values.append(sino2bool(get2(accidente,"CONDICION_FIRME","@INFLU_SUP_FIRME")))
+      values.append(null2zero(get2(accidente,"CONDICION_ILUMINACION","#text")))
+      values.append(sino2bool(get2(accidente,"CONDICION_ILUMINACION","@INFLU_ILUMINACION")))
+      values.append(null2zero(get2(accidente,"CONDICION_METEO","#text")))
+      values.append(sino2bool(get2(accidente,"CONDICION_METEO","@INFLU_METEO")))
+      values.append(null2zero(get2(accidente,"CONDICION_NIEBLA","#text")))
+      values.append(null2zero(get2(accidente,"CONDICION_VIENTO","#text")))
+      values.append(null2zero(get2(accidente,"VISIB_RESTRINGIDA_POR","#text")))
+      values.append(sino2bool(get2(accidente,"VISIB_RESTRINGIDA_POR","@INFLU_VISIBILIDAD")))
+
+      values.append(null2zero(accidente.get("CARACT_FUNCIONAL_VIA", None)))
+      values.append(null2zero(accidente.get("VEL_GENERICA_SENYALIZADA", None)))
+
+      values.append(null2zero(accidente.get("VELOCIDAD", None)))
+      values.append(null2zero(accidente.get("SENTIDOS_VIA", None)))
+      values.append(null2zero(accidente.get("NUMERO_CALZADAS", None)))
+
+      values.append(null2zero(get2(accidente,"NUM_CARRILES","@CARRILES_APTOS_CIRC_ASC")))
+      values.append(null2zero(get2(accidente,"NUM_CARRILES","@CARRILES_APTOS_CIRC_DESC")))
+      values.append(null2zero(accidente.get("ANCHURA_CARRIL", None)))
+      values.append(null2zero(accidente.get("ARCEN", None)))
+
+      values.append(null2zero(get2(accidente,"ACERA","#text")))
+      values.append(sino2bool(get2(accidente,"ACERA","@INFU_ACERA")))
+      values.append(null2zero(accidente.get("ANCHURA_ACERA", None)))
+
+      values.append(null2zero(accidente.get("TRAZADO_PLANTA", None)))
+      values.append(null2zero(accidente.get("TRAZADO_ALZADO", None)))
+      values.append(null2zero(accidente.get("MARCAS_VIALES", None)))
+      values.append(null2empty(accidente.get("DESCRIPCION", None)))
+      values.append(null2empty(accidente.get("OBSERVACIONES", None)))
+
+      values.append(sino2bool(get2(accidente,"REGULACION_PRIORIDAD","@INFLU_PRIORIDAD")))
+      values.append(sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_NORMA")))
+      values.append(sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_AGENTE")))
+      values.append(sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_SEMAFORO")))
+      values.append(sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_VERT_STOP")))
+      values.append(sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_VERT_CEDA")))
+      values.append(sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_HORIZ_STOP")))
+      values.append(sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_HORIZ_CEDA")))
+      values.append(sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_MARCAS")))
+      values.append(sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_PEA_NO_ELEV")))
+      values.append(sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_PEA_ELEV")))
+      values.append(sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_MARCA_CICLOS")))
+      values.append(sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_CIRCUNSTANCIAL")))
+      values.append(sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_OTRA")))
+
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_BALIZAMIENTO","PANELES_DIRECCIONALES")))
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_BALIZAMIENTO","HITOS_ARISTA")))
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_BALIZAMIENTO","CAPTAFAROS")))
+
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_SEPARACION_SENTIDO","SEPARA_LINEA_LONG_SEPARACION")))
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_SEPARACION_SENTIDO","SEPARA_CEBREADO")))
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_SEPARACION_SENTIDO","SEPARA_MEDIANA")))
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_SEPARACION_SENTIDO","SEPARA_BARRERA_SEGURIDAD")))
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_SEPARACION_SENTIDO","SEPARA_ZONA_PEATONAL")))
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_SEPARACION_SENTIDO","SEPARA_OTRA_SEPARACION")))
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_SEPARACION_SENTIDO","SEPARA_NINGUNA_SEPARACION")))
+
+      values.append(null2zero(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_LAT_ASC")))
+      values.append(sino2bool(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_LAT_ASC_MOTO")))
+      values.append(null2zero(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_LAT_DESC")))
+      values.append(sino2bool(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_LAT_DESC_MOTO")))
+      values.append(null2zero(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_MEDIANA_ASC")))
+      values.append(sino2bool(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_MEDIANA_ASC_MOTO")))
+      values.append(null2zero(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_MEDIANA_DESC")))
+      values.append(sino2bool(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_MEDIANA_DESC_MOTO")))
+
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_TRAMO","TRAMO_PUENTE")))
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_TRAMO","TRAMO_TUNEL")))
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_TRAMO","TRAMO_PASO")))
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_TRAMO","TRAMO_ESTRECHA")))
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_TRAMO","TRAMO_RESALTOS")))
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_TRAMO","TRAMO_BADEN")))
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_TRAMO","TRAMO_APARTADERO")))
+      values.append(sino2bool(get2(accidente,"ELEMENTOS_TRAMO","TRAMO_NINGUNA")))
+
+      values.append(sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","@INFLU_MARGEN")))
+      values.append(sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_DESPEJADO")))
+      values.append(sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_ARBOLES")))
+      values.append(sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_OTROS_NATURALES")))
+      values.append(sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_EDIFICIOS")))
+      values.append(sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_POSTES")))
+      values.append(sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_PUBLICIDAD")))
+      values.append(sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_OTROS_ARTIFICIALES")))
+      values.append(sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_OTROS_OBSTACULOS")))
+      values.append(sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_DESC")))
+
+      values.append(sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","@INFLU_CIRCUNS_ESP")))
+      values.append(sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_NINGUNA")))
+      values.append(sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_CONOS")))
+      values.append(sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_ZANJA")))
+      values.append(sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_TAPA")))
+      values.append(sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_OBRAS")))
+      values.append(sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_OBSTACULO")))
+      values.append(sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_DESPREND")))
+      values.append(sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_ESCALON")))
+      values.append(sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_FBACHES")))
+      values.append(sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_FDETERIORADO")))
+      values.append(sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_OTRAS")))
+      values.append(sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_DESC")))
+
+      values.append(sino2bool(get2(accidente,"DELIMITACION_CALZADA","@INFLU_DELIM_CALZADA")))
+      values.append(sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_BORDILLO")))
+      values.append(sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_VALLAS")))
+      values.append(sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_SETOS")))
+      values.append(sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_MARCAS")))
+      values.append(sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_BARRERA")))
+      values.append(sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_ISLETA")))
+      values.append(sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_PEATONAL")))
+      values.append(sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_OTRA")))
+      values.append(sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_SIN_DELIM")))
+
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_CON_DISTRAIDA")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_VEL_INADECUADA")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_PRIORIDAD")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_SEGURIDAD")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_ADELANTAMIENTO")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_GIRO")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_CON_NEGLIGENTE")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_CON_TEMERARIA")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_IRRUPCION_ANIMAL")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_IRRUPCION_PEATON")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_ALCOHOL")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_DROGAS")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_ESTADO_VIA")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_METEORO")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_CANSANCIO")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_INEXPERIENCIA")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_AVERIA")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_OBRAS")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_MAL_ESTADO_VEHI")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_ENFERMEDAD")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_SENYALIZACION")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_OBSTACULO")))
+      values.append(sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_OTRO_FACTOR")))
+      values.append(None) # VEHICULOS
+      values.append(None) # Peatones
+      values.append(None) # Croquis
+
+    except:
+      ex = sys.exc_info()[1]
+      gvsig.logger("No se puede leer el accidente %s/%s. %s" % (self.accidenteCorriente,accidente_id,str(ex)), gvsig.LOGGER_WARN, ex)
+      raise
       
-      null2zero(get2(accidente,"VICTIMAS","@TOTAL_VICTIMAS")),
-      null2zero(get2(accidente,"VICTIMAS","TOTAL_MUERTOS")),
-      null2zero(get2(accidente,"VICTIMAS","TOTAL_GRAVES")),
-      null2zero(get2(accidente,"VICTIMAS","TOTAL_LEVES")),
-      null2zero(get2(accidente,"VICTIMAS","TOTAL_ILESOS")),
-
-      null2zero(accidente.get("TOTAL_VEHICULOS", None)),
-      null2zero(accidente.get("TOTAL_CONDUCTORES", None)),
-      null2zero(accidente.get("TOTAL_PASAJEROS", None)),
-      null2zero(accidente.get("TOTAL_PEATONES", None)),
-      null2zero(accidente.get("NUM_TURISMOS", None)),
-      null2zero(accidente.get("NUM_FURGONETAS", None)),
-      null2zero(accidente.get("NUM_CAMIONES", None)),
-      null2zero(accidente.get("NUM_AUTOBUSES", None)),
-      null2zero(accidente.get("NUM_CICLOMOTORES", None)),
-      null2zero(accidente.get("NUM_MOTOCICLETAS", None)),
-      null2zero(accidente.get("NUM_BICICLETAS", None)),
-      null2zero(accidente.get("NUM_OTROS_VEHI", None)),
-      
-      null2zero(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_SALIDA")),
-      null2zero(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_COLISION")),
-      null2zero(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_ANIMAL")),
-      
-      sino2bool(accidente.get("SENTIDO_CONTRARIO", None)),
-
-      null2zero(get2(accidente,"CONDICION_NIVEL_CIRCULA","#text")),
-      sino2bool(get2(accidente,"CONDICION_NIVEL_CIRCULA","@INFLU_NIVEL_CIRC")),
-      null2zero(get2(accidente,"CONDICION_FIRME","#text")),
-      sino2bool(get2(accidente,"CONDICION_FIRME","@INFLU_SUP_FIRME")),
-      null2zero(get2(accidente,"CONDICION_ILUMINACION","#text")),
-      sino2bool(get2(accidente,"CONDICION_ILUMINACION","@INFLU_ILUMINACION")),
-      null2zero(get2(accidente,"CONDICION_METEO","#text")),
-      sino2bool(get2(accidente,"CONDICION_METEO","@INFLU_METEO")),
-      null2zero(get2(accidente,"CONDICION_NIEBLA","#text")),
-      null2zero(get2(accidente,"CONDICION_VIENTO","#text")),
-      null2zero(get2(accidente,"VISIB_RESTRINGIDA_POR","#text")),
-      sino2bool(get2(accidente,"VISIB_RESTRINGIDA_POR","@INFLU_VISIBILIDAD")),
-
-      null2zero(accidente.get("CARACT_FUNCIONAL_VIA", None)),
-      null2zero(accidente.get("VEL_GENERICA_SENYALIZADA", None)),
-
-      null2zero(accidente.get("VELOCIDAD", None)),
-      null2zero(accidente.get("SENTIDOS_VIA", None)),
-      null2zero(accidente.get("NUMERO_CALZADAS", None)),
-
-      null2zero(get2(accidente,"NUM_CARRILES","@CARRILES_APTOS_CIRC_ASC")),
-      null2zero(get2(accidente,"NUM_CARRILES","@CARRILES_APTOS_CIRC_DESC")),
-      null2zero(accidente.get("ANCHURA_CARRIL", None)),
-      null2zero(accidente.get("ARCEN", None)),
-
-      null2zero(get2(accidente,"ACERA","#text")),
-      sino2bool(get2(accidente,"ACERA","@INFU_ACERA")),
-      null2zero(accidente.get("ANCHURA_ACERA", None)),
-      
-      null2zero(accidente.get("TRAZADO_PLANTA", None)),
-      null2zero(accidente.get("TRAZADO_ALZADO", None)),
-      null2zero(accidente.get("MARCAS_VIALES", None)),
-      null2empty(accidente.get("DESCRIPCION", None)),
-      null2empty(accidente.get("OBSERVACIONES", None)),
-
-      sino2bool(get2(accidente,"REGULACION_PRIORIDAD","@INFLU_PRIORIDAD")),
-      sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_NORMA")),
-      sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_AGENTE")),
-      sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_SEMAFORO")),
-      sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_VERT_STOP")),
-      sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_VERT_CEDA")),
-      sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_HORIZ_STOP")),
-      sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_HORIZ_CEDA")),
-      sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_MARCAS")),
-      sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_PEA_NO_ELEV")),
-      sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_PEA_ELEV")),
-      sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_MARCA_CICLOS")),
-      sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_CIRCUNSTANCIAL")),
-      sino2bool(get2(accidente,"REGULACION_PRIORIDAD","PRIORI_OTRA")),
-
-      sino2bool(get2(accidente,"ELEMENTOS_BALIZAMIENTO","PANELES_DIRECCIONALES")),
-      sino2bool(get2(accidente,"ELEMENTOS_BALIZAMIENTO","HITOS_ARISTA")),
-      sino2bool(get2(accidente,"ELEMENTOS_BALIZAMIENTO","CAPTAFAROS")),
-
-      sino2bool(get2(accidente,"ELEMENTOS_SEPARACION_SENTIDO","SEPARA_LINEA_LONG_SEPARACION")),
-      sino2bool(get2(accidente,"ELEMENTOS_SEPARACION_SENTIDO","SEPARA_CEBREADO")),
-      sino2bool(get2(accidente,"ELEMENTOS_SEPARACION_SENTIDO","SEPARA_MEDIANA")),
-      sino2bool(get2(accidente,"ELEMENTOS_SEPARACION_SENTIDO","SEPARA_BARRERA_SEGURIDAD")),
-      sino2bool(get2(accidente,"ELEMENTOS_SEPARACION_SENTIDO","SEPARA_ZONA_PEATONAL")),
-      sino2bool(get2(accidente,"ELEMENTOS_SEPARACION_SENTIDO","SEPARA_OTRA_SEPARACION")),
-      sino2bool(get2(accidente,"ELEMENTOS_SEPARACION_SENTIDO","SEPARA_NINGUNA_SEPARACION")),
-
-      null2zero(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_LAT_ASC")),
-      sino2bool(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_LAT_ASC_MOTO")),
-      null2zero(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_LAT_DESC")),
-      sino2bool(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_LAT_DESC_MOTO")),
-      null2zero(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_MEDIANA_ASC")),
-      sino2bool(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_MEDIANA_ASC_MOTO")),
-      null2zero(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_MEDIANA_DESC")),
-      sino2bool(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_MEDIANA_DESC_MOTO")),
-
-      sino2bool(get2(accidente,"ELEMENTOS_TRAMO","TRAMO_PUENTE")),
-      sino2bool(get2(accidente,"ELEMENTOS_TRAMO","TRAMO_TUNEL")),
-      sino2bool(get2(accidente,"ELEMENTOS_TRAMO","TRAMO_PASO")),
-      sino2bool(get2(accidente,"ELEMENTOS_TRAMO","TRAMO_ESTRECHA")),
-      sino2bool(get2(accidente,"ELEMENTOS_TRAMO","TRAMO_RESALTOS")),
-      sino2bool(get2(accidente,"ELEMENTOS_TRAMO","TRAMO_BADEN")),
-      sino2bool(get2(accidente,"ELEMENTOS_TRAMO","TRAMO_APARTADERO")),
-      sino2bool(get2(accidente,"ELEMENTOS_TRAMO","TRAMO_NINGUNA")),
-      
-      sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","@INFLU_MARGEN")),
-      sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_DESPEJADO")),
-      sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_ARBOLES")),
-      sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_OTROS_NATURALES")),
-      sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_EDIFICIOS")),
-      sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_POSTES")),
-      sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_PUBLICIDAD")),
-      sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_OTROS_ARTIFICIALES")),
-      sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_OTROS_OBSTACULOS")),
-      sino2bool(get2(accidente,"CARACTERISTICAS_MARGEN","MARGEN_DESC")),
-
-      sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","@INFLU_CIRCUNS_ESP")),
-      sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_NINGUNA")),
-      sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_CONOS")),
-      sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_ZANJA")),
-      sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_TAPA")),
-      sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_OBRAS")),
-      sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_OBSTACULO")),
-      sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_DESPREND")),
-      sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_ESCALON")),
-      sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_FBACHES")),
-      sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_FDETERIORADO")),
-      sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_OTRAS")),
-      sino2bool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_DESC")),
-
-      sino2bool(get2(accidente,"DELIMITACION_CALZADA","@INFLU_DELIM_CALZADA")),
-      sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_BORDILLO")),
-      sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_VALLAS")),
-      sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_SETOS")),
-      sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_MARCAS")),
-      sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_BARRERA")),
-      sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_ISLETA")),
-      sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_PEATONAL")),
-      sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_OTRA")),
-      sino2bool(get2(accidente,"DELIMITACION_CALZADA","DELIM_CALZADA_SIN_DELIM")),
-
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_CON_DISTRAIDA")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_VEL_INADECUADA")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_PRIORIDAD")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_SEGURIDAD")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_ADELANTAMIENTO")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_GIRO")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_CON_NEGLIGENTE")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_CON_TEMERARIA")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_IRRUPCION_ANIMAL")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_IRRUPCION_PEATON")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_ALCOHOL")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_DROGAS")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_ESTADO_VIA")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_METEORO")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_CANSANCIO")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_INEXPERIENCIA")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_AVERIA")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_OBRAS")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_MAL_ESTADO_VEHI")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_ENFERMEDAD")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_SENYALIZACION")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_OBSTACULO")),
-      sino2bool(get2(accidente,"FACTORES_CONCURRENTES","FC_OTRO_FACTOR")),
-      None, # VEHICULOS
-      None, # Peatones
-      None # Croquis
-    ]
     return values
 
   def next(self):
@@ -1194,22 +1210,20 @@ class AccidentesParser(object):
     return None, None
   
 def test1():
-  print Descriptor("FECHA_ACCIDENTE","Date",label="Accidente")
-  print Descriptor("LID_ACCIDENTE","String",20,hidden=True, pk=True)
-  print Descriptor("COD_INFORME","String",20,label="Informe")\
-          .foreingkey("ARENA2_INFORMES","COD_INFORME","FORMAT('%s',COD_INFORME)")\
-          .tag("dynform.readonly",True)
-        
-  print Descriptor("TIPO_VIA","Integer", label="Tipo de via")\
-          .closedlistfk("ARENA2_DIC_TIPO_VIA")
-          
-  print Descriptor("MAPA", "Geometry", hidden=True, 
-        geomtype="Point:2D", 
-        SRS="EPSG:4326", 
-        expression="TRY ST_SetSRID(ST_Point(MAPAX,MAPAY),4326) EXCEPT NULL"
-  )
-
+  fname = '/home/jjdelcerro/arena2/quincenas/Valencia/TV_46_2018_01_Q1/victimas.xml'  
+  p = AccidentesParser(fname)
+  p.open()
+  print "Num accidentes: ", p.getRowCount()
+  p.rewind()
+  while True:
+    line = p.read()
+    if line == None:
+      break
+    print p.accidenteCorriente, line[0]
+      
+  
+  
 def main(*args):
-  #test1()
-  generate_translations(COLUMNS_DEFINITION)
+  test1()
+  #generate_translations(COLUMNS_DEFINITION)
   

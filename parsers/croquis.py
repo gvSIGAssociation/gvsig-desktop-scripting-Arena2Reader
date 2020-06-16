@@ -12,7 +12,7 @@ from org.gvsig.fmap.geom import GeometryUtils
 from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations
 
 COLUMNS_DEFINITION = [
-  Descriptor("LID_CROQUIS","String",20,hidden=True, pk=True,
+  Descriptor("LID_CROQUIS","String",30,hidden=True, pk=True,
     label="_Id_croquis")\
     .tag("dynform.readonly",True),
   Descriptor("ID_ACCIDENTE","String",20,
@@ -88,7 +88,12 @@ class CroquisParser(object):
     return informes
 
   def getAccidentes(self, informe):
-    accidentes = informe["ACCIDENTES"]['ACCIDENTE']
+    accidentes = informe["ACCIDENTES"]
+    if accidentes==None:
+      return tuple()
+    accidentes = accidentes.get('ACCIDENTE',None)
+    if accidentes==None:
+      return tuple()
     if not isinstance(accidentes,list):
       accidentes = [ accidentes ]
     return accidentes
@@ -113,12 +118,21 @@ class CroquisParser(object):
     if croquis == None:
       return None
     
-    values = [
-      get1(croquis,"LID_CROQUIS"),
-      get1(croquis,"ID_ACCIDENTE"),
-      get1(croquis,"ID_CROQUIS"),
-      get1(croquis,"IMAGEN")
-    ]
+    values = []
+    croquis_id = None
+    try:
+      croquis_id = get1(croquis,"LID_CROQUIS")
+    
+      values.append(croquis_id)
+      values.append(get1(croquis,"ID_ACCIDENTE"))
+      values.append(get1(croquis,"ID_CROQUIS"))
+      values.append(get1(croquis,"IMAGEN"))
+
+    except:
+      ex = sys.exc_info()[1]
+      gvsig.logger("No se puede leer el croquis %s. %s" % (croquis_id,str(ex)), gvsig.LOGGER_WARN, ex)
+      raise
+
     return values
 
   def next(self):

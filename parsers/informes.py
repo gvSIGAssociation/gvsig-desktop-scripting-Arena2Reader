@@ -76,13 +76,23 @@ class InformesParser(object):
     if self.informeCorriente >= len(informes):
       return None
     informe = informes[self.informeCorriente]
-    values = [
-      null2empty(informe.get("@COD_INFORME", None)),
-      null2empty(informe.get("@COD_INFORME", None)),
-      null2empty(informe.get("@FECHA_INI_EXPORT", None)),
-      null2empty(informe.get("@FECHA_FIN_EXPORT", None)),
-      None # ACCIDENTES
-    ]
+
+    values = []
+    informe_id = None
+    try:
+      informe_id = informe.get("@COD_INFORME", None)
+    
+      values.append(null2empty(informe_id))
+      values.append(null2empty(informe.get("@COD_INFORME", None)))
+      values.append(null2empty(informe.get("@FECHA_INI_EXPORT", None)))
+      values.append(null2empty(informe.get("@FECHA_FIN_EXPORT", None)))
+      values.append(None) # ACCIDENTES
+
+    except:
+      ex = sys.exc_info()[1]
+      gvsig.logger("No se puede leer el informe %s. %s" % (informe_id,str(ex)), gvsig.LOGGER_WARN, ex)
+      raise
+
     self.next()
     return values
 
