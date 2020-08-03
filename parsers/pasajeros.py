@@ -129,6 +129,13 @@ class PasajerosParser(object):
     self.vehiculoCorriente = None
     self.pasajeroCorriente = None
 
+  def close(self):
+    self.xml = None
+    self.informeCorriente = None
+    self.accidenteCorriente = None
+    self.vehiculoCorriente = None
+    self.pasajeroCorriente = None
+
   def getXML(self):
     return self.xml
     

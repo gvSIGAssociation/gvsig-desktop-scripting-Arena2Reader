@@ -225,7 +225,10 @@ class Arena2Reader(AbstractSimpleSequentialReader):
     self.getParser().rewind()
     
   def close(self):
-    self._parser = None
+    if self._parser!=None:
+      self._parser.close()
+      self._parser = None
+    self._xml = None
 
 def selfRegister():
   factory = Arena2ReaderFactory()

@@ -42,6 +42,13 @@ class CroquisParser(object):
     self.croquisCorriente = None
     self.croquis = None
 
+  def close(self):
+    self.xml = None
+    self.informeCorriente = None
+    self.accidenteCorriente = None
+    self.croquisCorriente = None
+    self.croquis = None
+
   def getXML(self):
     return self.xml
     

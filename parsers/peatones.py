@@ -245,6 +245,12 @@ class PeatonesParser(object):
     self.accidenteCorriente = None
     self.peatonCorriente = None
 
+  def close(self):
+    self.xml = None
+    self.informeCorriente = None
+    self.accidenteCorriente = None
+    self.peatonCorriente = None
+
   def getXML(self):
     return self.xml
     

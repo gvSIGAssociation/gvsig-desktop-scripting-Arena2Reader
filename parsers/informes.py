@@ -42,6 +42,10 @@ class InformesParser(object):
     self.xml = xml
     self.informeCorriente = None
 
+  def close(self):
+    self.xml = None
+    self.informeCorriente = None
+
   def getXML(self):
     return self.xml
     
