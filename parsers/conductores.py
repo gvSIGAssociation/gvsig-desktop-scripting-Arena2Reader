@@ -354,6 +354,12 @@ class ConductoresParser(object):
     self.accidenteCorriente = None
     self.vehiculoCorriente = None
 
+  def close(self):
+    self.xml = None
+    self.informeCorriente = None
+    self.accidenteCorriente = None
+    self.vehiculoCorriente = None
+  
   def getXML(self):
     return self.xml
     

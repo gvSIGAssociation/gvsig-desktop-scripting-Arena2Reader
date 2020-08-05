@@ -912,6 +912,11 @@ class AccidentesParser(object):
     self.informeCorriente = None
     self.accidenteCorriente = None
 
+  def close(self):
+    self.xml = None
+    self.informeCorriente = None
+    self.accidenteCorriente = None
+  
   def getXML(self):
     return self.xml
     
