@@ -250,18 +250,22 @@ def test(factory, fname, table):
   print "Fields: "
   n = 0
   fieldNames = list()
+  
   for field in reader.getFieldNames():
     print "  %03d %s" % (n,field)
-    fieldNames.append(field.split(":")[0])
+    #fieldNames.append(field.split(":")[0])
+    fieldNames.append(field.name)
     n += 1
-
+    
   lineNum = 0
   line = reader.read()
   while line!=None and lineNum<10:
     #print line
+    
     for fieldNum in range(len(line)):
       print "ROW %02d %03d %s: %r" %  (lineNum,fieldNum, fieldNames[fieldNum],line[fieldNum])
       n += 1
+    
     line = reader.read()
     lineNum += 1
   reader.rewind() # test rewind
@@ -340,15 +344,15 @@ def test3():
     
 def main(*args):
   #test2()
-  test3()
+  #test3()
   
   #selfRegister()
-  #fname = "/home/jjdelcerro/Descargas/ARENA/TV_03_2019_01_Q1/victimas.xml"
+  fname = "/home/omartinez/gva_arena2/Castellon/2019/TV_12_2019_01_Q1/victimas.xml"
   #test(Arena2ReaderFactory(), fname, "arena2_informes")
   #test(Arena2ReaderFactory(), fname, "arena2_accidentes")
   #test(Arena2ReaderFactory(), fname, "arena2_vehiculos")
   #test(Arena2ReaderFactory(), fname, "arena2_conductores")
-  #test(Arena2ReaderFactory(), fname, "arena2_peatones")
+  test(Arena2ReaderFactory(), fname, "arena2_peatones")
   #test(Arena2ReaderFactory(), fname, "arena2_pasajeros")
   #test(Arena2ReaderFactory(), fname, "arena2_croquis")
   pass

@@ -323,6 +323,7 @@ class PeatonesParser(object):
       
       values.append(get1(peaton,"FECHA_NACIMIENTO"))
       values.append(null2zero(get1(peaton,"SEXO")))
+      values.append(get1(peaton,"NACIONALIDAD"))
       values.append(get1(peaton,"PAIS_RESIDENCIA"))
       values.append(get1(peaton,"PROVINCIA_RESIDENCIA"))
       values.append(get1(peaton,"MUNICIPIO_RESIDENCIA"))
@@ -362,6 +363,11 @@ class PeatonesParser(object):
       values.append(sino2bool(get2(peaton,"DROGAS","OTRAS")))
       values.append(sino2bool(get2(peaton,"DROGAS","CONFIRMADO_OTRAS")))
       values.append(sino2bool(get2(peaton,"DROGAS","SIGNOS_INFLU_DROGAS")))
+
+      print "\nNow"
+      print "peaton:", peaton
+      print "values:", values
+      
 
     except:
       ex = sys.exc_info()[1]
