@@ -92,7 +92,7 @@ RESOURCE_NAMES = {
   "ARENA2_PASAJEROS": (),
   "ARENA2_PEATONES": (),
   "ARENA2_VEHICULOS": (),
-  "ARENA2_AC_VE_CO_PA_PE_CR": ("dal","jasper", "report", "1.report"),
+  "ARENA2_AC_VE_CO_PA_PE_CR": ("dal","1.jasper", "report", "1.report"),
 }
 
 class Arena2XMLFileFilter(javax.swing.filechooser.FileFilter, java.io.FileFilter):
