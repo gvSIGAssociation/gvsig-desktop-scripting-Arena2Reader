@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 import gvsig
-
+import sys
 from org.gvsig.fmap.geom.aggregate import MultiPolygon
 from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
@@ -369,10 +369,6 @@ class PeatonesParser(object):
       values.append(sino2bool(get2(peaton,"DROGAS","OTRAS")))
       values.append(sino2bool(get2(peaton,"DROGAS","CONFIRMADO_OTRAS")))
       values.append(sino2bool(get2(peaton,"DROGAS","SIGNOS_INFLU_DROGAS")))
-
-      print "\nNow"
-      print "peaton:", peaton
-      print "values:", values
       
 
     except:
