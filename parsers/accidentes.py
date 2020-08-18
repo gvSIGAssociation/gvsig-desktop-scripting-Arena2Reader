@@ -341,7 +341,7 @@ COLUMNS_DEFINITION = [
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_ACERA"),
-  Descriptor("INFU_ACERA","Boolean", 
+  Descriptor("INFLU_ACERA","Boolean", 
     label="_Influye_la_acera",
     shortLabel="_Influye_acera")\
     .tag("dynform.readonly",True),
@@ -1069,7 +1069,7 @@ class AccidentesParser(object):
       values.append(null2zero(accidente.get("ARCEN", None)))
 
       values.append(null2zero(get2(accidente,"ACERA","#text")))
-      values.append(sino2bool(get2(accidente,"ACERA","@INFU_ACERA")))
+      values.append(sino2bool(get2(accidente,"ACERA","@INFLU_ACERA")))
       values.append(null2zero(accidente.get("ANCHURA_ACERA", None)))
 
       values.append(null2zero(accidente.get("TRAZADO_PLANTA", None)))
