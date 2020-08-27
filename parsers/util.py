@@ -124,6 +124,11 @@ def null2zero(n):
     return 0
   return n
 
+def null2null(n):
+  if n==None:
+    return None
+  return n
+  
 def main(*args):
   print "hola"
   

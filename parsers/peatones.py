@@ -7,7 +7,7 @@ from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations
+from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations, null2null
 
 COLUMNS_DEFINITION = [
   Descriptor("LID_PEATON","String",30,hidden=True, pk=True,
@@ -328,32 +328,32 @@ class PeatonesParser(object):
       values.append(sino2bool(get1(peaton,"POSIBLE_RESPONSABLE")))
       
       values.append(get1(peaton,"FECHA_NACIMIENTO"))
-      values.append(null2zero(get1(peaton,"SEXO")))
+      values.append(null2null(get1(peaton,"SEXO")))
       values.append(get1(peaton,"NACIONALIDAD"))
       values.append(get1(peaton,"PAIS_RESIDENCIA"))
       values.append(get1(peaton,"PROVINCIA_RESIDENCIA"))
       values.append(get1(peaton,"MUNICIPIO_RESIDENCIA"))
-      values.append(null2zero(get1(peaton,"ASISTENCIA_SANITARIA")))
+      values.append(null2null(get1(peaton,"ASISTENCIA_SANITARIA")))
 
       values.append(sino2bool(get2(peaton,"FACTORES_ATENCION","@INFLU_FACT_ATENCION")))
-      values.append(null2zero(get2(peaton,"FACTORES_ATENCION","#text")))
+      values.append(null2null(get2(peaton,"FACTORES_ATENCION","#text")))
       values.append(sino2bool(get2(peaton,"PRESUNTOS_ERRORES","@INFLU_PRES_ERROR")))
-      values.append(null2zero(get2(peaton,"PRESUNTOS_ERRORES","#text")))
+      values.append(null2null(get2(peaton,"PRESUNTOS_ERRORES","#text")))
       values.append(sino2bool(get2(peaton,"PRES_INFRAC_PEA","@INFLU_PRES_INFRAC")))
-      values.append(null2zero(get2(peaton,"PRES_INFRAC_PEA","#text")))
+      values.append(null2null(get2(peaton,"PRES_INFRAC_Pget1EA","#text")))
 
-      values.append(get1(peaton,"MOTIVO_DESPLAZAMIENTO"))
-      values.append(null2zero(get1(peaton,"ACCION_PEA")))
+      values.append(null2null(get1(peaton,"MOTIVO_DESPLAZAMIENTO")))
+      values.append(null2null(get1(peaton,"ACCION_PEA")))
       
       values.append(sino2bool(get2(peaton,"ALCOHOL","@INFLU_ALCOHOL")))
-      values.append(null2zero(get2(peaton,"ALCOHOL","PRUEBA_ALCOHOLEMIA")))
+      values.append(null2null(get2(peaton,"ALCOHOL","PRUEBA_ALCOHOLEMIA")))
       values.append(null2zero(get2(peaton,"ALCOHOL","TASA_ALCOHOLEMIA1")))
       values.append(null2zero(get2(peaton,"ALCOHOL","TASA_ALCOHOLEMIA2")))
       values.append(sino2bool(get2(peaton,"ALCOHOL","PRUEBA_ALC_SANGRE")))
       values.append(sino2bool(get2(peaton,"ALCOHOL","SIGNOS_INFLU_ALCOHOL")))
 
       values.append(sino2bool(get2(peaton,"DROGAS","@INFLU_DROGAS")))
-      values.append(null2zero(get2(peaton,"DROGAS","PRUEBA_DROGAS")))
+      values.append(null2null(get2(peaton,"DROGAS","PRUEBA_DROGAS")))
       values.append(sino2bool(get2(peaton,"DROGAS","AMP")))
       values.append(sino2bool(get2(peaton,"DROGAS","CONFIRMADO_AMP")))
       values.append(sino2bool(get2(peaton,"DROGAS","BDZ")))

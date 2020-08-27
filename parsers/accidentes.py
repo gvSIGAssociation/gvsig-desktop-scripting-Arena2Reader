@@ -8,7 +8,7 @@ from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations
+from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations, null2null
 
 COLUMNS_DEFINITION = [
   Descriptor("LID_ACCIDENTE","String",20,hidden=True, pk=True,
@@ -993,16 +993,16 @@ class AccidentesParser(object):
       values.append(null2empty(accidente.get("COD_PROVINCIA", None)))
       values.append(null2empty(accidente.get("COD_MUNICIPIO", None)))
       values.append(null2empty(accidente.get("COD_POBLACION", None)))
-      values.append(null2zero(accidente.get("ZONA", None)))
-      values.append(null2zero(accidente.get("TIPO_VIA", None)))
-      values.append(null2zero(accidente.get("TIPO_VIA", None)))
+      values.append(null2null(accidente.get("ZONA", None)))
+      values.append(null2null(accidente.get("TIPO_VIA", None)))
+      values.append(null2null(accidente.get("TIPO_VIA", None)))
       values.append(null2empty(accidente.get("CARRETERA", None)))
       values.append(null2empty(accidente.get("CARRETERA", None)))
       values.append(null2zero(accidente.get("KM", None)))
       values.append(null2zero(accidente.get("KM", None)))
-      values.append(null2zero(accidente.get("TITULARIDAD_VIA", None)))
-      values.append(null2zero(accidente.get("TITULARIDAD_VIA", None)))
-      values.append(null2zero(accidente.get("SENTIDO", None)))
+      values.append(null2null(accidente.get("TITULARIDAD_VIA", None)))
+      values.append(null2null(accidente.get("TITULARIDAD_VIA", None)))
+      values.append(null2null(accidente.get("SENTIDO", None)))
 
 
       values.append(null2empty(accidente.get("CALLE_CODIGO", None)))
@@ -1012,8 +1012,8 @@ class AccidentesParser(object):
       values.append(null2zero(accidente.get("MAPAY", None)))
       values.append(null2zero(accidente.get("MAPAX", None)))
       values.append(geom) # Campo geometria calculado
-      values.append(null2zero(accidente.get("NUDO", None)))
-      values.append(null2zero(accidente.get("NUDO_INFO", None)))
+      values.append(null2null(accidente.get("NUDO", None)))
+      values.append(null2null(accidente.get("NUDO_INFO", None)))
 
       values.append(null2empty(accidente.get("CRUCE_CALLE", None)))
       values.append(null2empty(accidente.get("CRUCE_INE_CALLE", None)))
@@ -1037,44 +1037,44 @@ class AccidentesParser(object):
       values.append(null2zero(accidente.get("NUM_BICICLETAS", None)))
       values.append(null2zero(accidente.get("NUM_OTROS_VEHI", None)))
 
-      values.append(null2zero(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_SALIDA")))
-      values.append(null2zero(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_COLISION")))
-      values.append(null2zero(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_ANIMAL")))
+      values.append(null2null(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_SALIDA")))
+      values.append(null2null(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_COLISION")))
+      values.append(null2null(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_ANIMAL")))
 
       values.append(sino2bool(accidente.get("SENTIDO_CONTRARIO", None)))
 
-      values.append(null2zero(get2(accidente,"CONDICION_NIVEL_CIRCULA","#text")))
+      values.append(null2null(get2(accidente,"CONDICION_NIVEL_CIRCULA","#text")))
       values.append(sino2bool(get2(accidente,"CONDICION_NIVEL_CIRCULA","@INFLU_NIVEL_CIRC")))
-      values.append(null2zero(get2(accidente,"CONDICION_FIRME","#text")))
+      values.append(null2null(get2(accidente,"CONDICION_FIRME","#text")))
       values.append(sino2bool(get2(accidente,"CONDICION_FIRME","@INFLU_SUP_FIRME")))
-      values.append(null2zero(get2(accidente,"CONDICION_ILUMINACION","#text")))
+      values.append(null2null(get2(accidente,"CONDICION_ILUMINACION","#text")))
       values.append(sino2bool(get2(accidente,"CONDICION_ILUMINACION","@INFLU_ILUMINACION")))
-      values.append(null2zero(get2(accidente,"CONDICION_METEO","#text")))
+      values.append(null2null(get2(accidente,"CONDICION_METEO","#text")))
       values.append(sino2bool(get2(accidente,"CONDICION_METEO","@INFLU_METEO")))
-      values.append(null2zero(get2(accidente,"CONDICION_NIEBLA","#text")))
-      values.append(null2zero(get2(accidente,"CONDICION_VIENTO","#text")))
-      values.append(null2zero(get2(accidente,"VISIB_RESTRINGIDA_POR","#text")))
+      values.append(null2null(get2(accidente,"CONDICION_NIEBLA","#text")))
+      values.append(null2null(get2(accidente,"CONDICION_VIENTO","#text")))
+      values.append(null2null(get2(accidente,"VISIB_RESTRINGIDA_POR","#text")))
       values.append(sino2bool(get2(accidente,"VISIB_RESTRINGIDA_POR","@INFLU_VISIBILIDAD")))
 
-      values.append(null2zero(accidente.get("CARACT_FUNCIONAL_VIA", None)))
-      values.append(null2zero(accidente.get("VEL_GENERICA_SENYALIZADA", None)))
+      values.append(null2null(accidente.get("CARACT_FUNCIONAL_VIA", None)))
+      values.append(null2null(accidente.get("VEL_GENERICA_SENYALIZADA", None)))
 
       values.append(null2zero(accidente.get("VELOCIDAD", None)))
-      values.append(null2zero(accidente.get("SENTIDOS_VIA", None)))
-      values.append(null2zero(accidente.get("NUMERO_CALZADAS", None)))
+      values.append(null2null(accidente.get("SENTIDOS_VIA", None)))
+      values.append(null2null(accidente.get("NUMERO_CALZADAS", None)))
 
       values.append(null2zero(get2(accidente,"NUM_CARRILES","@CARRILES_APTOS_CIRC_ASC")))
       values.append(null2zero(get2(accidente,"NUM_CARRILES","@CARRILES_APTOS_CIRC_DESC")))
-      values.append(null2zero(accidente.get("ANCHURA_CARRIL", None)))
-      values.append(null2zero(accidente.get("ARCEN", None)))
+      values.append(null2null(accidente.get("ANCHURA_CARRIL", None)))
+      values.append(null2null(accidente.get("ARCEN", None)))
 
-      values.append(null2zero(get2(accidente,"ACERA","#text")))
+      values.append(null2null(get2(accidente,"ACERA","#text")))
       values.append(sino2bool(get2(accidente,"ACERA","@INFLU_ACERA")))
       values.append(null2zero(accidente.get("ANCHURA_ACERA", None)))
 
-      values.append(null2zero(accidente.get("TRAZADO_PLANTA", None)))
-      values.append(null2zero(accidente.get("TRAZADO_ALZADO", None)))
-      values.append(null2zero(accidente.get("MARCAS_VIALES", None)))
+      values.append(null2null(accidente.get("TRAZADO_PLANTA", None)))
+      values.append(null2null(accidente.get("TRAZADO_ALZADO", None)))
+      values.append(null2null(accidente.get("MARCAS_VIALES", None)))
       values.append(null2empty(accidente.get("DESCRIPCION", None)))
       values.append(null2empty(accidente.get("OBSERVACIONES", None)))
 
@@ -1105,13 +1105,13 @@ class AccidentesParser(object):
       values.append(sino2bool(get2(accidente,"ELEMENTOS_SEPARACION_SENTIDO","SEPARA_OTRA_SEPARACION")))
       values.append(sino2bool(get2(accidente,"ELEMENTOS_SEPARACION_SENTIDO","SEPARA_NINGUNA_SEPARACION")))
 
-      values.append(null2zero(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_LAT_ASC")))
+      values.append(null2null(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_LAT_ASC")))
       values.append(sino2bool(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_LAT_ASC_MOTO")))
-      values.append(null2zero(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_LAT_DESC")))
+      values.append(null2null(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_LAT_DESC")))
       values.append(sino2bool(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_LAT_DESC_MOTO")))
-      values.append(null2zero(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_MEDIANA_ASC")))
+      values.append(null2null(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_MEDIANA_ASC")))
       values.append(sino2bool(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_MEDIANA_ASC_MOTO")))
-      values.append(null2zero(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_MEDIANA_DESC")))
+      values.append(null2null(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_MEDIANA_DESC")))
       values.append(sino2bool(get2(accidente,"BARRERA_SEGURIDAD","BARRERA_SEG_MEDIANA_DESC_MOTO")))
 
       values.append(sino2bool(get2(accidente,"ELEMENTOS_TRAMO","TRAMO_PUENTE")))

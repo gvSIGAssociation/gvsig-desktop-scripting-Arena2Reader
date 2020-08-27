@@ -8,7 +8,7 @@ from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations
+from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations, null2null
 
 COLUMNS_DEFINITION = [
   Descriptor("LID_CONDUCTOR","String",30,hidden=True, pk=True,
@@ -442,28 +442,28 @@ class ConductoresParser(object):
       values.append(sino2bool(get1(conductor,"POSIBLE_RESPONSABLE")))
       
       values.append(get1(conductor,"FECHA_NACIMIENTO"))
-      values.append(null2zero(get1(conductor,"SEXO")))
+      values.append(null2null(get1(conductor,"SEXO")))
       values.append(get1(conductor,"NACIONALIDAD"))
       values.append(get1(conductor,"PAIS_RESIDENCIA"))
       values.append(get1(conductor,"PROVINCIA_RESIDENCIA"))
       values.append(get1(conductor,"MUNICIPIO_RESIDENCIA"))
-      values.append(null2zero(get1(conductor,"ASISTENCIA_SANITARIA")))
+      values.append(null2null(get1(conductor,"ASISTENCIA_SANITARIA")))
           
       values.append(sino2bool(get2(conductor,"FACTORES_ATENCION","@INFLU_FACT_ATENCION")))
-      values.append(null2zero(get2(conductor,"FACTORES_ATENCION","#text")))
+      values.append(null2null(get2(conductor,"FACTORES_ATENCION","#text")))
       
       values.append(sino2bool(get2(conductor,"PRESUNTOS_ERRORES","@INFLU_PRES_ERROR")))
-      values.append(null2zero(get2(conductor,"PRESUNTOS_ERRORES","#text")))
+      values.append(null2null(get2(conductor,"PRESUNTOS_ERRORES","#text")))
         
-      values.append(null2zero(get1(conductor,"CARACT_PERMISO")))
-      values.append(null2zero(get1(conductor,"CLASE_PERMISO")))
+      values.append(null2null(get1(conductor,"CARACT_PERMISO")))
+      values.append(null2null(get1(conductor,"CLASE_PERMISO")))
       values.append(get1(conductor,"FECHA_PERMISO"))
       
-      values.append(null2zero(get1(conductor,"MOTIVO_DESPLAZAMIENTO")))
-      values.append(null2zero(get1(conductor,"DESPLAZAMIENTO_PREVISTO")))
+      values.append(null2null(get1(conductor,"MOTIVO_DESPLAZAMIENTO")))
+      values.append(null2null(get1(conductor,"DESPLAZAMIENTO_PREVISTO")))
       
       values.append(sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD","ACC_SEG_CINTURON")))
-      values.append(null2zero(get2(conductor,"ACCESORIOS_SEGURIDAD","ACC_SEG_CASCO")))
+      values.append(null2null(get2(conductor,"ACCESORIOS_SEGURIDAD","ACC_SEG_CASCO")))
       values.append(sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_BRAZOS")))
       values.append(sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_ESPALDA")))
       values.append(sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_TORSO")))
@@ -473,14 +473,14 @@ class ConductoresParser(object):
       values.append(sino2bool(get2(conductor,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PRENDA_REF")))
       
       values.append(sino2bool(get2(conductor,"ALCOHOL","@INFLU_ALCOHOL")))
-      values.append(null2zero(get2(conductor,"ALCOHOL","PRUEBA_ALCOHOLEMIA")))
+      values.append(null2null(get2(conductor,"ALCOHOL","PRUEBA_ALCOHOLEMIA")))
       values.append(null2zero(get2(conductor,"ALCOHOL","TASA_ALCOHOLEMIA1")))
       values.append(null2zero(get2(conductor,"ALCOHOL","TASA_ALCOHOLEMIA2")))
       values.append(sino2bool(get2(conductor,"ALCOHOL","PRUEBA_ALC_SANGRE")))
       values.append(sino2bool(get2(conductor,"ALCOHOL","SIGNOS_INFLU_ALCOHOL")))
       
       values.append(sino2bool(get2(conductor,"DROGAS","@INFLU_DROGAS")))
-      values.append(null2zero(get2(conductor,"DROGAS","PRUEBA_DROGAS")))
+      values.append(null2null(get2(conductor,"DROGAS","PRUEBA_DROGAS")))
       values.append(sino2bool(get2(conductor,"DROGAS","AMP")))
       values.append(sino2bool(get2(conductor,"DROGAS","CONFIRMADO_AMP")))
       values.append(sino2bool(get2(conductor,"DROGAS","BDZ")))
@@ -498,12 +498,12 @@ class ConductoresParser(object):
       values.append(sino2bool(get2(conductor,"DROGAS","SIGNOS_INFLU_DROGAS")))
       
       values.append(sino2bool(get2(conductor,"INFRACIONES","@INFLU_PRES_INFRAC_COND")))
-      values.append(null2zero(get2(conductor,"INFRACIONES","PRES_INFRAC_COND")))
+      values.append(null2null(get2(conductor,"INFRACIONES","PRES_INFRAC_COND")))
       values.append(sino2bool(get2(conductor,"INFRACIONES","PRES_INFRAC_SIN_LUCES")))
       values.append(sino2bool(get2(conductor,"INFRACIONES","PRES_INFRAC_SIN_TRIANGULO")))
           
       values.append(sino2bool(get2(conductor,"PRES_INFRAC_VEL_COND","@INFLU_PRES_INFRAC_VEL")))
-      values.append(null2zero(get2(conductor,"PRES_INFRAC_VEL_COND","#text")))
+      values.append(null2null(get2(conductor,"PRES_INFRAC_VEL_COND","#text")))
       
       values.append(sino2bool(get2(conductor,"OTRA_INFRAC_COND","@INFLU_OTRA_INFRAC")))
       values.append(null2zero(get2(conductor,"OTRA_INFRAC_COND","@TIPO")))

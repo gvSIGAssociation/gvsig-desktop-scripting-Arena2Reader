@@ -7,7 +7,7 @@ from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations
+from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations, null2null
 
 COLUMNS_DEFINITION = [
   Descriptor("LID_VEHICULO","String",30,hidden=True, pk=True,
@@ -408,12 +408,12 @@ class VehiculosParser(object):
       
       values.append(get1(vehiculo,"FECHA_MATRICULACION"))
       values.append(get1(vehiculo,"NACIONALIDAD"))
-      values.append(null2zero(get1(vehiculo,"TIPO_VEHICULO")))
-      values.append(null2zero(get1(vehiculo,"MMA")))
+      values.append(null2null(get1(vehiculo,"TIPO_VEHICULO")))
+      values.append(null2null(get1(vehiculo,"MMA")))
       values.append(get1(vehiculo,"MARCA_NOMBRE"))
       values.append(get1(vehiculo,"MODELO"))
-      values.append(null2zero(get1(vehiculo,"ITV")))
-      values.append(null2zero(get1(vehiculo,"SEGURO")))
+      values.append(null2null(get1(vehiculo,"ITV")))
+      values.append(null2null(get1(vehiculo,"SEGURO")))
       values.append(null2zero(get1(vehiculo,"NUM_OCUPANTES")))
       values.append(sino2bool(get1(vehiculo,"VEHICULO_ADAPTADO")))
       values.append(sino2bool(get1(vehiculo,"TRANSPORTE_ESPECIAL")))
@@ -422,19 +422,19 @@ class VehiculosParser(object):
       values.append(sino2bool(get1(vehiculo,"INCENDIADO")))
       
       values.append(sino2bool(get2(vehiculo,"MERCANCIAS_PELIGROSAS","MP")))
-      values.append(null2zero(get2(vehiculo,"MERCANCIAS_PELIGROSAS","MP_NUMERO_ONU")))
+      values.append(null2null(get2(vehiculo,"MERCANCIAS_PELIGROSAS","MP_NUMERO_ONU")))
       
-      values.append(null2zero(get1(vehiculo,"DANYOS")))
+      values.append(null2null(get1(vehiculo,"DANYOS")))
 
       values.append(sino2bool(get1(vehiculo,"REMOLQUE")))
       values.append(sino2bool(get1(vehiculo,"SEMIREMOLQUE")))
       values.append(sino2bool(get1(vehiculo,"CARAVANA")))
       values.append(sino2bool(get1(vehiculo,"REMOLQUE_OTROS")))
       
-      values.append(null2zero(get1(vehiculo,"POS_VIA")))
-      values.append(null2zero(get1(vehiculo,"APROXIMACION_NUDO")))
-      values.append(null2zero(get1(vehiculo,"SENTIDO_CIRCULACION")))
-      values.append(null2zero(get2(vehiculo,"LUGAR_CIRCULABA","#test")))
+      values.append(null2null(get1(vehiculo,"POS_VIA")))
+      values.append(null2null(get1(vehiculo,"APROXIMACION_NUDO")))
+      values.append(null2null(get1(vehiculo,"SENTIDO_CIRCULACION")))
+      values.append(null2null(get2(vehiculo,"LUGAR_CIRCULABA","#test")))
       values.append(sino2bool(get2(vehiculo,"LUGAR_CIRCULABA","@FACT_LUGAR_CIRCULA")))
 
       values.append(sino2bool(get1(vehiculo,"TACOGRAFO_DISCO")))
