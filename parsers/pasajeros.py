@@ -232,6 +232,9 @@ class PasajerosParser(object):
       values.append(get1(pasajero,"MUNICIPIO_RESIDENCIA"))
       values.append(null2null(get1(pasajero,"ASISTENCIA_SANITARIA")))
 
+      values.append(null2null(get1(pasajero,"POSICION_VEHI")))
+      values.append(sino2bool(get1(pasajero,"NINYO_EN_BRAZO")))
+      
       values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_CINTURON")))
       values.append(null2null(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_CASCO")))
       values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_SIS_RETEN_INFANTIL")))
@@ -242,9 +245,6 @@ class PasajerosParser(object):
       values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIERNAS")))
       values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIES")))
       values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PRENDA_REF")))
-
-      values.append(null2null(get1(pasajero,"POSICION_VEHI")))
-      values.append(sino2bool(get1(pasajero,"NINYO_EN_BRAZO")))
 
     except:
       ex = sys.exc_info()[1]

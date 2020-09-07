@@ -1039,7 +1039,7 @@ class AccidentesParser(object):
 
       values.append(null2null(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_SALIDA")))
       values.append(null2null(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_COLISION")))
-      values.append(null2null(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_ANIMAL")))
+      values.append(null2null(accidente.get("TIPO_ACC_ANIMAL", None)))
 
       values.append(sino2bool(accidente.get("SENTIDO_CONTRARIO", None)))
 
