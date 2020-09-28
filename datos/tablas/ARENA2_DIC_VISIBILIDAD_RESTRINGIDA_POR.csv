@@ -14,3 +14,6 @@ ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100
 13;"Elementos decorativos"
 14;"Otros objetos en la vía"
 15;"Paneles y publicidad"
+16;"Elementos del vehículo (lunas...)"
+17;"Otras restricciones"
+18;"Se desconoce"

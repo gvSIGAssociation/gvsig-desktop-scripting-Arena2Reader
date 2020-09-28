@@ -1,4 +1,4 @@
 ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100
 1;"Bajando o subiendo del vehículo"
 2;"Caída en la vía desde el vehículo"
-7;"Caída dentro del bus"
+3;"Caída dentro del bus"
