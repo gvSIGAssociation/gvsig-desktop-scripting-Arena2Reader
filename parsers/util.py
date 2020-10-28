@@ -4,6 +4,7 @@ import gvsig
 import sys
 
 from java.lang import Object 
+from org.apache.commons.lang3 import StringUtils
 
 class Descriptor(Object):
   def __init__(self, name, type, size=None, sep=None, **args):
@@ -106,29 +107,29 @@ def get1(x, key1, defvalue=None):
     ex = sys.exc_info()[1]
     gvsig.logger("No se puede leer %s. %s" % (key1,str(ex)), gvsig.LOGGER_WARN, ex)
     raise
-  
-def sino2bool(n):
-  if n==None:
-    return None
+
+def parseToBool(n, ifNoneReturnValue=None):
+  if StringUtils.isBlank(n):
+      return ifNoneReturnValue
   if n.lower()=="no":
     return False
   return True
 
-def null2empty(n):
-  if n==None:
-    return ""
+def parseToString(n, ifNoneReturnValue=None):
+  if StringUtils.isBlank(n):
+      return ifNoneReturnValue
   return n
 
-def null2zero(n):
-  if n==None:
-    return 0
+def parseToNumber(n, ifNoneReturnValue=None):
+  if StringUtils.isBlank(n):
+    return ifNoneReturnValue
   return n
 
-def null2null(n):
+def parseToNull(n, ifNoneReturnValue=None):
   if n==None:
     return None
   return n
   
 def main(*args):
-  print "hola"
+  print StringUtils.isBlank(None)
   

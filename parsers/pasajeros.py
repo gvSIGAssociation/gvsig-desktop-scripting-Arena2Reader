@@ -1,13 +1,14 @@
 # encoding: utf-8
 
 import gvsig
+import sys
 
 from org.gvsig.fmap.geom.aggregate import MultiPolygon
 from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations, null2null
+from util import parseToBool, parseToString, parseToNumber, get1, get2, Descriptor, generate_translations, parseToNull
 
 COLUMNS_DEFINITION = [
   Descriptor("LID_PASAJERO","String",size=30,hidden=True, pk=True,
@@ -226,25 +227,25 @@ class PasajerosParser(object):
       values.append(get1(pasajero,"@ID_PASAJERO"))
 
       values.append(get1(pasajero,"FECHA_NACIMIENTO"))
-      values.append(null2null(get1(pasajero,"SEXO")))
+      values.append(parseToNull(get1(pasajero,"SEXO")))
       values.append(get1(pasajero,"PAIS_RESIDENCIA"))
       values.append(get1(pasajero,"PROVINCIA_RESIDENCIA"))
       values.append(get1(pasajero,"MUNICIPIO_RESIDENCIA"))
-      values.append(null2null(get1(pasajero,"ASISTENCIA_SANITARIA")))
+      values.append(parseToNull(get1(pasajero,"ASISTENCIA_SANITARIA")))
 
-      values.append(null2null(get1(pasajero,"POSICION_VEHI")))
-      values.append(sino2bool(get1(pasajero,"NINYO_EN_BRAZO")))
+      values.append(parseToNull(get1(pasajero,"POSICION_VEHI")))
+      values.append(parseToBool(get1(pasajero,"NINYO_EN_BRAZO")))
       
-      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_CINTURON")))
-      values.append(null2null(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_CASCO")))
-      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_SIS_RETEN_INFANTIL")))
-      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_BRAZOS")))
-      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_ESPALDA")))
-      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_TORSO")))
-      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_MANOS")))
-      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIERNAS")))
-      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIES")))
-      values.append(sino2bool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PRENDA_REF")))
+      values.append(parseToBool(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_CINTURON")))
+      values.append(parseToNull(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_CASCO")))
+      values.append(parseToBool(get2(pasajero,"ACCESORIOS_SEGURIDAD","ACC_SEG_SIS_RETEN_INFANTIL")))
+      values.append(parseToBool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_BRAZOS")))
+      values.append(parseToBool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_ESPALDA")))
+      values.append(parseToBool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_TORSO")))
+      values.append(parseToBool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_MANOS")))
+      values.append(parseToBool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIERNAS")))
+      values.append(parseToBool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PIES")))
+      values.append(parseToBool(get2(pasajero,"ACCESORIOS_SEGURIDAD_OPCIONALES","ACC_SEG_PRENDA_REF")))
 
     except:
       ex = sys.exc_info()[1]
@@ -291,5 +292,5 @@ class PasajerosParser(object):
     return None
 
 def main(*args):
-  generate_translations(COLUMNS_DEFINITION)
-  
+  #generate_translations(COLUMNS_DEFINITION)
+  pass

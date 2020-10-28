@@ -1,13 +1,14 @@
 # encoding: utf-8
 
 import gvsig
+import sys
 
 from org.gvsig.fmap.geom.aggregate import MultiPolygon
 from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations, null2null
+from util import parseToBool, parseToString, parseToNumber, get1, get2, Descriptor, generate_translations, parseToNull
 
 COLUMNS_DEFINITION = [
   Descriptor("LID_VEHICULO","String",30,hidden=True, pk=True,
@@ -403,71 +404,71 @@ class VehiculosParser(object):
       values.append(get1(vehiculo,"@ID_ACCIDENTE"))
       
       values.append(get1(vehiculo,"@ID_VEHICULO"))
-      values.append(sino2bool(get1(vehiculo,"SIN_CONDUCTOR")))
+      values.append(parseToBool(get1(vehiculo,"SIN_CONDUCTOR")),False)
       values.append(get1(vehiculo,"@ID_ACCIDENTE") +"/"+ get1(vehiculo,"@ID_VEHICULO"))
       
       values.append(get1(vehiculo,"FECHA_MATRICULACION"))
       values.append(get1(vehiculo,"NACIONALIDAD"))
-      values.append(null2null(get1(vehiculo,"TIPO_VEHICULO")))
-      values.append(null2null(get1(vehiculo,"MMA")))
+      values.append(parseToBool(get1(vehiculo,"TIPO_VEHICULO")))
+      values.append(parseToBool(get1(vehiculo,"MMA")))
       values.append(get1(vehiculo,"MARCA_NOMBRE"))
       values.append(get1(vehiculo,"MODELO"))
-      values.append(null2null(get1(vehiculo,"ITV")))
-      values.append(null2null(get1(vehiculo,"SEGURO")))
-      values.append(null2zero(get1(vehiculo,"NUM_OCUPANTES")))
-      values.append(sino2bool(get1(vehiculo,"VEHICULO_ADAPTADO")))
-      values.append(sino2bool(get1(vehiculo,"TRANSPORTE_ESPECIAL")))
+      values.append(parseToNull(get1(vehiculo,"ITV")))
+      values.append(parseToNull(get1(vehiculo,"SEGURO")))
+      values.append(parseToNumber(get1(vehiculo,"NUM_OCUPANTES")))
+      values.append(parseToBool(get1(vehiculo,"VEHICULO_ADAPTADO")))
+      values.append(parseToBool(get1(vehiculo,"TRANSPORTE_ESPECIAL")))
 
-      values.append(sino2bool(get1(vehiculo,"FUGADO")))
-      values.append(sino2bool(get1(vehiculo,"INCENDIADO")))
+      values.append(parseToBool(get1(vehiculo,"FUGADO")))
+      values.append(parseToBool(get1(vehiculo,"INCENDIADO")))
       
-      values.append(sino2bool(get2(vehiculo,"MERCANCIAS_PELIGROSAS","MP")))
-      values.append(null2null(get2(vehiculo,"MERCANCIAS_PELIGROSAS","MP_NUMERO_ONU")))
+      values.append(parseToBool(get2(vehiculo,"MERCANCIAS_PELIGROSAS","MP")))
+      values.append(parseToNull(get2(vehiculo,"MERCANCIAS_PELIGROSAS","MP_NUMERO_ONU")))
       
-      values.append(null2null(get1(vehiculo,"DANYOS")))
+      values.append(parseToNull(get1(vehiculo,"DANYOS")))
 
-      values.append(sino2bool(get1(vehiculo,"REMOLQUE")))
-      values.append(sino2bool(get1(vehiculo,"SEMIREMOLQUE")))
-      values.append(sino2bool(get1(vehiculo,"CARAVANA")))
-      values.append(sino2bool(get1(vehiculo,"REMOLQUE_OTROS")))
+      values.append(parseToBool(get1(vehiculo,"REMOLQUE")))
+      values.append(parseToBool(get1(vehiculo,"SEMIREMOLQUE")))
+      values.append(parseToBool(get1(vehiculo,"CARAVANA")))
+      values.append(parseToBool(get1(vehiculo,"REMOLQUE_OTROS")))
       
-      values.append(null2null(get1(vehiculo,"POS_VIA")))
-      values.append(null2null(get1(vehiculo,"APROXIMACION_NUDO")))
-      values.append(null2null(get1(vehiculo,"SENTIDO_CIRCULACION")))
-      values.append(null2null(get2(vehiculo,"LUGAR_CIRCULABA","#test")))
-      values.append(sino2bool(get2(vehiculo,"LUGAR_CIRCULABA","@FACT_LUGAR_CIRCULA")))
+      values.append(parseToNull(get1(vehiculo,"POS_VIA")))
+      values.append(parseToNull(get1(vehiculo,"APROXIMACION_NUDO")))
+      values.append(parseToNull(get1(vehiculo,"SENTIDO_CIRCULACION")))
+      values.append(parseToNull(get2(vehiculo,"LUGAR_CIRCULABA","#test")))
+      values.append(parseToBool(get2(vehiculo,"LUGAR_CIRCULABA","@FACT_LUGAR_CIRCULA")))
 
-      values.append(sino2bool(get1(vehiculo,"TACOGRAFO_DISCO")))
-      values.append(sino2bool(get1(vehiculo,"TACOGRAFO_LECTURA")))
-      values.append(sino2bool(get1(vehiculo,"DESCANSO_DIARIO")))
-      values.append(sino2bool(get1(vehiculo,"HORAS_COND_CONTINU_SUP")))
-      values.append(sino2bool(get1(vehiculo,"HORAS_COND_DIARIA_SUP")))
-      values.append(null2zero(get1(vehiculo,"HORAS_COND_CONTINUADAS_H")))
-      values.append(null2zero(get1(vehiculo,"HORAS_COND_CONTINUADAS_MIN")))
+      values.append(parseToBool(get1(vehiculo,"TACOGRAFO_DISCO")))
+      values.append(parseToBool(get1(vehiculo,"TACOGRAFO_LECTURA")))
+      values.append(parseToBool(get1(vehiculo,"DESCANSO_DIARIO")))
+      values.append(parseToBool(get1(vehiculo,"HORAS_COND_CONTINU_SUP")))
+      values.append(parseToBool(get1(vehiculo,"HORAS_COND_DIARIA_SUP")))
+      values.append(parseToNumber(get1(vehiculo,"HORAS_COND_CONTINUADAS_H")))
+      values.append(parseToNumber(get1(vehiculo,"HORAS_COND_CONTINUADAS_MIN")))
 
-      values.append(sino2bool(get2(vehiculo,"ANOMALIAS_PREVIAS","@FACT_ANOMALIAS_PREVIAS")))
-      values.append(sino2bool(get2(vehiculo,"ANOMALIAS_PREVIAS","ANOMALIAS_NINGUNA")))
-      values.append(sino2bool(get2(vehiculo,"ANOMALIAS_PREVIAS","ANOMALIAS_NEUMATICOS")))
-      values.append(sino2bool(get2(vehiculo,"ANOMALIAS_PREVIAS","ANOMALIAS_REVENTON")))
-      values.append(sino2bool(get2(vehiculo,"ANOMALIAS_PREVIAS","ANOMALIAS_DIRECCION")))
-      values.append(sino2bool(get2(vehiculo,"ANOMALIAS_PREVIAS","ANOMALIAS_FRENOS")))
-      values.append(sino2bool(get2(vehiculo,"ANOMALIAS_PREVIAS","ANOMALIAS_OTRAS")))
+      values.append(parseToBool(get2(vehiculo,"ANOMALIAS_PREVIAS","@FACT_ANOMALIAS_PREVIAS")))
+      values.append(parseToBool(get2(vehiculo,"ANOMALIAS_PREVIAS","ANOMALIAS_NINGUNA")))
+      values.append(parseToBool(get2(vehiculo,"ANOMALIAS_PREVIAS","ANOMALIAS_NEUMATICOS")))
+      values.append(parseToBool(get2(vehiculo,"ANOMALIAS_PREVIAS","ANOMALIAS_REVENTON")))
+      values.append(parseToBool(get2(vehiculo,"ANOMALIAS_PREVIAS","ANOMALIAS_DIRECCION")))
+      values.append(parseToBool(get2(vehiculo,"ANOMALIAS_PREVIAS","ANOMALIAS_FRENOS")))
+      values.append(parseToBool(get2(vehiculo,"ANOMALIAS_PREVIAS","ANOMALIAS_OTRAS")))
       values.append(get2(vehiculo,"ANOMALIAS_PREVIAS","ANOMALIAS_OTRA"))
       
-      values.append(sino2bool(get2(vehiculo,"AIRBAG","AIRBAG_COND")))
-      values.append(sino2bool(get2(vehiculo,"AIRBAG","AIRBAG_PAS_DEL")))
-      values.append(sino2bool(get2(vehiculo,"AIRBAG","AIRBAG_ROD_IZDA")))
-      values.append(sino2bool(get2(vehiculo,"AIRBAG","AIRBAG_ROD_DCHA")))
-      values.append(sino2bool(get2(vehiculo,"AIRBAG","AIRBAG_LAT_DEL_IZDA")))
-      values.append(sino2bool(get2(vehiculo,"AIRBAG","AIRBAG_LAT_DEL_DCHA")))
-      values.append(sino2bool(get2(vehiculo,"AIRBAG","AIRBAG_CORT_DEL_IZDA")))
-      values.append(sino2bool(get2(vehiculo,"AIRBAG","AIRBAG_CORT_DEL_DCHA")))
-      values.append(sino2bool(get2(vehiculo,"AIRBAG","AIRBAG_LAT_TRAS_IZDA")))
-      values.append(sino2bool(get2(vehiculo,"AIRBAG","AIRBAG_LAT_TRAS_DCHA")))
-      values.append(sino2bool(get2(vehiculo,"AIRBAG","AIRBAG_CORT_TRAS_IZDA")))
-      values.append(sino2bool(get2(vehiculo,"AIRBAG","AIRBAG_CORT_TRAS_DCHA")))
-      values.append(sino2bool(get2(vehiculo,"AIRBAG","AIRBAG_OTROS")))
-      values.append(sino2bool(get2(vehiculo,"AIRBAG","AIRBAG_DESCONOCIDO")))
+      values.append(parseToBool(get2(vehiculo,"AIRBAG","AIRBAG_COND")))
+      values.append(parseToBool(get2(vehiculo,"AIRBAG","AIRBAG_PAS_DEL")))
+      values.append(parseToBool(get2(vehiculo,"AIRBAG","AIRBAG_ROD_IZDA")))
+      values.append(parseToBool(get2(vehiculo,"AIRBAG","AIRBAG_ROD_DCHA")))
+      values.append(parseToBool(get2(vehiculo,"AIRBAG","AIRBAG_LAT_DEL_IZDA")))
+      values.append(parseToBool(get2(vehiculo,"AIRBAG","AIRBAG_LAT_DEL_DCHA")))
+      values.append(parseToBool(get2(vehiculo,"AIRBAG","AIRBAG_CORT_DEL_IZDA")))
+      values.append(parseToBool(get2(vehiculo,"AIRBAG","AIRBAG_CORT_DEL_DCHA")))
+      values.append(parseToBool(get2(vehiculo,"AIRBAG","AIRBAG_LAT_TRAS_IZDA")))
+      values.append(parseToBool(get2(vehiculo,"AIRBAG","AIRBAG_LAT_TRAS_DCHA")))
+      values.append(parseToBool(get2(vehiculo,"AIRBAG","AIRBAG_CORT_TRAS_IZDA")))
+      values.append(parseToBool(get2(vehiculo,"AIRBAG","AIRBAG_CORT_TRAS_DCHA")))
+      values.append(parseToBool(get2(vehiculo,"AIRBAG","AIRBAG_OTROS")))
+      values.append(parseToBool(get2(vehiculo,"AIRBAG","AIRBAG_DESCONOCIDO")))
       values.append(None) # Pasajeros
 
     except:
@@ -507,5 +508,5 @@ class VehiculosParser(object):
 
 
 def main(*args):
-  generate_translations(COLUMNS_DEFINITION)
-  
+  #generate_translations(COLUMNS_DEFINITION)
+  pass

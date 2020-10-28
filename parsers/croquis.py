@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 import gvsig
+import sys
 
 import os
 
@@ -9,7 +10,7 @@ from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations
+from util import parseToBool, parseToString, parseToNumber, get1, get2, Descriptor, generate_translations, parseToNull
 
 COLUMNS_DEFINITION = [
   Descriptor("LID_CROQUIS","String",30,hidden=True, pk=True,
@@ -172,6 +173,6 @@ class CroquisParser(object):
 
 
 def main(*args):
-  generate_translations(COLUMNS_DEFINITION)
-  
+  #generate_translations(COLUMNS_DEFINITION)
+  pass
     

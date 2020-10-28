@@ -1,13 +1,14 @@
 # encoding: utf-8
 
 import gvsig
+import sys
 
 from org.gvsig.fmap.geom.aggregate import MultiPolygon
 from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
-from util import sino2bool, null2empty, null2zero, get1, get2, Descriptor, generate_translations
+from util import parseToBool, parseToString, parseToNumber, get1, get2, Descriptor, generate_translations, parseToNull
 
 COLUMNS_DEFINITION = [
   Descriptor("LID_INFORME","String",20,hidden=True, pk=True, 
@@ -86,10 +87,10 @@ class InformesParser(object):
     try:
       informe_id = informe.get("@COD_INFORME", None)
     
-      values.append(null2empty(informe_id))
-      values.append(null2empty(informe.get("@COD_INFORME", None)))
-      values.append(null2empty(informe.get("@FECHA_INI_EXPORT", None)))
-      values.append(null2empty(informe.get("@FECHA_FIN_EXPORT", None)))
+      values.append(parseToString(informe_id))
+      values.append(parseToString(informe.get("@COD_INFORME", None)))
+      values.append(parseToString(informe.get("@FECHA_INI_EXPORT", None)))
+      values.append(parseToString(informe.get("@FECHA_FIN_EXPORT", None)))
       values.append(None) # ACCIDENTES
 
     except:
@@ -105,6 +106,6 @@ class InformesParser(object):
 
 
 def main(*args):
-  generate_translations(COLUMNS_DEFINITION)
-  
+  #generate_translations(COLUMNS_DEFINITION)
+  pass
     
