@@ -26,5 +26,6 @@ ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100
 22;"Remolque"
 24;"Semirremolque"
 27;"Caravana"
+28;"VMP (Vehículo de Movilidad Personal)"
 29;"Sin especificar"
 30;"Ciclo"

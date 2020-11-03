@@ -22,5 +22,7 @@ ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100
 22;"Arcén"
 23;"Acera-refugio"
 24;"Otro"
+25;"Acera"
+26;"Paso de peatones"
 77;"Se desconoce"
 20;"Carril bici protegido"

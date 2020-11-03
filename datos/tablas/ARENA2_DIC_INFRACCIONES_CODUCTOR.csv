@@ -20,3 +20,4 @@ ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100
 77;"Se desconoce"
 19;"Circular por lugar prohibido"
 18;"Circular en sentido contrario"
+21;"Cruzar la calzada antirreglamentariamente"
