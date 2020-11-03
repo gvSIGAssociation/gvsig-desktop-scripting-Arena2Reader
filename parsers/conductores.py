@@ -442,7 +442,7 @@ class ConductoresParser(object):
       values.append(parseToBool(get1(conductor,"POSIBLE_RESPONSABLE")))
       
       values.append(get1(conductor,"FECHA_NACIMIENTO"))
-      values.append(parseToBool(get1(conductor,"SEXO")))
+      values.append(parseToNull(get1(conductor,"SEXO")))
       values.append(get1(conductor,"NACIONALIDAD"))
       values.append(get1(conductor,"PAIS_RESIDENCIA"))
       values.append(get1(conductor,"PROVINCIA_RESIDENCIA"))

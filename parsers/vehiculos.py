@@ -404,13 +404,13 @@ class VehiculosParser(object):
       values.append(get1(vehiculo,"@ID_ACCIDENTE"))
       
       values.append(get1(vehiculo,"@ID_VEHICULO"))
-      values.append(parseToBool(get1(vehiculo,"SIN_CONDUCTOR")),False)
+      values.append(parseToBool(get1(vehiculo,"SIN_CONDUCTOR"),False))
       values.append(get1(vehiculo,"@ID_ACCIDENTE") +"/"+ get1(vehiculo,"@ID_VEHICULO"))
       
       values.append(get1(vehiculo,"FECHA_MATRICULACION"))
       values.append(get1(vehiculo,"NACIONALIDAD"))
-      values.append(parseToBool(get1(vehiculo,"TIPO_VEHICULO")))
-      values.append(parseToBool(get1(vehiculo,"MMA")))
+      values.append(parseToNull(get1(vehiculo,"TIPO_VEHICULO")))
+      values.append(parseToNull(get1(vehiculo,"MMA")))
       values.append(get1(vehiculo,"MARCA_NOMBRE"))
       values.append(get1(vehiculo,"MODELO"))
       values.append(parseToNull(get1(vehiculo,"ITV")))
