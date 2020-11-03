@@ -4,13 +4,18 @@ import gvsig
 import sys
 
 import os
-
+from gvsig.utils import getTempFile
 from org.gvsig.fmap.geom.aggregate import MultiPolygon
 from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
-
+from org.apache.tika import Tika
 from util import parseToBool, parseToString, parseToNumber, get1, get2, Descriptor, generate_translations, parseToNull
+from gvsig.uselib import use_plugin
+use_plugin("org.gvsig.pdf.app.mainplugin")
+from org.gvsig.pdf.lib.impl import DefaultPDFDocument
+from java.io import File
+from javax.imageio import ImageIO
 
 COLUMNS_DEFINITION = [
   Descriptor("LID_CROQUIS","String",30,hidden=True, pk=True,
@@ -73,20 +78,51 @@ class CroquisParser(object):
     basedir = os.path.dirname(pathname)
     accidentesdir = os.path.join(basedir,"croquis")
     accidentes = dict()
+    tika = Tika()
+    doc = DefaultPDFDocument();
     for ID_ACCIDENTE in os.listdir(accidentesdir):
       croquis = list()
       croquisdir = os.path.join(basedir,"croquis",ID_ACCIDENTE)
       n = 0
-      for image in os.listdir(croquisdir):
-        croquis.append( {
-            "LID_CROQUIS": "%s/%s" % (ID_ACCIDENTE ,n),
-            "ID_ACCIDENTE": ID_ACCIDENTE,
-            "ID_CROQUIS": n,
-            "IMAGEN": "file://"+os.path.join(basedir,"croquis",ID_ACCIDENTE,image)
-          }
-        )
-        n += 1
+      try:
+        iterDir = os.listdir(croquisdir)
+      except:
+        continue
+      for image in iterDir:
+        # chec if is pdf -> image
+        pathImage = os.path.join(basedir,"croquis",ID_ACCIDENTE,image)
+        fileImage  = File(pathImage)
+        mimeType = tika.detect(fileImage);
+        if mimeType == "application/pdf":
+          # convertir a imagen el pdf
+          filePdf = fileImage
+          doc.setSource(filePdf)
+          for i in range(0, doc.getNumPages()):
+            img = doc.toImage(i)
+            tempPdfImage = getTempFile("tempPDF", ".png")
+            f = File(tempPdfImage)
+            ImageIO.write(img, "png", f)
+            croquis.append( {
+                "LID_CROQUIS": "%s/%s" % (ID_ACCIDENTE ,n),
+                "ID_ACCIDENTE": ID_ACCIDENTE,
+                "ID_CROQUIS": n,
+                "IMAGEN": "file://"+tempPdfImage
+              }
+            )
+            n+=1
+            #print "temppdf:"+ID_ACCIDENTE+":"+pathImage
+          doc.dispose()
+        else:
+          croquis.append( {
+                "LID_CROQUIS": "%s/%s" % (ID_ACCIDENTE ,n),
+                "ID_ACCIDENTE": ID_ACCIDENTE,
+                "ID_CROQUIS": n,
+                "IMAGEN": "file://"+pathImage
+              }
+            )
+          n += 1
       accidentes[ID_ACCIDENTE] = croquis
+    
     return accidentes
 
   def getInformes(self):
