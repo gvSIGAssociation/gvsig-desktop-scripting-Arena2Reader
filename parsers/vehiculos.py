@@ -23,7 +23,7 @@ COLUMNS_DEFINITION = [
     .tag("dynform.readonly",True),
 
   Descriptor("SIN_CONDUCTOR","Boolean", 
-    label="_Sin_conducor")\
+    label="_Sin_conductor")\
     .tag("dynform.readonly",True),
   Descriptor("LID_CONDUCTOR","String",20,
     label="_Conductor")\
