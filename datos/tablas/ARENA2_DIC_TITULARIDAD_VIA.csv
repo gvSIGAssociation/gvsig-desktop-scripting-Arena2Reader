@@ -1,4 +1,5 @@
 ID:Integer:set:pk=true;DESCRIPCION:String:set:size=100
+0;"Desconocida"
 1;"Estatal"
 2;"Autonomica"
 3;"Provincial, Cabildo/Consell"
