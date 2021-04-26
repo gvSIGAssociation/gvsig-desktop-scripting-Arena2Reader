@@ -1,0 +1,4 @@
+ID:Integer:set:pk=true;PROVINCIA:String:set:size=100
+03;"ALICANTE"
+12;"CASTELLÓN"
+46;"VALENCIA"
