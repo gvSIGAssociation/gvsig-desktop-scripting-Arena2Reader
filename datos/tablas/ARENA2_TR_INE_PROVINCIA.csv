@@ -1,4 +1,4 @@
-COD_INE:Integer;PROVINCIA:String:set:size=60
+PROV_INE:Integer;PROVINCIA:String:set:size=60
 03;"ALICANTE"
 03;"ALACANT"
 03;"Alicante/Alacant"
