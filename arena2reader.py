@@ -51,7 +51,10 @@ class Table(object):
     else:
       self.label = label
     self.tags = tags
-
+    
+  def getTags(self):
+    return self.tags.update(parser.getTags())
+    
 tables = {
   "ARENA2_INFORMES": Table(
     InformesParser, 
@@ -69,7 +72,7 @@ tables = {
     {
       "dynform.height":550, 
       "dynform.width":830, 
-      "DAL.Preferred.Columns":"COD_INFORME/ID_ACCIDENTE/TITULARIDAD_VIA/CALLE_NOMBRE/CALLE_NUMERO/CARRETERA/KM/COD_POBLACION/COD_MUNICIPIO/COD_PROVINCIA"
+      "DAL.Preferred.Columns":"COD_INFORME/ID_ACCIDENTE/TITULARIDAD_VIA/CALLE_NOMBRE/CALLE_NUMERO/CARRETERA/KM/COD_POBLACION/COD_MUNICIPIO/COD_PROVINCIA/FECHA_ACCIDENTE"
     } 
   ),
   
@@ -204,7 +207,7 @@ class Arena2Reader(AbstractSimpleSequentialReader):
     return self._name
     
   def getTags(self):
-    return self._table.tags
+    return self._table.getTags()
   
   def getLabel(self):
     return self._table.label + " - " + os.path.splitext(self.getParameters().getFile().getName())[0]
@@ -350,9 +353,9 @@ def main(*args):
   #test3()
   
   #selfRegister()
-  fname = "/home/omartinez/gva_arena2/Castellon/2019/TV_12_2019_01_Q1/victimas.xml"
+  fname = '/home/osc/gva_arena2/test/TV_12_2020_07_Q1/victimas.xml'
   #test(Arena2ReaderFactory(), fname, "arena2_informes")
-  #test(Arena2ReaderFactory(), fname, "arena2_accidentes")
+  test(Arena2ReaderFactory(), fname, "arena2_accidentes")
   #test(Arena2ReaderFactory(), fname, "arena2_vehiculos")
   #test(Arena2ReaderFactory(), fname, "arena2_conductores")
   test(Arena2ReaderFactory(), fname, "arena2_peatones")

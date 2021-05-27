@@ -10,88 +10,101 @@ from org.gvsig.fmap.geom import GeometryUtils
 
 from util import parseToBool, parseToString, parseToNumber, get1, get2, Descriptor, generate_translations, parseToNull
 
+GROUPS_DEFINITION = [u'REGULACION_PRIORIDAD', 
+          u'VICTIMAS', 
+          u'TIPO_ACCIDENTE', 
+          u'NUM_CARRILES', 
+          u'ELEMENTOS_BALIZAMIENTO', 
+          u'ELEMENTOS_SEPARACION_SENTIDO', 
+          u'BARRERA_SEGURIDAD', 
+          u'ELEMENTOS_TRAMO', 
+          u'CARACTERISTICAS_MARGEN', 
+          u'CIRCUNSTANCIAS_ESPECIALES_VIA', 
+          u'DELIMITACION_CALZADA', 
+          u'FACTORES_CONCURRENTES']
+
 COLUMNS_DEFINITION = [
   Descriptor("LID_ACCIDENTE","String",20,hidden=True, pk=True,
     label="_Id_accidente",
     shortLabel="_Id_accidente")\
     .tag("dynform.readonly",True),
+    
   Descriptor("COD_INFORME","String",20,
     label="_Codigo_informe",
     shortLabel="_Cod_informe")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
     .foreingkey("ARENA2_INFORMES","COD_INFORME","FORMAT('%s',COD_INFORME)"),
+    
   Descriptor("ID_ACCIDENTE","String",20, 
     label="_Codigo_accidente",
     shortLabel="_Cod_accidente")\
     .tag("dynform.readonly",True)\
     .tag("DAL.Search.Attribute.Priority",1),
+    
+  Descriptor("ESTADO_ACCIDENTE","Integer",
+    label="_Estado_accidente",
+    shortLabel="_Estado_accidente")\
+    .set("relation","Collaboration")\
+    .closedlistfk("u'ARENA2_DIC_ESTADO_ACCIDENTE"),
+    
+  Descriptor("OPERACION","String",10,
+    label="_Operacion")\
+    .tag("dynform.readonly",True),
+    
   Descriptor("FECHA_ACCIDENTE","Date", 
     label= "_Fecha_accidente")\
     .tag("dynform.readonly",True)\
     .tag("DAL.Search.Attribute.Priority",6),
+    
   Descriptor("HORA_ACCIDENTE","Time",  
     label="_Hora_accidente")\
     .tag("dynform.readonly",True)\
     .tag("DAL.Search.Attribute.Priority",7),
-
+    
   Descriptor("COD_PROVINCIA","String",45,  
     label="_Provincia")\
     .tag("dynform.readonly",True)\
     .tag("DAL.Search.Attribute.Priority",2),
+    
+    
   Descriptor("COD_MUNICIPIO","String",100,  
     label="_Municipio")\
     .tag("dynform.readonly",True),
+   
   Descriptor("COD_POBLACION","String",100,  
     label="_Poblacion")\
     .tag("dynform.readonly",True),
+    
   Descriptor("ZONA","Integer",  
     label="_Zona")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_ZONA"),
+    
   Descriptor("TIPO_VIA","Integer",
     label="_Tipo_de_via",
     shortLabel="_Tipo_via")\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_TIPO_VIA"),
-  Descriptor("TIPO_VIA_DGT","Integer",  
-    label="_Tipo_de_via_original",
-    shortLabel="_Tipo_via_orig")\
-    .tag("dynform.readonly",True)\
-    .set("relation","Collaboration")\
-    .closedlistfk("ARENA2_DIC_TIPO_VIA"),
+    
 
   Descriptor("CARRETERA","String",
     label="_Carretera")\
     .tag("DAL.Search.Attribute.Priority",3),
-  Descriptor("CARRETERA_DGT","String",  
-    label="_Carretera_original",
-    shortLabel="_Carretera_orig")\
-    .tag("dynform.readonly",True)\
-    .tag("DAL.Search.Attribute.Priority",3),
+
   Descriptor("KM","Double", 
     label="_Punto_kilometrico",
     shortLabel="_Pk")\
     .tag("dynform.readonly",False)\
     .tag("DAL.Search.Attribute.Priority",4),
-  Descriptor("KM_DGT","Double", 
-    label="_Punto_kilometrico_original",
-    shortLabel="_Pk_DGT")\
-    .tag("dynform.readonly",True)\
-    .tag("DAL.Search.Attribute.Priority",4),
+
   Descriptor("TITULARIDAD_VIA","Integer",
     label="_Titularidad_de_la_via",
     shortLabel="_Titularidad_via")\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_TITULARIDAD_VIA"),
 
-  Descriptor("TITULARIDAD_VIA_DGT","Integer",  
-    label="_Titularidad_de_la_via_original",
-    shortlabel="_Titularidad_via_orig")\
-    .tag("dynform.readonly",True)\
-    .set("relation","Collaboration")\
-    .closedlistfk("ARENA2_DIC_TITULARIDAD_VIA"),
   Descriptor("SENTIDO","Integer",  
     label="_Sentido")\
     .tag("dynform.readonly",True)\
@@ -140,76 +153,75 @@ COLUMNS_DEFINITION = [
   Descriptor("TOTAL_VICTIMAS","Integer",
     label="_Total_victimas",
     shortlabel="_Victimas")\
-    .tag("dynform.readonly",True),
+
   Descriptor("TOTAL_MUERTOS","Integer",
     label="_Total_muertos",
     shortlabel="_Muertos")\
-    .tag("dynform.readonly",True)\
     .tag("DAL.Search.Attribute.Priority",10),
+
   Descriptor("TOTAL_GRAVES","Integer",
     label="_Total_graves",
     shortlabel="_Graves")\
-    .tag("dynform.readonly",True)\
-    .tag("DAL.Search.Attribute.Priority",11),
+    .tag("DAL.Search.Attribute.Priority",11),  
+   
   Descriptor("TOTAL_LEVES","Integer",
     label="_Total_Leves",
     shortlabel="_Leves")\
-    .tag("dynform.readonly",True)\
     .tag("DAL.Search.Attribute.Priority",12),
+    
   Descriptor("TOTAL_ILESOS","Integer",
     label="_Total_ilesos",
     shortlabel="_Ilesos")\
-    .tag("dynform.readonly",True),
 
   Descriptor("TOTAL_VEHICULOS","Integer", 
     label="_Total_vehiculos_implicados",
     shortlabel="_Tot_vehiculos")\
-    .tag("dynform.readonly",True)\
     .tag("DAL.Search.Attribute.Priority",13),
+
   Descriptor("TOTAL_CONDUCTORES","Integer", 
     label="_Total_conductores_implicados",
     shortlabel="_Tot_conductores")\
-    .tag("dynform.readonly",True),
+
   Descriptor("TOTAL_PASAJEROS","Integer", 
     label="_Total_pasajeros_implicados",
     shortlabel="_Tot_pasajeros")\
-    .tag("dynform.readonly",True),
+
   Descriptor("TOTAL_PEATONES","Integer", 
     label="_Total_peatones_implicados",
     shortlabel="_Tot_peatones")\
-    .tag("dynform.readonly",True),
+    
   Descriptor("NUM_TURISMOS","Integer", 
     label="_Num_turismos_implicados",
     shortlabel="_Num_turismos")\
-    .tag("dynform.readonly",True),
+
   Descriptor("NUM_FURGONETAS","Integer", 
     label="_Num_furgonetas_implicadas",
     shortlabel="_Num_furgonetas")\
-    .tag("dynform.readonly",True),
+
   Descriptor("NUM_CAMIONES","Integer", 
     label="_Num_camiones_implicados",
     shortlabel="_Num_camiones")\
-    .tag("dynform.readonly",True),
+
   Descriptor("NUM_AUTOBUSES","Integer", 
     label="_Num_autobuses_implicados",
     shortlabel="_Num_autobuses")\
-    .tag("dynform.readonly",True),
+
   Descriptor("NUM_CICLOMOTORES","Integer", 
     label="_Num_ciclomotores_implicados",
     shortlabel="_Num_ciclomotores")\
-    .tag("dynform.readonly",True),
+
   Descriptor("NUM_MOTOCICLETAS","Integer", 
     label="_Num_motocicletas_implicadas",
     shortlabel="_Num_motocicletas")\
-    .tag("dynform.readonly",True),
+
   Descriptor("NUM_BICICLETAS","Integer", 
     label="_Num_bicicletas_implicadas",
     shortlabel="_Num_bicicletas")\
-    .tag("dynform.readonly",True),
+
   Descriptor("NUM_OTROS_VEHI","Integer", 
     label="_Num_otros_vehiculos_implicados",
     shortlabel="_Num_otros_vehiculos")\
-    .tag("dynform.readonly",True),
+
 
   Descriptor("TIPO_ACC_SALIDA","Integer", 
     label="_Tipo_accidente_Salida",
@@ -862,7 +874,18 @@ COLUMNS_DEFINITION = [
     shortlabel="_FC_Otro",
     group="_Factores_concurrentes")\
     .tag("dynform.readonly",True),
+    
+Descriptor("QUINCENA","String",8,
+    group="_Importacion",
+    label="_Quincena")\
+    .tag("dynform.readonly",True), 
+    
 
+Descriptor("EXTRA","String",10000,
+    group="_Extra",
+    label="_Extra")\
+    .tag("dynform.readonly",True),
+    
   Descriptor("VEHICULOS","List",
     label="_Vehiculos",
     group="_Vehiculos")\
@@ -911,7 +934,11 @@ class AccidentesParser(object):
     self.xml = xml
     self.informeCorriente = None
     self.accidenteCorriente = None
-
+    self.tags = {}
+    
+  def getTags(self):
+    return self.tags
+    
   def close(self):
     self.xml = None
     self.informeCorriente = None
@@ -965,9 +992,34 @@ class AccidentesParser(object):
         return rowCount
       rowCount+=1
       
-   
+  def checkingNotSupportedKeys(self):
+    informe, accidente = self.next()
+    self.doCheckNotSupportedKeys(accidente)
+    
+  def doCheckNotSupportedKeys(self, accidente):
+    # Optimizar: crear dos listas y restarlas
+    notSupportedKeys = []
+    for key in accidente.keys():
+      found = False
+      valueKey = key.replace("@","")
+      for col in COLUMNS_DEFINITION:
+        if col.name==valueKey or valueKey in GROUPS_DEFINITION:
+            found = True
+            break
+      if not found:
+        notSupportedKeys.append(key)
+        
+    if not notSupportedKeys:
+      return None
+    return notSupportedKeys
+      
   def read(self):
     informe, accidente = self.next()
+    
+    #notSupportedKeys = self.doCheckNotSupportedKeys(accidente)
+    #if notSupportedKeys != None:
+    #    self.tags["notSupportedKeys"] = notSupportedKeys
+        
     if accidente == None:
       return None
 
@@ -988,10 +1040,18 @@ class AccidentesParser(object):
       values.append(parseToString(informe.get("@COD_INFORME", None)))
 
       values.append(parseToString(accidente.get("@ID_ACCIDENTE", None)))
+      values.append(None) # COD_AFORO
+      values.append(None) # COD_ESTACION_AFORO
+
+      values.append(parseToNumber(accidente.get("ESTADO_ACCIDENTE", None)))
+      values.append(parseToString(accidente.get("OPERACION", None)))
+      
       values.append(parseToString(accidente.get("FECHA_ACCIDENTE", None)))
       values.append(parseToString(accidente.get("HORA_ACCIDENTE", None)))
       values.append(parseToString(accidente.get("COD_PROVINCIA", None)))
+      values.append(None)  # INE_PROVINCIA
       values.append(parseToString(accidente.get("COD_MUNICIPIO", None)))
+      values.append(None)  # INE MUNICIPIO
       values.append(parseToString(accidente.get("COD_POBLACION", None)))
       values.append(parseToNull(accidente.get("ZONA", None)))
       values.append(parseToNull(accidente.get("TIPO_VIA", None)))
@@ -1019,24 +1079,41 @@ class AccidentesParser(object):
       values.append(parseToString(accidente.get("CRUCE_INE_CALLE", None)))
 
       values.append(parseToNumber(get2(accidente,"VICTIMAS","@TOTAL_VICTIMAS")))
+      values.append(parseToNumber(get2(accidente,"VICTIMAS","@TOTAL_VICTIMAS")))
+      values.append(parseToNumber(get2(accidente,"VICTIMAS","TOTAL_MUERTOS")))
       values.append(parseToNumber(get2(accidente,"VICTIMAS","TOTAL_MUERTOS")))
       values.append(parseToNumber(get2(accidente,"VICTIMAS","TOTAL_GRAVES")))
+      values.append(parseToNumber(get2(accidente,"VICTIMAS","TOTAL_GRAVES")))
+      values.append(parseToNumber(get2(accidente,"VICTIMAS","TOTAL_LEVES")))
       values.append(parseToNumber(get2(accidente,"VICTIMAS","TOTAL_LEVES")))
       values.append(parseToNumber(get2(accidente,"VICTIMAS","TOTAL_ILESOS")))
-
+      values.append(parseToNumber(get2(accidente,"VICTIMAS","TOTAL_ILESOS")))
+      
+      values.append(parseToNumber(accidente.get("TOTAL_VEHICULOS", None)))
       values.append(parseToNumber(accidente.get("TOTAL_VEHICULOS", None)))
       values.append(parseToNumber(accidente.get("TOTAL_CONDUCTORES", None)))
+      values.append(parseToNumber(accidente.get("TOTAL_CONDUCTORES", None)))
+      values.append(parseToNumber(accidente.get("TOTAL_PASAJEROS", None)))
       values.append(parseToNumber(accidente.get("TOTAL_PASAJEROS", None)))
       values.append(parseToNumber(accidente.get("TOTAL_PEATONES", None)))
+      values.append(parseToNumber(accidente.get("TOTAL_PEATONES", None)))
+      values.append(parseToNumber(accidente.get("NUM_TURISMOS", None)))
       values.append(parseToNumber(accidente.get("NUM_TURISMOS", None)))
       values.append(parseToNumber(accidente.get("NUM_FURGONETAS", None)))
+      values.append(parseToNumber(accidente.get("NUM_FURGONETAS", None)))
+      values.append(parseToNumber(accidente.get("NUM_CAMIONES", None)))
       values.append(parseToNumber(accidente.get("NUM_CAMIONES", None)))
       values.append(parseToNumber(accidente.get("NUM_AUTOBUSES", None)))
+      values.append(parseToNumber(accidente.get("NUM_AUTOBUSES", None)))
+      values.append(parseToNumber(accidente.get("NUM_CICLOMOTORES", None)))
       values.append(parseToNumber(accidente.get("NUM_CICLOMOTORES", None)))
       values.append(parseToNumber(accidente.get("NUM_MOTOCICLETAS", None)))
+      values.append(parseToNumber(accidente.get("NUM_MOTOCICLETAS", None)))
+      values.append(parseToNumber(accidente.get("NUM_BICICLETAS", None)))
       values.append(parseToNumber(accidente.get("NUM_BICICLETAS", None)))
       values.append(parseToNumber(accidente.get("NUM_OTROS_VEHI", None)))
-
+      values.append(parseToNumber(accidente.get("NUM_OTROS_VEHI", None)))
+      
       values.append(parseToNull(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_SALIDA")))
       values.append(parseToNull(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_COLISION")))
       values.append(parseToNull(accidente.get("TIPO_ACC_ANIMAL", None)))
@@ -1136,7 +1213,7 @@ class AccidentesParser(object):
 
       values.append(parseToBool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","@INFLU_CIRCUNS_ESP")))
       values.append(parseToBool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_NINGUNA")))
-      values.append(parseToBool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_CONOS")))
+      values.append(parseToBool(get2(accidente,"notCIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_CONOS")))
       values.append(parseToBool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_ZANJA")))
       values.append(parseToBool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_TAPA")))
       values.append(parseToBool(get2(accidente,"CIRCUNSTANCIAS_ESPECIALES_VIA","CIRCUNS_ESP_OBRAS")))
@@ -1182,6 +1259,11 @@ class AccidentesParser(object):
       values.append(parseToBool(get2(accidente,"FACTORES_CONCURRENTES","FC_SENYALIZACION")))
       values.append(parseToBool(get2(accidente,"FACTORES_CONCURRENTES","FC_OBSTACULO")))
       values.append(parseToBool(get2(accidente,"FACTORES_CONCURRENTES","FC_OTRO_FACTOR")))
+      values.append(None) # ID_TRAMO
+      values.append(None) # Quincena
+      values.append(None) # Actualizado
+      values.append(None) # Extra
+      
       values.append(None) # VEHICULOS
       values.append(None) # Peatones
       values.append(None) # Croquis
@@ -1215,7 +1297,7 @@ class AccidentesParser(object):
     return None, None
   
 def test1():
-  fname = '/home/omartinez/gva_arena2/CV_xml/Castellon/2019/TV_12_2019_01_Q1/victimas.xml'  
+  fname = '/home/osc/gva_arena2/test/TV_12_2020_07_Q1/victimas.xml'  
   p = AccidentesParser(fname)
   p.open()
   print "Num accidentes: ", p.getRowCount()
@@ -1225,10 +1307,80 @@ def test1():
     if line == None:
       break
     print p.accidenteCorriente, line[0]
+    #print len(line)
+    return
       
+def test2():
+  fname = '/home/osc/gva_arena2/test/TV_12_2020_07_Q1/victimas.xml'  
+  p = AccidentesParser(fname)
+  p.open()
+  columns_not_dgt = []
+  for c in COLUMNS_DEFINITION:
+    if not c.name.endswith("_DGT"):
+      columns_not_dgt.append(c.name)
   
-  
+
+  p.rewind()
+  while True:
+    line = p.read()
+    if line == None:
+      break
+    print p.accidenteCorriente, line[0]
+    print "Len of values: ", len(line)
+    print "NOT DGT COlS: ", len(columns_not_dgt)
+    return
+
+def test3():
+  fname = '/home/osc/gva_arena2/test/TV_12_2020_07_Q1/victimas.xml'  
+  p = AccidentesParser(fname)
+  p.open()
+  print "Num accidentes: ", p.getRowCount()
+  p.rewind()
+  while True:
+    line = p.read()
+    if line == None:
+      break
+    print p.accidenteCorriente, line[0]
+    for i in range(0, len(line)):
+      print COLUMNS_DEFINITION[i].name, ": ", line[i]
+    #print len(line)
+    return
+
+def test3(fname=None):
+  if fname == None:
+    fname = '/home/osc/gva_arena2/test/TV_12_2020_07_Q1/victimas.xml'  
+  p = AccidentesParser(fname)
+  p.open()
+  print "\t Num accidentes: ", p.getRowCount()
+  p.rewind()
+  while True:
+    notValidKeys = p.checkingNotSupportedKeys()
+    if notValidKeys!=None:
+      print "Not valid keys: ", notValidKeys
+    return
+
+def test4(): #TestAllKeys
+
+    import os
+    path = "/home/osc/gva_arena2/CV_xml_por_anyo/2020/"
+    files = []
+    # r=root, d=directories, f = files
+    for r, d, f in os.walk(path):
+        for file in f:
+            if '.xml' in file:
+                files.append(os.path.join(r, file))
+    n = 0
+    print "TOTAL FICHEROS: ", len(files)
+    for f in files:
+        print(f)
+        test3(f)
+        n+=1
+        if (n>1000):
+           break
+        
+        
 def main(*args):
-  test1()
+  #test1()
+  test4()
   #generate_translations(COLUMNS_DEFINITION)
   
