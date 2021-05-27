@@ -2,6 +2,7 @@
 
 import gvsig
 import sys
+import os
 
 from org.gvsig.fmap.geom.aggregate import MultiPolygon
 from org.gvsig.scripting.app.extension import ScriptingUtils
@@ -152,7 +153,7 @@ COLUMNS_DEFINITION = [
   
   Descriptor("TOTAL_VICTIMAS","Integer",
     label="_Total_victimas",
-    shortlabel="_Victimas")\
+    shortlabel="_Victimas"),
 
   Descriptor("TOTAL_MUERTOS","Integer",
     label="_Total_muertos",
@@ -171,7 +172,7 @@ COLUMNS_DEFINITION = [
     
   Descriptor("TOTAL_ILESOS","Integer",
     label="_Total_ilesos",
-    shortlabel="_Ilesos")\
+    shortlabel="_Ilesos"),
 
   Descriptor("TOTAL_VEHICULOS","Integer", 
     label="_Total_vehiculos_implicados",
@@ -180,47 +181,47 @@ COLUMNS_DEFINITION = [
 
   Descriptor("TOTAL_CONDUCTORES","Integer", 
     label="_Total_conductores_implicados",
-    shortlabel="_Tot_conductores")\
+    shortlabel="_Tot_conductores"),
 
   Descriptor("TOTAL_PASAJEROS","Integer", 
     label="_Total_pasajeros_implicados",
-    shortlabel="_Tot_pasajeros")\
+    shortlabel="_Tot_pasajeros"),
 
   Descriptor("TOTAL_PEATONES","Integer", 
     label="_Total_peatones_implicados",
-    shortlabel="_Tot_peatones")\
+    shortlabel="_Tot_peatones"),
     
   Descriptor("NUM_TURISMOS","Integer", 
     label="_Num_turismos_implicados",
-    shortlabel="_Num_turismos")\
+    shortlabel="_Num_turismos"),
 
   Descriptor("NUM_FURGONETAS","Integer", 
     label="_Num_furgonetas_implicadas",
-    shortlabel="_Num_furgonetas")\
+    shortlabel="_Num_furgonetas"),
 
   Descriptor("NUM_CAMIONES","Integer", 
     label="_Num_camiones_implicados",
-    shortlabel="_Num_camiones")\
+    shortlabel="_Num_camiones"),
 
   Descriptor("NUM_AUTOBUSES","Integer", 
     label="_Num_autobuses_implicados",
-    shortlabel="_Num_autobuses")\
+    shortlabel="_Num_autobuses"),
 
   Descriptor("NUM_CICLOMOTORES","Integer", 
     label="_Num_ciclomotores_implicados",
-    shortlabel="_Num_ciclomotores")\
+    shortlabel="_Num_ciclomotores"),
 
   Descriptor("NUM_MOTOCICLETAS","Integer", 
     label="_Num_motocicletas_implicadas",
-    shortlabel="_Num_motocicletas")\
+    shortlabel="_Num_motocicletas"),
 
   Descriptor("NUM_BICICLETAS","Integer", 
     label="_Num_bicicletas_implicadas",
-    shortlabel="_Num_bicicletas")\
+    shortlabel="_Num_bicicletas"),
 
   Descriptor("NUM_OTROS_VEHI","Integer", 
     label="_Num_otros_vehiculos_implicados",
-    shortlabel="_Num_otros_vehiculos")\
+    shortlabel="_Num_otros_vehiculos"),
 
 
   Descriptor("TIPO_ACC_SALIDA","Integer", 
@@ -935,6 +936,7 @@ class AccidentesParser(object):
     self.informeCorriente = None
     self.accidenteCorriente = None
     self.tags = {}
+
     
   def getTags(self):
     return self.tags
@@ -1040,8 +1042,6 @@ class AccidentesParser(object):
       values.append(parseToString(informe.get("@COD_INFORME", None)))
 
       values.append(parseToString(accidente.get("@ID_ACCIDENTE", None)))
-      values.append(None) # COD_AFORO
-      values.append(None) # COD_ESTACION_AFORO
 
       values.append(parseToNumber(accidente.get("ESTADO_ACCIDENTE", None)))
       values.append(parseToString(accidente.get("OPERACION", None)))
@@ -1049,19 +1049,19 @@ class AccidentesParser(object):
       values.append(parseToString(accidente.get("FECHA_ACCIDENTE", None)))
       values.append(parseToString(accidente.get("HORA_ACCIDENTE", None)))
       values.append(parseToString(accidente.get("COD_PROVINCIA", None)))
-      values.append(None)  # INE_PROVINCIA
+
       values.append(parseToString(accidente.get("COD_MUNICIPIO", None)))
-      values.append(None)  # INE MUNICIPIO
+
       values.append(parseToString(accidente.get("COD_POBLACION", None)))
       values.append(parseToNull(accidente.get("ZONA", None)))
       values.append(parseToNull(accidente.get("TIPO_VIA", None)))
-      values.append(parseToNull(accidente.get("TIPO_VIA", None)))
+
       values.append(parseToString(accidente.get("CARRETERA", None)))
-      values.append(parseToString(accidente.get("CARRETERA", None)))
+
       values.append(parseToNumber(accidente.get("KM", None)))
-      values.append(parseToNumber(accidente.get("KM", None)))
+
       values.append(parseToNull(accidente.get("TITULARIDAD_VIA", None)))
-      values.append(parseToNull(accidente.get("TITULARIDAD_VIA", None)))
+
       values.append(parseToNull(accidente.get("SENTIDO", None)))
 
 
@@ -1079,40 +1079,40 @@ class AccidentesParser(object):
       values.append(parseToString(accidente.get("CRUCE_INE_CALLE", None)))
 
       values.append(parseToNumber(get2(accidente,"VICTIMAS","@TOTAL_VICTIMAS")))
-      values.append(parseToNumber(get2(accidente,"VICTIMAS","@TOTAL_VICTIMAS")))
+
       values.append(parseToNumber(get2(accidente,"VICTIMAS","TOTAL_MUERTOS")))
-      values.append(parseToNumber(get2(accidente,"VICTIMAS","TOTAL_MUERTOS")))
+
       values.append(parseToNumber(get2(accidente,"VICTIMAS","TOTAL_GRAVES")))
-      values.append(parseToNumber(get2(accidente,"VICTIMAS","TOTAL_GRAVES")))
+
       values.append(parseToNumber(get2(accidente,"VICTIMAS","TOTAL_LEVES")))
-      values.append(parseToNumber(get2(accidente,"VICTIMAS","TOTAL_LEVES")))
+
       values.append(parseToNumber(get2(accidente,"VICTIMAS","TOTAL_ILESOS")))
-      values.append(parseToNumber(get2(accidente,"VICTIMAS","TOTAL_ILESOS")))
+
       
       values.append(parseToNumber(accidente.get("TOTAL_VEHICULOS", None)))
-      values.append(parseToNumber(accidente.get("TOTAL_VEHICULOS", None)))
+
       values.append(parseToNumber(accidente.get("TOTAL_CONDUCTORES", None)))
-      values.append(parseToNumber(accidente.get("TOTAL_CONDUCTORES", None)))
+
       values.append(parseToNumber(accidente.get("TOTAL_PASAJEROS", None)))
-      values.append(parseToNumber(accidente.get("TOTAL_PASAJEROS", None)))
+
       values.append(parseToNumber(accidente.get("TOTAL_PEATONES", None)))
-      values.append(parseToNumber(accidente.get("TOTAL_PEATONES", None)))
+
       values.append(parseToNumber(accidente.get("NUM_TURISMOS", None)))
-      values.append(parseToNumber(accidente.get("NUM_TURISMOS", None)))
+
       values.append(parseToNumber(accidente.get("NUM_FURGONETAS", None)))
-      values.append(parseToNumber(accidente.get("NUM_FURGONETAS", None)))
+
       values.append(parseToNumber(accidente.get("NUM_CAMIONES", None)))
-      values.append(parseToNumber(accidente.get("NUM_CAMIONES", None)))
+
       values.append(parseToNumber(accidente.get("NUM_AUTOBUSES", None)))
-      values.append(parseToNumber(accidente.get("NUM_AUTOBUSES", None)))
+
       values.append(parseToNumber(accidente.get("NUM_CICLOMOTORES", None)))
-      values.append(parseToNumber(accidente.get("NUM_CICLOMOTORES", None)))
+
       values.append(parseToNumber(accidente.get("NUM_MOTOCICLETAS", None)))
-      values.append(parseToNumber(accidente.get("NUM_MOTOCICLETAS", None)))
+
       values.append(parseToNumber(accidente.get("NUM_BICICLETAS", None)))
-      values.append(parseToNumber(accidente.get("NUM_BICICLETAS", None)))
+
       values.append(parseToNumber(accidente.get("NUM_OTROS_VEHI", None)))
-      values.append(parseToNumber(accidente.get("NUM_OTROS_VEHI", None)))
+
       
       values.append(parseToNull(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_SALIDA")))
       values.append(parseToNull(get2(accidente,"TIPO_ACCIDENTE","TIPO_ACC_COLISION")))
@@ -1259,9 +1259,9 @@ class AccidentesParser(object):
       values.append(parseToBool(get2(accidente,"FACTORES_CONCURRENTES","FC_SENYALIZACION")))
       values.append(parseToBool(get2(accidente,"FACTORES_CONCURRENTES","FC_OBSTACULO")))
       values.append(parseToBool(get2(accidente,"FACTORES_CONCURRENTES","FC_OTRO_FACTOR")))
-      values.append(None) # ID_TRAMO
-      values.append(None) # Quincena
-      values.append(None) # Actualizado
+
+      values.append(self.getQuincenaFromCodInforme(parseToString(informe.get("@COD_INFORME", None)))) # Quincena
+
       values.append(None) # Extra
       
       values.append(None) # VEHICULOS
@@ -1274,7 +1274,12 @@ class AccidentesParser(object):
       raise
       
     return values
-
+    
+  def getQuincenaFromCodInforme(self, cod):
+      if cod == None:
+        return None
+      return cod.replace('_', '')[-8:]
+      
   def next(self):
     if self.informeCorriente == None:
       return None, None
@@ -1337,16 +1342,17 @@ def test3():
   print "Num accidentes: ", p.getRowCount()
   p.rewind()
   while True:
+    print "In"
     line = p.read()
     if line == None:
       break
     print p.accidenteCorriente, line[0]
     for i in range(0, len(line)):
       print COLUMNS_DEFINITION[i].name, ": ", line[i]
-    #print len(line)
+    print len(line)
     return
 
-def test3(fname=None):
+def test5(fname=None):
   if fname == None:
     fname = '/home/osc/gva_arena2/test/TV_12_2020_07_Q1/victimas.xml'  
   p = AccidentesParser(fname)
@@ -1373,7 +1379,7 @@ def test4(): #TestAllKeys
     print "TOTAL FICHEROS: ", len(files)
     for f in files:
         print(f)
-        test3(f)
+        test5(f)
         n+=1
         if (n>1000):
            break
@@ -1381,6 +1387,6 @@ def test4(): #TestAllKeys
         
 def main(*args):
   #test1()
-  test4()
+  test3()
   #generate_translations(COLUMNS_DEFINITION)
   
