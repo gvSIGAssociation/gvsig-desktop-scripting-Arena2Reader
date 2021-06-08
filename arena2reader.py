@@ -42,18 +42,20 @@ from addons.Arena2Reader.arena2readerutils import isArena2File
 from addons.Arena2Reader.arena2readerutils import getDictionaryNames, getOpenStoreParametersOfDictionary
 from addons.Arena2Reader.arena2readerutils import getResourcesStorage
 
-class Table(object):
-  def __init__(self, parser, name, label=None, tags=None):
+class Table: #(object):
+  def __init__(self, parser, name, label=None, tags={}):
     self.parser = parser
     self.name = name
     if label == None:
       self.label = name
     else:
       self.label = label
-    self.tags = tags
+    #self.tags = tags.update(self.parser.getParserTags())
     
-  def getTags(self):
-    return self.tags.update(parser.getTags())
+  #def getParserTags(self):
+  #  parserTags = self.parser.getParserTags()
+  #  self.tags.update(parserTags)
+  #  return self.tags
     
 tables = {
   "ARENA2_INFORMES": Table(
@@ -206,8 +208,8 @@ class Arena2Reader(AbstractSimpleSequentialReader):
   def getName(self):
     return self._name
     
-  def getTags(self):
-    return self._table.getTags()
+  #def getTags(self):
+  #  return self._table.getParserTags()
   
   def getLabel(self):
     return self._table.label + " - " + os.path.splitext(self.getParameters().getFile().getName())[0]

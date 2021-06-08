@@ -47,7 +47,11 @@ class CroquisParser(object):
     self.accidenteCorriente = None
     self.croquisCorriente = None
     self.croquis = None
-
+    self.tags = {}
+    
+  def getParserTags(self):
+    return self.tags
+    
   def close(self):
     self.xml = None
     self.informeCorriente = None

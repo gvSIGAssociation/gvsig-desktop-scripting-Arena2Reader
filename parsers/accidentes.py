@@ -936,9 +936,8 @@ class AccidentesParser(object):
     self.informeCorriente = None
     self.accidenteCorriente = None
     self.tags = {}
-
     
-  def getTags(self):
+  def getParserTags(self):
     return self.tags
     
   def close(self):

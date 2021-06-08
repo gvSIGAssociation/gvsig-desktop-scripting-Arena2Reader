@@ -325,7 +325,11 @@ class VehiculosParser(object):
     self.informeCorriente = None
     self.accidenteCorriente = None
     self.vehiculoCorriente = None
-
+    self.tags = {}
+    
+  def getParserTags(self):
+    return self.tags
+    
   def close(self):
     self.xml = None
     self.informeCorriente = None

@@ -129,7 +129,11 @@ class PasajerosParser(object):
     self.accidenteCorriente = None
     self.vehiculoCorriente = None
     self.pasajeroCorriente = None
-
+    self.tags = {}
+    
+  def getParserTags(self):
+    return self.tags
+    
   def close(self):
     self.xml = None
     self.informeCorriente = None

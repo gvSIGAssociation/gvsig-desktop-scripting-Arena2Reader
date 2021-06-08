@@ -42,7 +42,11 @@ class InformesParser(object):
     self.fname = fname
     self.xml = xml
     self.informeCorriente = None
-
+    self.tags = {}
+    
+  def getParserTags(self):
+    return self.tags
+    
   def close(self):
     self.xml = None
     self.informeCorriente = None

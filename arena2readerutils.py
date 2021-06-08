@@ -81,11 +81,7 @@ DIC_NAMES = (
   "ARENA2_DIC_ZONA",
   "ARENA2_DIC_INFRACCIONES_VELOCIDAD",
   "ARENA2_DIC_MOTIVO_DESPLAZA_PEA",
-  "ARENA2_DIC_POSICION_VEHICULO",
-  "ARENA2_DIC_INE_MUNICIPIO",
-  "ARENA2_DIC_INE_PROVINCIA",
-  "ARENA2_TR_INE_MUNICIPIO",
-  "ARENA2_TR_INE_PROVINCIA",
+  "ARENA2_DIC_POSICION_VEHICULO"
 )
 
 RESOURCE_NAMES = {
@@ -155,7 +151,20 @@ def getOpenStoreParametersOfDictionary(name):
   parameters.setDynValue("firstLineHeader",True)
   parameters.setFile(File(fname))
   return parameters
-
+  
+def getOpenStoreParametersOfDictionaryByPath(fname):
+  dataManager = DALLocator.getDataManager()
+  #fname = getResource(__file__,"datos", "tablas",name+".csv")
+  parameters = dataManager.createStoreParameters("CSV")
+  parameters.setDynValue("profile","STANDARD_PREFERENCE")
+  parameters.setDynValue("quotePolicy","AlwaysQuoteMode")
+  parameters.setDynValue("delimiter",";")
+  parameters.setDynValue("commentStartMarker","#")
+  parameters.setDynValue("automaticTypesDetection",False)
+  parameters.setDynValue("firstLineHeader",True)
+  parameters.setFile(File(fname))
+  return parameters
+  
 def getResourceNames(tablename):
   return RESOURCE_NAMES.get(tablename,tuple())
 
