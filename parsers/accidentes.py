@@ -47,7 +47,7 @@ COLUMNS_DEFINITION = [
     label="_Estado_accidente",
     shortLabel="_Estado_accidente")\
     .set("relation","Collaboration")\
-    .closedlistfk("u'ARENA2_DIC_ESTADO_ACCIDENTE"),
+    .closedlistfk("ARENA2_DIC_ESTADO_ACCIDENTE"),
     
   Descriptor("OPERACION","String",10,
     label="_Operacion")\
