@@ -356,11 +356,12 @@ def main(*args):
   
   #selfRegister()
   fname = '/home/osc/gva_arena2/test/TV_12_2020_07_Q1/victimas.xml'
+  fname = '/home/osc/gva_arena2/XML_test/victor_005/XML-CastellAleixandre/danyos-ejemplo-3.xml'
   #test(Arena2ReaderFactory(), fname, "arena2_informes")
-  test(Arena2ReaderFactory(), fname, "arena2_accidentes")
+  #test(Arena2ReaderFactory(), fname, "arena2_accidentes")
   #test(Arena2ReaderFactory(), fname, "arena2_vehiculos")
-  #test(Arena2ReaderFactory(), fname, "arena2_conductores")
-  test(Arena2ReaderFactory(), fname, "arena2_peatones")
+  test(Arena2ReaderFactory(), fname, "arena2_conductores")
+  #test(Arena2ReaderFactory(), fname, "arena2_peatones")
   #test(Arena2ReaderFactory(), fname, "arena2_pasajeros")
   #test(Arena2ReaderFactory(), fname, "arena2_croquis")
   pass

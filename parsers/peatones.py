@@ -17,6 +17,7 @@ COLUMNS_DEFINITION = [
     label="_Accidente")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)"),
   Descriptor("ID_PEATON","Integer", 
     label="_Codigo_peaton",
@@ -37,6 +38,7 @@ COLUMNS_DEFINITION = [
     label="_Sexo")\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_SEXO")\
+    .set("indexed",True)\
     .tag("dynform.readonly",True),
   Descriptor("NACIONALIDAD","String", size=100,
     label="_Nacionalidad")\
@@ -57,6 +59,7 @@ COLUMNS_DEFINITION = [
     label="_Asistencia_sanitaria",
     shortlabel="_Asis_sanitaria")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ASISTENCIA_SANITARIA")\
     .tag("dynform.readonly",True),
 
@@ -70,6 +73,7 @@ COLUMNS_DEFINITION = [
     label="_Factores_afectan_atencion",
     shortlabel="_Fact_atencion")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_FACTORES_ATENCION_PEA")\
     .tag("dynform.readonly",True),
   
@@ -81,6 +85,7 @@ COLUMNS_DEFINITION = [
     label="_Presuntos_errores",
     shortlabel="_Errores")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ERRORES_PEA")\
     .tag("dynform.readonly",True),
   
@@ -92,6 +97,7 @@ COLUMNS_DEFINITION = [
     label="_Presunta_infraccion",
     shortlabel="_infraccion")\
     .tag("dynform.readonly",True)\
+    .set("indexed",True)\
     .selectablefk("ARENA2_DIC_INFRACCIONES_PEATON"),
 
   # Seccion: Desplazamiento
@@ -99,6 +105,7 @@ COLUMNS_DEFINITION = [
     label="_Motivo_desplazamiento",
     shortlabel="_Motivo_despl")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_MOTIVO_DESPLAZA_PEA")\
     .tag("dynform.readonly",True)\
     .tag("dynform.separator","_Desplazamiento"),
@@ -107,6 +114,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Accion_pea")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ACCION_PEA"),
 
   # Grupo: Pruebas
@@ -122,6 +130,7 @@ COLUMNS_DEFINITION = [
     label="_Prueba_en_aire",
     shortlabel="_Prueba_aire")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_PRUEBA_ALCOHOLEMIA")\
     .tag("dynform.readonly",True),
   Descriptor("TASA_ALCOHOLEMIA1","Integer",
@@ -156,6 +165,7 @@ COLUMNS_DEFINITION = [
     label="_Prueba_de_drogas",
     shortlabel="_Prueba_drogas")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_PRUEBA_DROGAS")\
     .tag("dynform.readonly",True),
   Descriptor("AMP","Boolean",
@@ -344,7 +354,7 @@ class PeatonesParser(object):
       values.append(parseToBool(get2(peaton,"PRESUNTOS_ERRORES","@INFLU_PRES_ERROR")))
       values.append(parseToNull(get2(peaton,"PRESUNTOS_ERRORES","#text")))
       values.append(parseToBool(get2(peaton,"PRES_INFRAC_PEA","@INFLU_PRES_INFRAC")))
-      values.append(parseToNull(get2(peaton,"PRES_INFRAC_Pget1EA","#text")))
+      values.append(parseToNull(get2(peaton,"PRES_INFRAC_PEA","#text")))
 
       values.append(parseToNull(get1(peaton,"MOTIVO_DESPLAZAMIENTO")))
       values.append(parseToNull(get1(peaton,"ACCION_PEA")))

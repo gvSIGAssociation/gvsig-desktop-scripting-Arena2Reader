@@ -9,6 +9,8 @@ from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
 
+from org.gvsig.tools.dynobject.DynField import RELATION_TYPE_COLLABORATION, RELATION_TYPE_AGGREGATE
+
 from util import parseToBool, parseToString, parseToNumber, get1, get2, Descriptor, generate_translations, parseToNull
 
 GROUPS_DEFINITION = [u'REGULACION_PRIORIDAD', 
@@ -35,11 +37,13 @@ COLUMNS_DEFINITION = [
     shortLabel="_Cod_informe")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .foreingkey("ARENA2_INFORMES","COD_INFORME","FORMAT('%s',COD_INFORME)"),
     
   Descriptor("ID_ACCIDENTE","String",20, 
     label="_Codigo_accidente",
     shortLabel="_Cod_accidente")\
+    .set("indexed",True)\
     .tag("dynform.readonly",True)\
     .tag("DAL.Search.Attribute.Priority",1),
     
@@ -65,27 +69,32 @@ COLUMNS_DEFINITION = [
     
   Descriptor("COD_PROVINCIA","String",45,  
     label="_Provincia")\
+    .set("indexed",True)\
     .tag("dynform.readonly",True)\
     .tag("DAL.Search.Attribute.Priority",2),
     
     
   Descriptor("COD_MUNICIPIO","String",100,  
     label="_Municipio")\
+    .set("indexed",True)\
     .tag("dynform.readonly",True),
    
   Descriptor("COD_POBLACION","String",100,  
     label="_Poblacion")\
+    .set("indexed",True)\
     .tag("dynform.readonly",True),
     
   Descriptor("ZONA","Integer",  
     label="_Zona")\
     .tag("dynform.readonly",True)\
+    .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_ZONA"),
     
   Descriptor("TIPO_VIA","Integer",
     label="_Tipo_de_via",
     shortLabel="_Tipo_via")\
+    .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_TIPO_VIA"),
     
@@ -103,12 +112,14 @@ COLUMNS_DEFINITION = [
   Descriptor("TITULARIDAD_VIA","Integer",
     label="_Titularidad_de_la_via",
     shortLabel="_Titularidad_via")\
+    .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_TITULARIDAD_VIA"),
 
   Descriptor("SENTIDO","Integer",  
     label="_Sentido")\
     .tag("dynform.readonly",True)\
+    .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_SENTIDO")\
     .tag("DAL.Search.Attribute.Priority",5),
@@ -138,11 +149,13 @@ COLUMNS_DEFINITION = [
     label="_Nudo")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_NUDO"),
   Descriptor("NUDO_INFO","Integer", 
     label="_Informacion_nudo",
     shortLabel="_Inf_nudo")\
     .tag("dynform.readonly",True)\
+    .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_NUDO_INFORMACION"),
   Descriptor("CRUCE_CALLE","String",150, 
@@ -228,18 +241,21 @@ COLUMNS_DEFINITION = [
     label="_Tipo_accidente_Salida",
     shortlabel="_Tipo_acc_Sal")\
     .tag("dynform.readonly",True)\
+    .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_TIPO_ACCIDENTE_SALIDA"),
   Descriptor("TIPO_ACC_COLISION","Integer", 
     label="_Tipo_accidente_Colision",
     shortlabel="_Tipo_acc_Col")\
     .tag("dynform.readonly",True)\
+    .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_TIPO_ACCIDENTE_COLISION"),
   Descriptor("TIPO_ACC_ANIMAL","Integer", 
     label="_Especie_del_animal",
     shortlabel="_Especie_animal")\
     .tag("dynform.readonly",True)\
+    .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_TIPO_ACCIDENTE_ANIMAL"),
   
@@ -252,6 +268,7 @@ COLUMNS_DEFINITION = [
     label="_Nivel_circulacion")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_NIVEL_CIRCULACION"),
   Descriptor("INFLU_NIVEL_CIRC","Boolean",  
     label="_Influye_nivel_circulacion")\
@@ -259,6 +276,7 @@ COLUMNS_DEFINITION = [
   Descriptor("CONDICION_FIRME","Integer",  
     label="_Condicion_del_firme")\
     .tag("dynform.readonly",True)\
+    .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_CONDICION_FIRME"),
   Descriptor("INFLU_SUP_FIRME","Boolean",  
@@ -267,6 +285,7 @@ COLUMNS_DEFINITION = [
   Descriptor("CONDICION_ILUMINACION","Integer",  
     label="_Iluminacion")\
     .tag("dynform.readonly",True)\
+    .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_ILUMINACION"),
   Descriptor("INFLU_ILUMINACION","Boolean",  
@@ -276,6 +295,7 @@ COLUMNS_DEFINITION = [
     label="_Meteorologia")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_METEO"),
   Descriptor("INFLU_METEO","Boolean",  
     label="_Influye_meteorologia")\
@@ -285,17 +305,20 @@ COLUMNS_DEFINITION = [
     label="_Niebla")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_NIEBLA"),
   Descriptor("CONDICION_VIENTO","Integer",  
     label="_Viento_fuerte")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_VIENTO"),
 
   
   Descriptor("VISIB_RESTRINGIDA_POR","Integer",  
     label="_Visibilidad")\
     .tag("dynform.readonly",True)\
+    .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_VISIBILIDAD_RESTRINGIDA_POR"),
   Descriptor("INFLU_VISIBILIDAD","Boolean",  
@@ -307,11 +330,13 @@ COLUMNS_DEFINITION = [
     shortLabel="_Caracteisticas_via")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_CARACT_FUNCIONAL_VIA"),
   Descriptor("VEL_GENERICA_SENYALIZADA","Integer", 
     label="_Velocidad_generica")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_VEL_GENERICA"),
 
   Descriptor("VELOCIDAD","Double", 
@@ -320,6 +345,7 @@ COLUMNS_DEFINITION = [
   Descriptor("SENTIDOS_VIA","Integer", 
     label="_Sentidos_via",
     shortlabel="_Sentidos")\
+    .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_SENTIDOS_VIA")\
     .tag("dynform.readonly",True),
@@ -327,11 +353,13 @@ COLUMNS_DEFINITION = [
     label="_Numero_de_calzadas",
     shortlabel="_Num_calzadas")\
     .tag("dynform.readonly",True)\
+    .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_NUMERO_CALZADAS"),
   Descriptor("CARRILES_APTOS_CIRC_ASC","Integer", 
     label="_Carriles_aptos_circular_ascendente",
     shortlabel="_Carr_aptos_cir_asc")\
+    .set("indexed",True)\
     .tag("dynform.readonly",True),
   Descriptor("CARRILES_APTOS_CIRC_DESC","Integer", 
     label="_Carriles_aptos_circular_descenente",
@@ -343,16 +371,19 @@ COLUMNS_DEFINITION = [
     shortlabel="_Anchura_carril")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ANCHURA_CARRIL"),
   Descriptor("ARCEN","Integer", 
     label="_Arcen")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ANCHURA_ARCEN"),
   Descriptor("ACERA","Integer", 
     label="_Acera")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ACERA"),
   Descriptor("INFLU_ACERA","Boolean", 
     label="_Influye_la_acera",
@@ -366,16 +397,19 @@ COLUMNS_DEFINITION = [
     label="_Trazado_planta")\
     .tag("dynform.readonly",True)
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_TRAZADO_PLANTA"),
   Descriptor("TRAZADO_ALZADO","Integer", 
     label="_Trazado_alzado")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_TRAZADO_ALZADO"),
   Descriptor("MARCAS_VIALES","Integer", 
     label="_Marcas_viales")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_MARCAS_VIALES"),
 
   Descriptor("DESCRIPCION","String",5120,profile="Text")\
@@ -502,6 +536,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_BS_Lateral_asc",
     group="_Barrera_seguridad")\
     .tag("dynform.readonly",True)\
+    .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_TIPO_BARRERA"),
   Descriptor("BARRERA_SEG_LAT_ASC_MOTO","Boolean",
@@ -514,6 +549,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_BS_Lateral_desc",
     group="_Barrera_seguridad")\
     .tag("dynform.readonly",True)\
+    .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_TIPO_BARRERA"),
   Descriptor("BARRERA_SEG_LAT_DESC_MOTO","Boolean",
@@ -526,6 +562,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_BS_en_mediana_asc",
     group="_Barrera_seguridad")\
     .tag("dynform.readonly",True)\
+    .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_TIPO_BARRERA"),
   Descriptor("BARRERA_SEG_MEDIANA_ASC_MOTO","Boolean",
@@ -538,6 +575,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_BS_en_mediana_desc",
     group="_Barrera_seguridad")\
     .tag("dynform.readonly",True)\
+    .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_TIPO_BARRERA"),
   Descriptor("BARRERA_SEG_MEDIANA_DESC_MOTO","Boolean",
@@ -907,7 +945,7 @@ Descriptor("EXTRA","String",10000,
       "ARENA2_PEATONES",
       "LID_PEATON",
       ("ID_PEATON","FECHA_NACIMIENTO","SEXO","PAIS_RESIDENCIA","PROVINCIA_RESIDENCIA","MUNICIPIO_RESIDENCIA"),
-      "SELECT * FROM ARENA2_PEATONES WHERE ARENA2_ACCIDENTES.ID_ACCIDENTE = VEHICULOS.ID_ACCIDENTE;"
+      "SELECT * FROM ARENA2_PEATONES WHERE ARENA2_ACCIDENTES.ID_ACCIDENTE = ARENA2_PEATONES.ID_ACCIDENTE;"
     )\
     .tag("dynform.readonly",True)\
     .tag("dynform.label.empty",True),
@@ -920,7 +958,7 @@ Descriptor("EXTRA","String",10000,
       "ARENA2_CROQUIS",
       "LID_CROQUIS",
       ("ID_CROQUIS","IMAGEN"),
-      "SELECT * FROM ARENA2_CROQUIS WHERE ARENA2_ACCIDNETES.ID_ACCIDENTE = VEHICULOS.ID_ACCIDENTE;"
+      "SELECT * FROM ARENA2_CROQUIS WHERE ARENA2_ACCIDNETES.ID_ACCIDENTE = ARENA2_CROQUIS.ID_ACCIDENTE;"
     )\
     .tag("dynform.readonly",True)\
     .tag("dynform.label.empty",True)
@@ -1335,7 +1373,8 @@ def test2():
     return
 
 def test3():
-  fname = '/home/osc/gva_arena2/test/TV_12_2020_07_Q1/victimas.xml'  
+  #fname = '/home/osc/gva_arena2/test/TV_12_2020_07_Q1/victimas.xml'  
+  fname = '/home/osc/gva_arena2/XML_test/victor_005/XML-CastellAleixandre/danyos-prueba-10001.xml'
   p = AccidentesParser(fname)
   p.open()
   print "Num accidentes: ", p.getRowCount()

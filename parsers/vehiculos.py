@@ -16,6 +16,7 @@ COLUMNS_DEFINITION = [
   Descriptor("ID_ACCIDENTE","String",20,
     label="_Accidente")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)")\
     .tag("dynform.readonly",True),
   Descriptor("ID_VEHICULO","Integer", 
@@ -28,6 +29,7 @@ COLUMNS_DEFINITION = [
   Descriptor("LID_CONDUCTOR","String",20,
     label="_Conductor")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .foreingkey(
       "ARENA2_CONDUCTORES",
       "LID_CONDUCTOR",
@@ -43,12 +45,14 @@ COLUMNS_DEFINITION = [
   Descriptor("TIPO_VEHICULO","Integer", 
     label="_Tipo_vehiculo")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_TIPO_VEHICULO")\
     .tag("dynform.dropdown","label")\
     .tag("dynform.readonly",True),
   Descriptor("MMA","Integer",
     label="_MMA")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_MMA")\
     .tag("dynform.readonly",True),
   Descriptor("MARCA_NOMBRE","String",100,
@@ -60,6 +64,7 @@ COLUMNS_DEFINITION = [
   Descriptor("ITV","Integer", 
     label="_ITV")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ITV")\
     .tag("dynform.readonly",True),
   Descriptor("SEGURO","Integer", 
@@ -95,12 +100,14 @@ COLUMNS_DEFINITION = [
     label="_MP_Numero_ONU",
     shortlabel="_MP_ONU")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ONU",code="ID", label="FORMAT('%02d - %s',CODIGO,DESCRIPCION)")\
     .tag("dynform.readonly",True),
 
   Descriptor("DANYOS","Integer", 
     label="_Danyos")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_DANYOS")\
     .tag("dynform.readonly",True),
     
@@ -125,24 +132,28 @@ COLUMNS_DEFINITION = [
     shortlabel="_Posicion_via")\
     .tag("dynform.separator","_Posicion_en_la_via")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_POSICION_VIA")\
     .tag("dynform.readonly",True),
   Descriptor("APROXIMACION_NUDO","Integer",
     label="_Aproximacion_a_nudo",
     shortlabel="_Aprox_nudo")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_NUDO_APROX")\
     .tag("dynform.readonly",True),
   Descriptor("SENTIDO_CIRCULACION","Integer",
     label="_Sentido_de_la_circulacion",
     shortlabel="_Sentido_circulacion")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_SENTIDO_CIRCULA")\
     .tag("dynform.readonly",True),
   Descriptor("LUGAR_CIRCULABA","Integer",
     label="_Lugar_por_el_que_circulaba",
     shortlabel="_Lugar_circulaba")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_LUGAR_CIRCULA")\
     .tag("dynform.dropdown","label")\
     .tag("dynform.readonly",True),
@@ -408,7 +419,7 @@ class VehiculosParser(object):
       values.append(get1(vehiculo,"@ID_ACCIDENTE"))
       
       values.append(get1(vehiculo,"@ID_VEHICULO"))
-      values.append(parseToBool(get1(vehiculo,"SIN_CONDUCTOR"),False))
+      values.append(parseToBool(get1(vehiculo,"@SIN_CONDUCTOR"),False))
       values.append(get1(vehiculo,"@ID_ACCIDENTE") +"/"+ get1(vehiculo,"@ID_VEHICULO"))
       
       values.append(get1(vehiculo,"FECHA_MATRICULACION"))
@@ -439,7 +450,7 @@ class VehiculosParser(object):
       values.append(parseToNull(get1(vehiculo,"POS_VIA")))
       values.append(parseToNull(get1(vehiculo,"APROXIMACION_NUDO")))
       values.append(parseToNull(get1(vehiculo,"SENTIDO_CIRCULACION")))
-      values.append(parseToNull(get2(vehiculo,"LUGAR_CIRCULABA","#test")))
+      values.append(parseToNull(get2(vehiculo,"LUGAR_CIRCULABA","#text")))
       values.append(parseToBool(get2(vehiculo,"LUGAR_CIRCULABA","@FACT_LUGAR_CIRCULA")))
 
       values.append(parseToBool(get1(vehiculo,"TACOGRAFO_DISCO")))

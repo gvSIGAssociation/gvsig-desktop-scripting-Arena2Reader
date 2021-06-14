@@ -17,11 +17,13 @@ COLUMNS_DEFINITION = [
   Descriptor("ID_ACCIDENTE","String",size=20,
     label="_Accidente")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .foreingkey("ARENA2_ACCIDENTES","ID_ACCIDENTE","FORMAT('%s',ID_ACCIDENTE)")\
     .tag("dynform.readonly",True),
   Descriptor("LID_VEHICULO","String",size=20,
     label="_Vehiculo")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .foreingkey("ARENA2_VEHICULOS","LID_VEHICULO","FORMAT('%s/%s %s %s %s %s',ID_ACCIDENTE,ID_VEHICULO,TIPO_VEHICULO,NACIONALIDAD,MARCA_NOMBRE,MODELO)")\
     .tag("dynform.readonly",True),
   Descriptor("ID_VEHICULO","String",size=5, hidden=True,
@@ -41,6 +43,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Sexo")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .selectablefk("ARENA2_DIC_SEXO"),
   Descriptor("PAIS_RESIDENCIA","String", size=100,
     label="_Pais_de_residencia",
@@ -58,6 +61,7 @@ COLUMNS_DEFINITION = [
     label="_Asistencia_sanitaria",
     shortlabel="_Asis_sanitaria")\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ASISTENCIA_SANITARIA")\
     .tag("dynform.readonly",True),
 
@@ -66,6 +70,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Posicion")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
+    .set("indexed",True)\
     .selectablefk("ARENA2_DIC_POSICION_VEHICULO"),
   Descriptor("NINYO_EN_BRAZO","Boolean", 
     label="_Ninyo_en_brazo",
@@ -81,6 +86,7 @@ COLUMNS_DEFINITION = [
     group="_Accesorios_de_seguridad",
     label="_Casco")\
     .closedlistfk("ARENA2_DIC_ACC_SEG_CASCO")\
+    .set("indexed",True)\
     .tag("dynform.readonly",True),
   Descriptor("ACC_SEG_SIS_RETEN_INFANTIL","Boolean",
     group="_Accesorios_de_seguridad",
