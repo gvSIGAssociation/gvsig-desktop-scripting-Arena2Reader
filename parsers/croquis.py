@@ -212,8 +212,27 @@ class CroquisParser(object):
     self.informeCorriente = None
     return None
 
-
+def test3():
+  #fname = '/home/osc/gva_arena2/test/TV_12_2020_07_Q1/victimas.xml'  
+  #fname = '/home/osc/gva_arena2/XML_test/victor_005/XML-CastellAleixandre/danyos-prueba-10001.xml'
+  fname = '/home/osc/gva_arena2/IMPORT_TEST_ERROR_CROQUIS/TV_03_2019_01_Q2/victimas.xml'
+  p = CroquisParser(fname)
+  p.open()
+  print "Num accidentes: ", p.getRowCount()
+  p.rewind()
+  while True:
+    print "In"
+    line = p.read()
+    if line == None:
+      break
+    print p.accidenteCorriente, line[0]
+    for i in range(0, len(line)):
+      print COLUMNS_DEFINITION[i].name, ": ", line[i]
+    print len(line)
+    return
+    
 def main(*args):
   #generate_translations(COLUMNS_DEFINITION)
+  test3()
   pass
     

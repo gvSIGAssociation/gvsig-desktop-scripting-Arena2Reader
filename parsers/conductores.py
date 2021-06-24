@@ -50,7 +50,8 @@ COLUMNS_DEFINITION = [
     .set("relation","Collaboration")\
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_SEXO")\
-    .tag("dynform.readonly",True),
+    .tag("dynform.readonly",True)\
+    .tag("report.attr.label", "DESCRIPCION"),
   Descriptor("NACIONALIDAD","String", size=100,
     label="_Nacionalidad")\
     .tag("dynform.readonly",True),
@@ -72,7 +73,8 @@ COLUMNS_DEFINITION = [
     .set("relation","Collaboration")\
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ASISTENCIA_SANITARIA")\
-    .tag("dynform.readonly",True),
+    .tag("dynform.readonly",True)\
+    .tag("report.attr.label", "DESCRIPCION"),
 
   # Seccion: Posibles errores
   Descriptor("INFLU_FACT_ATENCION","Boolean",
@@ -86,7 +88,8 @@ COLUMNS_DEFINITION = [
     .set("relation","Collaboration")\
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_FACTORES_ATENCION_COND")\
-    .tag("dynform.readonly",True),
+    .tag("dynform.readonly",True)\
+    .tag("report.attr.label", "DESCRIPCION"),
   
   Descriptor("INFLU_PRES_ERROR","Boolean",
     label="_Influyen_presuntos_errores",
@@ -98,7 +101,8 @@ COLUMNS_DEFINITION = [
     .set("relation","Collaboration")\
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ERRORES_COND")\
-    .tag("dynform.readonly",True),
+    .tag("dynform.readonly",True)\
+    .tag("report.attr.label", "DESCRIPCION"),
 
   # Seccion: Permiso
   Descriptor("CARACT_PERMISO","Integer",
@@ -108,14 +112,16 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_CARACTERISTICAS_PERMISO")\
     .tag("dynform.readonly",True)\
-    .tag("dynform.separator","_Permiso"),
+    .tag("dynform.separator","_Permiso")\
+    .tag("report.attr.label", "DESCRIPCION"),
   Descriptor("CLASE_PERMISO","Integer",
     label="_Clase_del_permiso",
     shortlabel="_Clase_perm")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_CLASE_PERMISO")\
-    .tag("dynform.readonly",True),
+    .tag("dynform.readonly",True)\
+    .tag("report.attr.label", "DESCRIPCION"),
   Descriptor("FECHA_PERMISO","Date",
     label="_Fecha_permiso",
     shortlabel="_Fech_perm")\
@@ -129,14 +135,16 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_MOTIVO_DESPLAZA_COND")\
     .tag("dynform.readonly",True)\
-    .tag("dynform.separator","_Desplazamiento"),
+    .tag("dynform.separator","_Desplazamiento")\
+    .tag("report.attr.label", "DESCRIPCION"),
   Descriptor("DESPLAZAMIENTO_PREVISTO","Integer",
     label="_Desplazamiento_previsto",
     shortlabel="_Despl_prev")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_DESPLAZAMIENTO_PREVISTO")\
-    .tag("dynform.readonly",True),
+    .tag("dynform.readonly",True)\
+    .tag("report.attr.label", "DESCRIPCION"),
 
   # Grupo: Accesorios de seguridad
   Descriptor("ACC_SEG_CINTURON","Boolean",
@@ -149,7 +157,8 @@ COLUMNS_DEFINITION = [
     .set("relation","Collaboration")\
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ACC_SEG_CASCO")\
-    .tag("dynform.readonly",True),
+    .tag("dynform.readonly",True)\
+    .tag("report.attr.label", "DESCRIPCION"),
   # Seccion: Accesorios de seguridad opcionales
   Descriptor("ACC_SEG_BRAZOS","Boolean",
     group="_Accesorios_de_seguridad",
@@ -197,7 +206,8 @@ COLUMNS_DEFINITION = [
     .set("relation","Collaboration")\
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_PRUEBA_ALCOHOLEMIA")\
-    .tag("dynform.readonly",True),
+    .tag("dynform.readonly",True)\
+    .tag("report.attr.label", "DESCRIPCION"),
   Descriptor("TASA_ALCOHOLEMIA1","Integer",
     group="_Pruebas",
     label="_Tasa_1_en_aire_mg_l",
@@ -232,7 +242,8 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_PRUEBA_DROGAS")\
-    .tag("dynform.readonly",True),
+    .tag("dynform.readonly",True)\
+    .tag("report.attr.label", "DESCRIPCION"),
   Descriptor("AMP","Boolean",
     group="_Pruebas",
     label="_Positivo_anfetaminas",
@@ -323,7 +334,8 @@ COLUMNS_DEFINITION = [
     .set("relation","Collaboration")\
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_INFRACCIONES_CODUCTOR")\
-    .tag("dynform.readonly",True),
+    .tag("dynform.readonly",True)\
+    .tag("report.attr.label", "DESCRIPCION"),
   Descriptor("PRES_INFRAC_SIN_LUCES","Boolean",
     group="_Presuntas_infracciones",
     label="_Sin_luces_de_emergencia",
@@ -345,7 +357,8 @@ COLUMNS_DEFINITION = [
     shortlabel="_Infrac_veloc")\
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
-    .closedlistfk("ARENA2_DIC_INFRACCIONES_VELOCIDAD"),
+    .closedlistfk("ARENA2_DIC_INFRACCIONES_VELOCIDAD")\
+    .tag("report.attr.label", "DESCRIPCION"),
   Descriptor("INFLU_OTRA_INFRAC","Boolean",
     group="_Presuntas_infracciones",
     label="_Influye_otra_infraccion",
@@ -358,7 +371,8 @@ COLUMNS_DEFINITION = [
     .tag("dynform.readonly",True)\
     .set("indexed",True)\
     .set("relation","Collaboration")\
-    .closedlistfk("ARENA2_DIC_INFRACCIONES_OTRAS")
+    .closedlistfk("ARENA2_DIC_INFRACCIONES_OTRAS")\
+    .tag("report.attr.label", "DESCRIPCION")
 ]
 
 class ConductoresParser(object):

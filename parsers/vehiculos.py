@@ -102,14 +102,16 @@ COLUMNS_DEFINITION = [
     .set("relation","Collaboration")\
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ONU",code="ID", label="FORMAT('%02d - %s',CODIGO,DESCRIPCION)")\
-    .tag("dynform.readonly",True),
+    .tag("dynform.readonly",True)\
+    .tag("report.attr.label", "DESCRIPCION"),
 
   Descriptor("DANYOS","Integer", 
     label="_Danyos")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_DANYOS")\
-    .tag("dynform.readonly",True),
+    .tag("dynform.readonly",True)\
+    .tag("report.attr.label", "DESCRIPCION"),
     
   # -- SECCION "Remolque"
   Descriptor("REMOLQUE","Boolean", 
@@ -134,21 +136,24 @@ COLUMNS_DEFINITION = [
     .set("relation","Collaboration")\
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_POSICION_VIA")\
-    .tag("dynform.readonly",True),
+    .tag("dynform.readonly",True)\
+    .tag("report.attr.label", "DESCRIPCION"),
   Descriptor("APROXIMACION_NUDO","Integer",
     label="_Aproximacion_a_nudo",
     shortlabel="_Aprox_nudo")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_NUDO_APROX")\
-    .tag("dynform.readonly",True),
+    .tag("dynform.readonly",True)\
+    .tag("report.attr.label", "DESCRIPCION"),
   Descriptor("SENTIDO_CIRCULACION","Integer",
     label="_Sentido_de_la_circulacion",
     shortlabel="_Sentido_circulacion")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_SENTIDO_CIRCULA")\
-    .tag("dynform.readonly",True),
+    .tag("dynform.readonly",True)\
+    .tag("report.attr.label", "DESCRIPCION"),
   Descriptor("LUGAR_CIRCULABA","Integer",
     label="_Lugar_por_el_que_circulaba",
     shortlabel="_Lugar_circulaba")\
@@ -156,7 +161,8 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_LUGAR_CIRCULA")\
     .tag("dynform.dropdown","label")\
-    .tag("dynform.readonly",True),
+    .tag("dynform.readonly",True)\
+    .tag("report.attr.label", "DESCRIPCION"),
   Descriptor("FACT_LUGAR_CIRCULA","Boolean",
     label="_Influye_el_lugar_por_el_que_circulaba",
     shortlabel="_Influye_lugar_circulaba")\
