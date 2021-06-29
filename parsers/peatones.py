@@ -40,7 +40,7 @@ COLUMNS_DEFINITION = [
     .closedlistfk("ARENA2_DIC_SEXO")\
     .set("indexed",True)\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('SEXO.DESCRIPCION')"),
   Descriptor("NACIONALIDAD","String", size=100,
     label="_Nacionalidad")\
     .tag("dynform.readonly",True),
@@ -63,7 +63,7 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ASISTENCIA_SANITARIA")\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('ASISTENCIA_SANITARIA.DESCRIPCION')"),
 
   # Seccion: Posibles errores
   Descriptor("INFLU_FACT_ATENCION","Boolean",
@@ -78,7 +78,7 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_FACTORES_ATENCION_PEA")\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('FACTORES_ATENCION.DESCRIPCION')"),
   
   Descriptor("INFLU_PRES_ERROR","Boolean",
     label="_Influyen_presuntos_errores",
@@ -91,7 +91,7 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ERRORES_PEA")\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('PRESUNTOS_ERRORES.DESCRIPCION')"),
   
   Descriptor("INFLU_PRES_INFRAC","Boolean",
     label="_Influyen_presunta_infraccion",
@@ -113,7 +113,7 @@ COLUMNS_DEFINITION = [
     .closedlistfk("ARENA2_DIC_MOTIVO_DESPLAZA_PEA")\
     .tag("dynform.readonly",True)\
     .tag("dynform.separator","_Desplazamiento")\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('MOTIVO_DESPLAZAMIENTO.DESCRIPCION')"),
   Descriptor("ACCION_PEA","Integer",
     label="_Accion_del_peaton",
     shortlabel="_Accion_pea")\
@@ -121,7 +121,7 @@ COLUMNS_DEFINITION = [
     .set("relation","Collaboration")\
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ACCION_PEA")\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('ACCION_PEA.DESCRIPCION')"),
 
   # Grupo: Pruebas
   # Seccion: Alcohol
@@ -139,7 +139,7 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_PRUEBA_ALCOHOLEMIA")\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('PRUEBA_ALCOHOLEMIA.DESCRIPCION')"),
   Descriptor("TASA_ALCOHOLEMIA1","Integer",
     group="_Pruebas",
     label="_Tasa_1_en_aire_mg_l",
@@ -175,7 +175,7 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_PRUEBA_DROGAS")\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('PRUEBA_DROGAS.DESCRIPCION')"),
   Descriptor("AMP","Boolean",
     group="_Pruebas",
     label="_Positivo_anfetaminas",

@@ -51,7 +51,7 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_SEXO")\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('SEXO.DESCRIPCION')"),
   Descriptor("NACIONALIDAD","String", size=100,
     label="_Nacionalidad")\
     .tag("dynform.readonly",True),
@@ -74,7 +74,7 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ASISTENCIA_SANITARIA")\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('ASISTENCIA_SANITARIA.DESCRIPCION')"),
 
   # Seccion: Posibles errores
   Descriptor("INFLU_FACT_ATENCION","Boolean",
@@ -89,7 +89,7 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_FACTORES_ATENCION_COND")\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('FACTORES_ATENCION.DESCRIPCION')"),
   
   Descriptor("INFLU_PRES_ERROR","Boolean",
     label="_Influyen_presuntos_errores",
@@ -102,7 +102,7 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ERRORES_COND")\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('PRESUNTOS_ERRORES.DESCRIPCION')"),
 
   # Seccion: Permiso
   Descriptor("CARACT_PERMISO","Integer",
@@ -113,7 +113,7 @@ COLUMNS_DEFINITION = [
     .closedlistfk("ARENA2_DIC_CARACTERISTICAS_PERMISO")\
     .tag("dynform.readonly",True)\
     .tag("dynform.separator","_Permiso")\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('CARACT_PERMISO.DESCRIPCION')"),
   Descriptor("CLASE_PERMISO","Integer",
     label="_Clase_del_permiso",
     shortlabel="_Clase_perm")\
@@ -121,7 +121,7 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_CLASE_PERMISO")\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('CLASE_PERMISO.DESCRIPCION')"),
   Descriptor("FECHA_PERMISO","Date",
     label="_Fecha_permiso",
     shortlabel="_Fech_perm")\
@@ -136,7 +136,7 @@ COLUMNS_DEFINITION = [
     .closedlistfk("ARENA2_DIC_MOTIVO_DESPLAZA_COND")\
     .tag("dynform.readonly",True)\
     .tag("dynform.separator","_Desplazamiento")\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('MOTIVO_DESPLAZAMIENTO.DESCRIPCION')"),
   Descriptor("DESPLAZAMIENTO_PREVISTO","Integer",
     label="_Desplazamiento_previsto",
     shortlabel="_Despl_prev")\
@@ -144,7 +144,7 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_DESPLAZAMIENTO_PREVISTO")\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('DESPLAZAMIENTO_PREVISTO.DESCRIPCION')"),
 
   # Grupo: Accesorios de seguridad
   Descriptor("ACC_SEG_CINTURON","Boolean",
@@ -158,7 +158,7 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ACC_SEG_CASCO")\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('ACC_SEG_CASCO.DESCRIPCION')"),
   # Seccion: Accesorios de seguridad opcionales
   Descriptor("ACC_SEG_BRAZOS","Boolean",
     group="_Accesorios_de_seguridad",
@@ -207,7 +207,7 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_PRUEBA_ALCOHOLEMIA")\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('PRUEBA_ALCOHOLEMIA.DESCRIPCION')"),
   Descriptor("TASA_ALCOHOLEMIA1","Integer",
     group="_Pruebas",
     label="_Tasa_1_en_aire_mg_l",
@@ -243,7 +243,7 @@ COLUMNS_DEFINITION = [
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_PRUEBA_DROGAS")\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('PRUEBA_DROGAS.DESCRIPCION')"),
   Descriptor("AMP","Boolean",
     group="_Pruebas",
     label="_Positivo_anfetaminas",
@@ -335,7 +335,7 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_INFRACCIONES_CODUCTOR")\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('PRES_INFRAC_COND.DESCRIPCION')"),
   Descriptor("PRES_INFRAC_SIN_LUCES","Boolean",
     group="_Presuntas_infracciones",
     label="_Sin_luces_de_emergencia",
@@ -358,7 +358,7 @@ COLUMNS_DEFINITION = [
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_INFRACCIONES_VELOCIDAD")\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('PRES_INFRAC_VEL_COND.DESCRIPCION')"),
   Descriptor("INFLU_OTRA_INFRAC","Boolean",
     group="_Presuntas_infracciones",
     label="_Influye_otra_infraccion",
@@ -372,7 +372,7 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_INFRACCIONES_OTRAS")\
-    .tag("report.attr.label", "DESCRIPCION")
+    .tag("report.attr.label", "FOREING_VALUE('OTRA_INFRAC_COND.DESCRIPCION')")
 ]
 
 class ConductoresParser(object):

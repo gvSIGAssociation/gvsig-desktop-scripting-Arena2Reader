@@ -64,7 +64,7 @@ COLUMNS_DEFINITION = [
     .set("indexed",True)\
     .closedlistfk("ARENA2_DIC_ASISTENCIA_SANITARIA")\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('ASISTENCIA_SANITARIA.DESCRIPCION')"),
 
   Descriptor("POSICION_VEHI","Integer",
     label="_Posicion_en_el_vehiculo",
@@ -89,7 +89,7 @@ COLUMNS_DEFINITION = [
     .closedlistfk("ARENA2_DIC_ACC_SEG_CASCO")\
     .set("indexed",True)\
     .tag("dynform.readonly",True)\
-    .tag("report.attr.label", "DESCRIPCION"),
+    .tag("report.attr.label", "FOREING_VALUE('ACC_SEG_CASCO.DESCRIPCION')"),
   Descriptor("ACC_SEG_SIS_RETEN_INFANTIL","Boolean",
     group="_Accesorios_de_seguridad",
     label="_Sistema_retencion_infantil",
