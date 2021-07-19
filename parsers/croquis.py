@@ -18,7 +18,7 @@ from java.io import File
 from javax.imageio import ImageIO
 
 COLUMNS_DEFINITION = [
-  Descriptor("LID_CROQUIS","String",30,hidden=True, pk=True,
+  Descriptor("LID_CROQUIS","String",100,hidden=True, pk=True,
     label="_Id_croquis")\
     .tag("dynform.readonly",True),
   Descriptor("ID_ACCIDENTE","String",20,
