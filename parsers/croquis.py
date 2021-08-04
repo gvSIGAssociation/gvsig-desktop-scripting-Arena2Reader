@@ -30,6 +30,7 @@ COLUMNS_DEFINITION = [
   Descriptor("ID_CROQUIS","Integer", 
     label="_Codigo_croquis",
     shortlabel="_Cod_croquis")\
+    .set("allowIndexDuplicateds",False)\
     .tag("dynform.readonly",True),
   Descriptor("IMAGEN","URL", 
     label="_Imagen", 

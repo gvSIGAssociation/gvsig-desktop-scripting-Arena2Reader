@@ -17,6 +17,7 @@ COLUMNS_DEFINITION = [
   Descriptor("COD_INFORME","String",20, 
     label="_Codigo_informe",
     shortlabel="_Cod_informe")\
+    .set("allowIndexDuplicateds",False)\
     .tag("dynform.readonly",True),
   
   Descriptor("FECHA_INI_EXPORT","Date",

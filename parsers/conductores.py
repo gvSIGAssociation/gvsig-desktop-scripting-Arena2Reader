@@ -13,6 +13,7 @@ from util import parseToBool, parseToString, parseToNumber, get1, get2, Descript
 COLUMNS_DEFINITION = [
   Descriptor("LID_CONDUCTOR","String",30,hidden=True, pk=True,
     label="_Id_conduct")\
+    .set("allowIndexDuplicateds",False)\
     .tag("dynform.readonly",True),
   Descriptor("ID_ACCIDENTE","String",20,
     label="_Accidente")\
@@ -49,6 +50,7 @@ COLUMNS_DEFINITION = [
     label="_Sexo")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_SEXO")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -72,6 +74,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Asis_sanitaria")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_ASISTENCIA_SANITARIA")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -87,6 +90,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Fact_atencion")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_FACTORES_ATENCION_COND")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -100,6 +104,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Errores")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_ERRORES_COND")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -110,6 +115,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Carac_permiso")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_CARACTERISTICAS_PERMISO")\
     .tag("dynform.readonly",True)\
     .tag("dynform.separator","_Permiso")\
@@ -119,6 +125,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Clase_perm")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_CLASE_PERMISO")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -133,6 +140,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Motivo_despl")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_MOTIVO_DESPLAZA_COND")\
     .tag("dynform.readonly",True)\
     .tag("dynform.separator","_Desplazamiento")\
@@ -142,6 +150,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Despl_prev")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_DESPLAZAMIENTO_PREVISTO")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -156,6 +165,7 @@ COLUMNS_DEFINITION = [
     label="_Casco")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_ACC_SEG_CASCO")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -205,6 +215,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Prueba_aire")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_PRUEBA_ALCOHOLEMIA")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -240,6 +251,7 @@ COLUMNS_DEFINITION = [
     label="_Prueba_de_drogas",
     shortlabel="_Prueba_drogas")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_PRUEBA_DROGAS")\
     .tag("dynform.readonly",True)\
@@ -326,6 +338,7 @@ COLUMNS_DEFINITION = [
     label="_Influyen_las_infracciones_del_conductor",
     shortlabel="_Influ_infrac_cond")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .tag("dynform.readonly",True),
   Descriptor("PRES_INFRAC_COND","Integer",
     group="_Presuntas_infracciones",
@@ -333,6 +346,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Infrac_cond")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_INFRACCIONES_CODUCTOR")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -370,6 +384,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Infrac_otra")\
     .tag("dynform.readonly",True)\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_INFRACCIONES_OTRAS")\
     .tag("report.attr.label", "DESCRIPCION")

@@ -1,0 +1,7 @@
+{"name":"Inf. Trazado planta y alzado",
+"dataSetName":"ARENA2_ACCIDENTES",
+"templateName":"2.jasper",
+"FilesResourcesStorage":null,
+"orderFields":"+TRAZADO_PLANTA,+TRAZADO_ALZADO",
+"requiredFields":["TRAZADO_PLANTA", "TRAZADO_ALZADO", "TOTAL_MUERTOS","TOTAL_GRAVES","TOTAL_LEVES","TOTAL_VICTIMAS"]
+}

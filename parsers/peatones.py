@@ -22,6 +22,7 @@ COLUMNS_DEFINITION = [
   Descriptor("ID_PEATON","Integer", 
     label="_Codigo_peaton",
     shortlabel="_Cod_peaton")\
+    .set("allowIndexDuplicateds",False)\
     .tag("dynform.readonly",True),
 
   Descriptor("POSIBLE_RESPONSABLE","Boolean",
@@ -39,6 +40,7 @@ COLUMNS_DEFINITION = [
     .set("relation","Collaboration")\
     .closedlistfk("ARENA2_DIC_SEXO")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
   Descriptor("NACIONALIDAD","String", size=100,
@@ -61,6 +63,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Asis_sanitaria")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_ASISTENCIA_SANITARIA")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -76,6 +79,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Fact_atencion")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_FACTORES_ATENCION_PEA")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -89,6 +93,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Errores")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_ERRORES_PEA")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -102,6 +107,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_infraccion")\
     .tag("dynform.readonly",True)\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .selectablefk("ARENA2_DIC_INFRACCIONES_PEATON"),
 
   # Seccion: Desplazamiento
@@ -110,6 +116,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Motivo_despl")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_MOTIVO_DESPLAZA_PEA")\
     .tag("dynform.readonly",True)\
     .tag("dynform.separator","_Desplazamiento")\
@@ -120,6 +127,7 @@ COLUMNS_DEFINITION = [
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_ACCION_PEA")\
     .tag("report.attr.label", "DESCRIPCION"),
 
@@ -137,6 +145,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Prueba_aire")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_PRUEBA_ALCOHOLEMIA")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -173,6 +182,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Prueba_drogas")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_PRUEBA_DROGAS")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),

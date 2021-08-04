@@ -33,6 +33,7 @@ COLUMNS_DEFINITION = [
   Descriptor("ID_PASAJERO","Integer", 
     label="_Codigo_pasajero",
     shortlabel="_Cod_pasajero")\
+    .set("allowIndexDuplicateds",False)\
     .tag("dynform.readonly",True),
   
   Descriptor("FECHA_NACIMIENTO","Date",
@@ -44,6 +45,7 @@ COLUMNS_DEFINITION = [
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .selectablefk("ARENA2_DIC_SEXO"),
   Descriptor("PAIS_RESIDENCIA","String", size=100,
     label="_Pais_de_residencia",
@@ -62,6 +64,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Asis_sanitaria")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_ASISTENCIA_SANITARIA")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -72,6 +75,7 @@ COLUMNS_DEFINITION = [
     .tag("dynform.readonly",True)\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .selectablefk("ARENA2_DIC_POSICION_VEHICULO"),
   Descriptor("NINYO_EN_BRAZO","Boolean", 
     label="_Ninyo_en_brazo",
@@ -88,6 +92,7 @@ COLUMNS_DEFINITION = [
     label="_Casco")\
     .closedlistfk("ARENA2_DIC_ACC_SEG_CASCO")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
   Descriptor("ACC_SEG_SIS_RETEN_INFANTIL","Boolean",

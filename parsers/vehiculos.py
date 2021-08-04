@@ -30,6 +30,7 @@ COLUMNS_DEFINITION = [
     label="_Conductor")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .foreingkey(
       "ARENA2_CONDUCTORES",
       "LID_CONDUCTOR",
@@ -46,6 +47,7 @@ COLUMNS_DEFINITION = [
     label="_Tipo_vehiculo")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_TIPO_VEHICULO")\
     .tag("dynform.dropdown","label")\
     .tag("dynform.readonly",True),
@@ -53,6 +55,7 @@ COLUMNS_DEFINITION = [
     label="_MMA")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_MMA")\
     .tag("dynform.readonly",True),
   Descriptor("MARCA_NOMBRE","String",100,
@@ -65,6 +68,7 @@ COLUMNS_DEFINITION = [
     label="_ITV")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_ITV")\
     .tag("dynform.readonly",True),
   Descriptor("SEGURO","Integer", 
@@ -101,6 +105,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_MP_ONU")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_ONU",code="ID", label="FORMAT('%02d - %s',CODIGO,DESCRIPCION)")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -109,6 +114,7 @@ COLUMNS_DEFINITION = [
     label="_Danyos")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_DANYOS")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -135,6 +141,7 @@ COLUMNS_DEFINITION = [
     .tag("dynform.separator","_Posicion_en_la_via")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_POSICION_VIA")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -143,6 +150,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Aprox_nudo")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_NUDO_APROX")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -151,6 +159,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Sentido_circulacion")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_SENTIDO_CIRCULA")\
     .tag("dynform.readonly",True)\
     .tag("report.attr.label", "DESCRIPCION"),
@@ -159,6 +168,7 @@ COLUMNS_DEFINITION = [
     shortlabel="_Lugar_circulaba")\
     .set("relation","Collaboration")\
     .set("indexed",True)\
+    .set("allowIndexDuplicateds",True)\
     .closedlistfk("ARENA2_DIC_LUGAR_CIRCULA")\
     .tag("dynform.dropdown","label")\
     .tag("dynform.readonly",True)\
