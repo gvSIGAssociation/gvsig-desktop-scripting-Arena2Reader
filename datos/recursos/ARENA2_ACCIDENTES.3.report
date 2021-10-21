@@ -1,0 +1,7 @@
+{"name":"Inf. por características intersección",
+"dataSetName":"ARENA2_ACCIDENTES",
+"templateName":"3.jasper",
+"FilesResourcesStorage":null,
+"orderFields":"+NUDO_INFO",
+"requiredFields":["NUDO_INFO", "TOTAL_MUERTOS","TOTAL_GRAVES","TOTAL_LEVES","TOTAL_VICTIMAS"]
+}
