@@ -15,3 +15,4 @@ def main(*args):
   i18nManager = ToolsLocator.getI18nManager()
   i18nManager.addResourceFamily("text",File(getResource(__file__,"i18n")))
   
+
