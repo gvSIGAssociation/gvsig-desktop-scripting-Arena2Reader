@@ -13,9 +13,9 @@ from org.apache.tika import Tika
 from util import parseToBool, parseToString, parseToNumber, get1, get2, Descriptor, generate_translations, parseToNull
 from gvsig.uselib import use_plugin
 use_plugin("org.gvsig.pdf.app.mainplugin")
-from org.gvsig.pdf.lib.impl import DefaultPDFDocument
 from java.io import File
-from javax.imageio import ImageIO
+from  org.gvsig.pdf.lib.api import PDFLocator
+
 
 COLUMNS_DEFINITION = [
   Descriptor("LID_CROQUIS","String",100,hidden=True, pk=True,
@@ -85,7 +85,7 @@ class CroquisParser(object):
     accidentesdir = os.path.join(basedir,"croquis")
     accidentes = dict()
     tika = Tika()
-    doc = DefaultPDFDocument();
+    doc = PDFLocator.getPDFManager().createPDFDocument()
     for ID_ACCIDENTE in os.listdir(accidentesdir):
       croquis = list()
       croquisdir = os.path.join(basedir,"croquis",ID_ACCIDENTE)
@@ -100,24 +100,31 @@ class CroquisParser(object):
         fileImage  = File(pathImage)
         mimeType = tika.detect(fileImage);
         if mimeType == "application/pdf":
-          # convertir a imagen el pdf
-          filePdf = fileImage
-          doc.setSource(filePdf)
-          for i in range(0, doc.getNumPages()):
-            img = doc.toImage(i)
-            tempPdfImage = getTempFile("tempPDF", ".png")
-            f = File(tempPdfImage)
-            ImageIO.write(img, "png", f)
+          try:
+            # convertir a imagen el pdf
+            filePdf = fileImage
+            doc.setSource(filePdf)
+            for i in range(0, doc.getNumberOfPages()):
+              img = doc.toImage(i)
+              croquis.append( {
+                  "LID_CROQUIS": "%s/%s" % (ID_ACCIDENTE ,n),
+                  "ID_ACCIDENTE": ID_ACCIDENTE,
+                  "ID_CROQUIS": n,
+                  "IMAGEN": img,
+                }
+              )
+              n+=1
+            doc.dispose()
+          except:
+            print "NO PUEDO convertir a imagen el pdf ID_ACCIDENTE = "+ ID_ACCIDENTE
             croquis.append( {
-                "LID_CROQUIS": "%s/%s" % (ID_ACCIDENTE ,n),
-                "ID_ACCIDENTE": ID_ACCIDENTE,
-                "ID_CROQUIS": n,
-                "IMAGEN": "file://"+tempPdfImage
-              }
-            )
-            n+=1
-            #print "temppdf:"+ID_ACCIDENTE+":"+pathImage
-          doc.dispose()
+                  "LID_CROQUIS": "%s/%s" % (ID_ACCIDENTE ,n),
+                  "ID_ACCIDENTE": ID_ACCIDENTE,
+                  "ID_CROQUIS": n,
+                  "IMAGEN": None
+                }
+              )
+            
         else:
           croquis.append( {
                 "LID_CROQUIS": "%s/%s" % (ID_ACCIDENTE ,n),
@@ -216,7 +223,7 @@ class CroquisParser(object):
 def test3():
   #fname = '/home/osc/gva_arena2/test/TV_12_2020_07_Q1/victimas.xml'  
   #fname = '/home/osc/gva_arena2/XML_test/victor_005/XML-CastellAleixandre/danyos-prueba-10001.xml'
-  fname = '/home/osc/gva_arena2/IMPORT_TEST_ERROR_CROQUIS/TV_03_2019_01_Q2/victimas.xml'
+  fname = '/home/fdiaz/projects/segVial_Datos/VALENCIA_2021/TV_46_2021_12_Q2/victimas.xml'
   p = CroquisParser(fname)
   p.open()
   print "Num accidentes: ", p.getRowCount()
