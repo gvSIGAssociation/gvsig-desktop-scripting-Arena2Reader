@@ -9,7 +9,6 @@ from org.gvsig.fmap.geom.aggregate import MultiPolygon
 from org.gvsig.scripting.app.extension import ScriptingUtils
 import xmltodic
 from org.gvsig.fmap.geom import GeometryUtils
-from org.apache.tika import Tika
 from util import parseToBool, parseToString, parseToNumber, get1, get2, Descriptor, generate_translations, parseToNull
 from gvsig.uselib import use_plugin
 use_plugin("org.gvsig.pdf.app.mainplugin")
@@ -84,7 +83,6 @@ class CroquisParser(object):
     basedir = os.path.dirname(pathname)
     accidentesdir = os.path.join(basedir,"croquis")
     accidentes = dict()
-    tika = Tika()
     doc = PDFLocator.getPDFManager().createPDFDocument()
     for ID_ACCIDENTE in os.listdir(accidentesdir):
       croquis = list()
@@ -97,43 +95,14 @@ class CroquisParser(object):
       for image in iterDir:
         # chec if is pdf -> image
         pathImage = os.path.join(basedir,"croquis",ID_ACCIDENTE,image)
-        fileImage  = File(pathImage)
-        mimeType = tika.detect(fileImage);
-        if mimeType == "application/pdf":
-          try:
-            # convertir a imagen el pdf
-            filePdf = fileImage
-            doc.setSource(filePdf)
-            for i in range(0, doc.getNumberOfPages()):
-              img = doc.toImage(i)
-              croquis.append( {
-                  "LID_CROQUIS": "%s/%s" % (ID_ACCIDENTE ,n),
-                  "ID_ACCIDENTE": ID_ACCIDENTE,
-                  "ID_CROQUIS": n,
-                  "IMAGEN": img,
-                }
-              )
-              n+=1
-            doc.dispose()
-          except:
-            print "NO PUEDO convertir a imagen el pdf ID_ACCIDENTE = "+ ID_ACCIDENTE
-            croquis.append( {
-                  "LID_CROQUIS": "%s/%s" % (ID_ACCIDENTE ,n),
-                  "ID_ACCIDENTE": ID_ACCIDENTE,
-                  "ID_CROQUIS": n,
-                  "IMAGEN": None
-                }
-              )
-            
-        else:
-          croquis.append( {
-                "LID_CROQUIS": "%s/%s" % (ID_ACCIDENTE ,n),
-                "ID_ACCIDENTE": ID_ACCIDENTE,
-                "ID_CROQUIS": n,
-                "IMAGEN": "file://"+pathImage
-              }
-            )
-          n += 1
+        croquis.append( {
+            "LID_CROQUIS": "%s/%s" % (ID_ACCIDENTE ,n),
+            "ID_ACCIDENTE": ID_ACCIDENTE,
+            "ID_CROQUIS": n,
+            "IMAGEN": "file://"+pathImage
+          }
+        )
+        n += 1
       accidentes[ID_ACCIDENTE] = croquis
     
     return accidentes
