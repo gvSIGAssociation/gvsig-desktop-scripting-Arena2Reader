@@ -10,3 +10,8 @@ description =
 createdBy = 
 version = 
 
+[properties]
+autorun.group.name = arena2
+autorun.group.order = 2000
+autorun.order = 3000
+
