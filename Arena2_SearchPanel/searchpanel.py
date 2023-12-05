@@ -75,6 +75,9 @@ class SearchConditionPanelAccident(AbstractSearchConditionPanel):
     persistenceJson = params.getValues()
     persistenceJson.put(self.PANEL_NAME, jsonState)
     return params
+
+  def getWarnings(self):
+    return None
     
 class SearchConditionPanelAccidentForm(FormPanel): 
   def __init__(self, store, simplifiedPanel):
