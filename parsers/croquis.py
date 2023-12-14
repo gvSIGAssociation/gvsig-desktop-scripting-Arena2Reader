@@ -95,11 +95,12 @@ class CroquisParser(object):
       for image in iterDir:
         # chec if is pdf -> image
         pathImage = os.path.join(basedir,"croquis",ID_ACCIDENTE,image)
+        pathImage = pathImage.replace("\\","/")
         croquis.append( {
             "LID_CROQUIS": "%s/%s" % (ID_ACCIDENTE ,n),
             "ID_ACCIDENTE": ID_ACCIDENTE,
             "ID_CROQUIS": n,
-            "IMAGEN": "file://"+pathImage
+            "IMAGEN": "file:///"+pathImage
           }
         )
         n += 1
